@@ -1,9 +1,14 @@
 import { useState, FormEvent } from 'react';
 import { motion } from 'framer-motion';
-import { Mail, Github, Linkedin, Send, MapPin, Phone, ExternalLink, LucideIcon } from 'lucide-react';
+import { Mail, Github, Linkedin, Send, MapPin, Phone, ExternalLink, LucideIcon, CheckCircle, AlertCircle } from 'lucide-react';
+import emailjs from '@emailjs/browser';
 import { profile } from '../data/profile';
 import { socials } from '../data/socials';
 import { AnimatedSection } from '../components';
+
+const SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID as string;
+const TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID as string;
+const PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY as string;
 
 const iconMap: Record<string, LucideIcon> = {
   github: Github,
@@ -17,21 +22,36 @@ export default function Contact() {
     message: '',
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
+  const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle');
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setStatus('idle');
 
-    // Simulate form submission
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    try {
+      await emailjs.send(
+        SERVICE_ID,
+        TEMPLATE_ID,
+        {
+          from_name: formData.name,
+          from_email: formData.email,
+          message: formData.message,
+          to_name: profile.name,
+          reply_to: formData.email,
+        },
+        PUBLIC_KEY
+      );
 
-    setIsSubmitting(false);
-    setSubmitted(true);
-    setFormData({ name: '', email: '', message: '' });
-
-    // Reset success message after 5 seconds
-    setTimeout(() => setSubmitted(false), 5000);
+      setStatus('success');
+      setFormData({ name: '', email: '', message: '' });
+      setTimeout(() => setStatus('idle'), 6000);
+    } catch {
+      setStatus('error');
+      setTimeout(() => setStatus('idle'), 6000);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -151,14 +171,14 @@ export default function Contact() {
                   Send a Message
                 </h2>
 
-                {submitted ? (
+                {status === 'success' ? (
                   <motion.div
                     initial={{ opacity: 0, scale: 0.9 }}
                     animate={{ opacity: 1, scale: 1 }}
                     className="text-center py-12"
                   >
                     <div className="w-16 h-16 bg-green-500/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                      <Send className="text-green-500" size={32} />
+                      <CheckCircle className="text-green-500" size={32} />
                     </div>
                     <h3 className="text-xl font-semibold text-white mb-2">
                       Message Sent!
@@ -169,6 +189,22 @@ export default function Contact() {
                   </motion.div>
                 ) : (
                   <form onSubmit={handleSubmit} className="space-y-6">
+                    {status === 'error' && (
+                      <motion.div
+                        initial={{ opacity: 0, y: -8 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="flex items-center gap-3 p-4 bg-red-500/10 border border-red-500/30 rounded-lg"
+                      >
+                        <AlertCircle size={18} className="text-red-400 shrink-0" />
+                        <p className="text-red-400 text-sm">
+                          Something went wrong. Please email me directly at{' '}
+                          <a href={`mailto:${profile.email}`} className="underline">
+                            {profile.email}
+                          </a>
+                        </p>
+                      </motion.div>
+                    )}
+
                     <div>
                       <label
                         htmlFor="name"
