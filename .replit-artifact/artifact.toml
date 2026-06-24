@@ -3,29 +3,15 @@ previewPath = "/"
 title = "Desire Eyotaru Portfolio"
 version = "1.0.0"
 id = "artifacts/portfolio"
-router = "path"
-
-[[integratedSkills]]
-name = "react-vite"
-version = "1.0.0"
 
 [[services]]
+localPort = 3000
 name = "web"
-paths = [ "/" ]
-localPort = 21113
+paths = ["/"]
+
+[services.env]
+PORT = "3000"
+BASE_PATH = "/"
 
 [services.development]
 run = "pnpm --filter @workspace/portfolio run dev"
-
-[services.production]
-build = [ "pnpm", "--filter", "@workspace/portfolio", "run", "build" ]
-publicDir = "artifacts/portfolio/dist"
-serve = "static"
-
-[[services.production.rewrites]]
-from = "/*"
-to = "/index.html"
-
-[services.env]
-PORT = "21113"
-BASE_PATH = "/"
