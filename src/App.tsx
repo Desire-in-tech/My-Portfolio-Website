@@ -3,9 +3,8 @@ import { Navbar, Footer, PageTransition } from './components';
 import { Home, About, Projects, Contact } from './pages';
 
 function App() {
-  const base = import.meta.env.BASE_URL.replace(/\/$/, '') || '/';
   return (
-    <BrowserRouter basename={base}>
+    <BrowserRouter>
       <div className="min-h-screen bg-primary-bg text-white">
         <Navbar />
         <PageTransition>
