@@ -1,14 +1,16 @@
-import { motion, AnimatePresence } from 'framer-motion';
-import { ReactNode } from 'react';
-import { useLocation } from 'react-router-dom';
+import { motion, AnimatePresence } from "framer-motion";
+import { ReactNode } from "react";
+import { Location } from "react-router-dom";
 
 interface PageTransitionProps {
   children: ReactNode;
+  location: Location;
 }
 
-export default function PageTransition({ children }: PageTransitionProps) {
-  const location = useLocation();
-
+export default function PageTransition({
+  children,
+  location,
+}: PageTransitionProps) {
   return (
     <AnimatePresence mode="wait">
       <motion.div
