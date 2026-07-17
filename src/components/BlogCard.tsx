@@ -2,7 +2,8 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Calendar, Clock, ArrowRight } from 'lucide-react';
 import { BlogPost } from '../data/blogPosts';
-import { formatDate } from '../lib/blog';
+import { formatDate, getReadingTime, getExcerpt } from '../lib/blog';
+import CloudinaryImage from './CloudinaryImage';
 
 interface BlogCardProps {
   post: BlogPost;
@@ -18,11 +19,11 @@ export default function BlogCard({ post, index = 0 }: BlogCardProps) {
       transition={{ duration: 0.5, delay: index * 0.08 }}
       className="group bg-card rounded-xl overflow-hidden hover:ring-1 hover:ring-primary-accent/50 transition-all duration-300 flex flex-col"
     >
-      <Link to={`/blog/${post.slug}`} className="block aspect-video overflow-hidden bg-secondary-bg">
-        <img
+      <Link to={`/blog/${post.slug}`} className="block aspect-video overflow-hidden">
+        <CloudinaryImage
           src={post.featuredImage}
           alt={post.imageAlt}
-          loading="lazy"
+          aspectClass="w-full h-full"
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
         />
       </Link>
@@ -37,13 +38,13 @@ export default function BlogCard({ post, index = 0 }: BlogCardProps) {
           </span>
           <span className="flex items-center gap-1">
             <Clock size={12} />
-            {post.readingTime}
+            {post.readingTime ?? getReadingTime(post.content)}
           </span>
         </div>
         <h3 className="text-lg font-semibold text-white mb-2 group-hover:text-primary-accent transition-colors">
           <Link to={`/blog/${post.slug}`}>{post.title}</Link>
         </h3>
-        <p className="text-muted text-sm mb-4 line-clamp-3 flex-1">{post.excerpt}</p>
+        <p className="text-muted text-sm mb-4 line-clamp-3 flex-1">{getExcerpt(post)}</p>
         <Link
           to={`/blog/${post.slug}`}
           className="inline-flex items-center gap-1 text-primary-accent text-sm font-medium hover:gap-2 transition-all"

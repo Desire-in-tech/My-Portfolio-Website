@@ -33,6 +33,27 @@ export function extractHeadings(markdown: string): Heading[] {
   return headings;
 }
 
+const WORDS_PER_MINUTE = 200;
+
+export function calculateReadingTime(content: string): number {
+  const words = content.trim().split(/\s+/).length;
+  return Math.max(1, Math.round(words / WORDS_PER_MINUTE));
+}
+
+export function getReadingTime(content: string): string {
+  return `${calculateReadingTime(content)} min read`;
+}
+
+export function getExcerpt(post: { excerpt?: string; content: string }): string {
+  if (post.excerpt && post.excerpt.trim()) return post.excerpt;
+  const firstParagraph = post.content
+    .split('\n')
+    .map((l) => l.trim())
+    .find((l) => l && !l.startsWith('#') && !l.startsWith('-') && !l.startsWith('*') && !/^\d+\./.test(l));
+  if (!firstParagraph) return '';
+  return firstParagraph.length > 180 ? firstParagraph.slice(0, 177) + '...' : firstParagraph;
+}
+
 export function formatDate(dateStr: string): string {
   const d = new Date(dateStr);
   if (Number.isNaN(d.getTime())) return dateStr;

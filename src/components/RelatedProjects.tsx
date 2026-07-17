@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { ArrowRight, Github, ExternalLink } from 'lucide-react';
 import { Project } from '../data/projects';
+import CloudinaryImage from './CloudinaryImage';
 
 interface RelatedProjectsProps {
   projects: Project[];
@@ -17,11 +18,11 @@ export default function RelatedProjects({ projects }: RelatedProjectsProps) {
             key={project.id}
             className="group bg-card rounded-xl overflow-hidden hover:ring-1 hover:ring-primary-accent/50 transition-all"
           >
-            <Link to={`/projects/${project.slug}`} className="block aspect-video overflow-hidden bg-secondary-bg">
-              <img
+            <Link to={`/projects/${project.slug}`} className="block aspect-video overflow-hidden">
+              <CloudinaryImage
                 src={project.image}
                 alt={project.title}
-                loading="lazy"
+                aspectClass="w-full h-full"
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
               />
             </Link>

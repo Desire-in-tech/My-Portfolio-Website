@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { ListFilter as Filter } from 'lucide-react';
 import { projects, ProjectCategory } from '../data/projects';
 import { images } from '../data/images';
-import { ProjectCard, AnimatedSection } from '../components';
+import { ProjectCard, AnimatedSection, Breadcrumbs } from '../components';
 
 const categories: { label: string; value: ProjectCategory | 'All' }[] = [
   { label: 'All Projects', value: 'All' },
@@ -29,6 +29,7 @@ export default function Projects() {
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <AnimatedSection>
+            <Breadcrumbs items={[{ label: 'Home', path: '/' }, { label: 'Projects' }]} />
             <div className="text-center mb-16">
               <h1 className="text-4xl sm:text-5xl font-bold text-white mb-4">
                 My Projects

@@ -12,8 +12,8 @@ export interface BlogPost {
   publishDate: string;
   updatedDate?: string;
   author: string;
-  readingTime: string;
-  excerpt: string;
+  readingTime?: string;
+  excerpt?: string;
   featuredImage: string;
   imageAlt: string;
   metaTitle: string;

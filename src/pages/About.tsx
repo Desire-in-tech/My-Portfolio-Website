@@ -3,7 +3,7 @@ import { User, Code, Laptop, Lightbulb, Rocket } from 'lucide-react';
 import { profile } from '../data/profile';
 import { skillCategories } from '../data/skills';
 import { images } from '../data/images';
-import { AnimatedSection, SkillBadge } from '../components';
+import { AnimatedSection, SkillBadge, Breadcrumbs, CloudinaryImage } from '../components';
 
 const highlights = [
   {
@@ -41,6 +41,7 @@ export default function About() {
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <AnimatedSection>
+            <Breadcrumbs items={[{ label: 'Home', path: '/' }, { label: 'About' }]} />
             <div className="text-center mb-16">
               <h1 className="text-4xl sm:text-5xl font-bold text-white mb-4">
                 About Me
@@ -62,10 +63,10 @@ export default function About() {
                   whileHover={{ scale: 1.02 }}
                   className="relative aspect-square max-w-sm mx-auto rounded-2xl overflow-hidden bg-card ring-1 ring-gray-800"
                 >
-                  <img
+                  <CloudinaryImage
                     src={images.profilePhoto}
                     alt={profile.name}
-                    loading="lazy"
+                    aspectClass="w-full h-full"
                     className="w-full h-full object-cover"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-card to-transparent opacity-50" />

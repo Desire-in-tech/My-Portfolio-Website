@@ -1,11 +1,11 @@
 import { useState, FormEvent } from 'react';
 import { motion } from 'framer-motion';
-import { Mail, Github, Linkedin, Send, MapPin, Phone, ExternalLink, Video as LucideIcon, CircleCheck as CheckCircle, CircleAlert as AlertCircle } from 'lucide-react';
+import { Mail, Github, Linkedin, Send, MapPin, Phone, ExternalLink, CircleCheck as CheckCircle, CircleAlert as AlertCircle, type LucideIcon } from 'lucide-react';
 import emailjs from '@emailjs/browser';
 import { profile } from '../data/profile';
 import { socials } from '../data/socials';
 import { images } from '../data/images';
-import { AnimatedSection } from '../components';
+import { AnimatedSection, Breadcrumbs } from '../components';
 
 const SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID as string;
 const TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID as string;
@@ -63,6 +63,7 @@ export default function Contact() {
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <AnimatedSection>
+            <Breadcrumbs items={[{ label: 'Home', path: '/' }, { label: 'Contact' }]} />
             <div className="text-center mb-16">
               <h1 className="text-4xl sm:text-5xl font-bold text-white mb-4">
                 Get In Touch

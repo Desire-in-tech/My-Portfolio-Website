@@ -3,9 +3,9 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Calendar, Clock, ArrowRight } from 'lucide-react';
 import { getSortedPosts, getFeaturedPosts } from '../data/blogPosts';
-import { AnimatedSection, BlogGrid, BlogSearch, CategoryFilter, Pagination } from '../components';
+import { AnimatedSection, BlogGrid, BlogSearch, CategoryFilter, Pagination, Breadcrumbs, CloudinaryImage } from '../components';
 import { useSeo } from '../hooks/use-seo';
-import { formatDate } from '../lib/blog';
+import { formatDate, getReadingTime, getExcerpt } from '../lib/blog';
 
 const POSTS_PER_PAGE = 6;
 
@@ -35,7 +35,7 @@ export default function Blog() {
       const matchesSearch =
         !q ||
         p.title.toLowerCase().includes(q) ||
-        p.excerpt.toLowerCase().includes(q) ||
+        getExcerpt(p).toLowerCase().includes(q) ||
         p.targetKeywords.some((k) => k.toLowerCase().includes(q));
       return matchesCategory && matchesSearch;
     });
@@ -61,6 +61,7 @@ export default function Blog() {
         <div className="absolute inset-0 bg-gradient-to-b from-secondary-bg/30 to-transparent" />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <AnimatedSection>
+            <Breadcrumbs items={[{ label: 'Home', path: '/' }, { label: 'Blog' }]} />
             <div className="text-center mb-16">
               <h1 className="text-4xl sm:text-5xl font-bold text-white mb-4">Blog</h1>
               <p className="text-muted text-lg max-w-2xl mx-auto">
@@ -84,10 +85,10 @@ export default function Blog() {
                 className="grid grid-cols-1 lg:grid-cols-2 gap-8 bg-card rounded-2xl overflow-hidden border border-gray-800 hover:border-primary-accent/30 transition-colors"
               >
                 <Link to={`/blog/${featuredPost.slug}`} className="aspect-video lg:aspect-auto overflow-hidden bg-secondary-bg">
-                  <img
+                  <CloudinaryImage
                     src={featuredPost.featuredImage}
                     alt={featuredPost.imageAlt}
-                    loading="lazy"
+                    aspectClass="w-full h-full"
                     className="w-full h-full object-cover"
                   />
                 </Link>
@@ -100,13 +101,13 @@ export default function Blog() {
                       <Calendar size={12} /> {formatDate(featuredPost.publishDate)}
                     </span>
                     <span className="flex items-center gap-1">
-                      <Clock size={12} /> {featuredPost.readingTime}
+                      <Clock size={12} /> {featuredPost.readingTime ?? getReadingTime(featuredPost.content)}
                     </span>
                   </div>
                   <h3 className="text-2xl font-bold text-white mb-3">
                     <Link to={`/blog/${featuredPost.slug}`}>{featuredPost.title}</Link>
                   </h3>
-                  <p className="text-muted mb-6 line-clamp-3">{featuredPost.excerpt}</p>
+                  <p className="text-muted mb-6 line-clamp-3">{getExcerpt(featuredPost)}</p>
                   <Link
                     to={`/blog/${featuredPost.slug}`}
                     className="inline-flex items-center gap-2 text-primary-accent font-medium hover:gap-3 transition-all"

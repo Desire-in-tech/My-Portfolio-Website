@@ -4,8 +4,9 @@ import { motion } from 'framer-motion';
 import { ArrowLeft, Github, ExternalLink, CircleCheck as CheckCircle, Layers } from 'lucide-react';
 import { getProjectBySlug, projects } from '../data/projects';
 import { blogPosts, BlogPost } from '../data/blogPosts';
-import { AnimatedSection, RelatedArticles } from '../components';
+import { AnimatedSection, RelatedArticles, Breadcrumbs, CloudinaryImage } from '../components';
 import { useSeo } from '../hooks/use-seo';
+import { getRelatedArticlesForProject } from '../lib/related';
 
 export default function ProjectDetail() {
   const { slug } = useParams<{ slug: string }>();
@@ -13,9 +14,7 @@ export default function ProjectDetail() {
 
   const relatedArticles = useMemo<BlogPost[]>(() => {
     if (!project) return [];
-    return blogPosts
-      .filter((p) => p.relatedProjectSlug === project.slug)
-      .slice(0, 3);
+    return getRelatedArticlesForProject(project, blogPosts);
   }, [project]);
 
   useSeo({
@@ -47,6 +46,13 @@ export default function ProjectDetail() {
         <div className="absolute inset-0 bg-gradient-to-b from-secondary-bg/30 to-transparent" />
         <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <AnimatedSection>
+            <Breadcrumbs
+              items={[
+                { label: 'Home', path: '/' },
+                { label: 'Projects', path: '/projects' },
+                { label: project.title },
+              ]}
+            />
             <Link
               to="/projects"
               className="inline-flex items-center gap-2 text-muted hover:text-primary-accent transition-colors mb-8"
@@ -106,10 +112,12 @@ export default function ProjectDetail() {
             transition={{ duration: 0.5 }}
             className="aspect-video rounded-2xl overflow-hidden bg-secondary-bg border border-gray-800"
           >
-            <img
+            <CloudinaryImage
               src={project.image}
               alt={project.title}
+              aspectClass="w-full h-full"
               className="w-full h-full object-cover"
+              loading="eager"
             />
           </motion.div>
         </div>
@@ -196,10 +204,10 @@ export default function ProjectDetail() {
                   className="group bg-card rounded-xl overflow-hidden hover:ring-1 hover:ring-primary-accent/50 transition-all"
                 >
                   <div className="aspect-video overflow-hidden bg-secondary-bg">
-                    <img
+                    <CloudinaryImage
                       src={p.image}
                       alt={p.title}
-                      loading="lazy"
+                      aspectClass="w-full h-full"
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     />
                   </div>

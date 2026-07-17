@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { Github, ExternalLink } from 'lucide-react';
 import { Project } from '../data/projects';
+import CloudinaryImage from './CloudinaryImage';
 
 interface ProjectCardProps {
   project: Project;
@@ -17,15 +18,13 @@ export default function ProjectCard({ project, index = 0 }: ProjectCardProps) {
       className="group bg-card rounded-xl overflow-hidden hover:ring-1 hover:ring-primary-accent/50 transition-all duration-300"
     >
       <div className="aspect-video overflow-hidden bg-secondary-bg relative">
-        <img
+        <CloudinaryImage
           src={project.image}
           alt={project.title}
+          aspectClass="w-full h-full"
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-          onError={(e) => {
-            e.currentTarget.style.display = 'none';
-          }}
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-card/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+        <div className="absolute inset-0 bg-gradient-to-t from-card/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
       </div>
 
       <div className="p-6">

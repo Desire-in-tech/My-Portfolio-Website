@@ -4,16 +4,19 @@ import { motion } from 'framer-motion';
 import { Calendar, Clock, ArrowLeft, ArrowRight, User, CreditCard as Edit3 } from 'lucide-react';
 import { blogPosts, getBlogPostBySlug, getSortedPosts } from '../data/blogPosts';
 import type { BlogPost } from '../data/blogPosts';
-import { getProjectBySlug } from '../data/projects';
+import { projects } from '../data/projects';
 import {
   AnimatedSection,
   TableOfContents,
   RelatedArticles,
   RelatedProjects,
   SocialShare,
+  Breadcrumbs,
+  CloudinaryImage,
 } from '../components';
 import { useSeo } from '../hooks/use-seo';
-import { extractHeadings, renderMarkdown, formatDate } from '../lib/blog';
+import { extractHeadings, renderMarkdown, formatDate, getReadingTime, getExcerpt } from '../lib/blog';
+import { getRelatedArticles, getRelatedProjectsForPost } from '../lib/related';
 
 export default function BlogPost() {
   const { slug } = useParams<{ slug: string }>();
@@ -29,20 +32,19 @@ export default function BlogPost() {
   const prev = index > 0 ? sorted[index - 1] : undefined;
   const next = index >= 0 && index < sorted.length - 1 ? sorted[index + 1] : undefined;
 
-  const relatedProject = post?.relatedProjectSlug
-    ? getProjectBySlug(post.relatedProjectSlug)
-    : undefined;
+  const relatedProjects = useMemo(
+    () => (post ? getRelatedProjectsForPost(post, projects) : []),
+    [post]
+  );
 
   const relatedArticles = useMemo<BlogPost[]>(() => {
     if (!post) return [];
-    return blogPosts
-      .filter((p) => p.slug !== post.slug && p.category === post.category)
-      .slice(0, 3);
+    return getRelatedArticles(post, blogPosts);
   }, [post]);
 
   useSeo({
     title: post?.metaTitle ?? post?.title ?? 'Article | Desire Eyotaru',
-    description: post?.metaDescription ?? '',
+    description: post?.metaDescription ?? (post ? getExcerpt(post) : '') ?? '',
     keywords: post?.targetKeywords,
     image: post?.featuredImage,
     type: 'article',
@@ -85,6 +87,14 @@ export default function BlogPost() {
         <div className="absolute inset-0 bg-gradient-to-b from-secondary-bg/30 to-transparent" />
         <div className="relative max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
           <AnimatedSection>
+            <Breadcrumbs
+              items={[
+                { label: 'Home', path: '/' },
+                { label: 'Blog', path: '/blog' },
+                { label: post.category, path: '/blog' },
+                { label: post.title },
+              ]}
+            />
             <Link
               to="/blog"
               className="inline-flex items-center gap-2 text-muted hover:text-primary-accent transition-colors mb-8"
@@ -125,10 +135,12 @@ export default function BlogPost() {
               transition={{ duration: 0.5 }}
               className="aspect-video rounded-2xl overflow-hidden bg-secondary-bg mb-8"
             >
-              <img
+              <CloudinaryImage
                 src={post.featuredImage}
                 alt={post.imageAlt}
+                aspectClass="w-full h-full"
                 className="w-full h-full object-cover"
+                loading="eager"
               />
             </motion.div>
 
@@ -161,10 +173,10 @@ export default function BlogPost() {
         </div>
       </section>
 
-      {relatedProject && (
+      {relatedProjects.length > 0 && (
         <section className="py-12">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <RelatedProjects projects={[relatedProject]} />
+            <RelatedProjects projects={relatedProjects} />
           </div>
         </section>
       )}

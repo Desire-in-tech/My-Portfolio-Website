@@ -1,9 +1,10 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import path from "path";
+import { seoPlugin } from "./src/plugins/seo";
 
 export default defineConfig({
-  plugins: [react()],
+  plugins: [react(), seoPlugin()],
   resolve: {
     alias: {
       "@": path.resolve(import.meta.dirname, "src"),
