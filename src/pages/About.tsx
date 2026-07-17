@@ -2,6 +2,7 @@ import { motion } from 'framer-motion';
 import { User, Code, Laptop, Lightbulb, Rocket } from 'lucide-react';
 import { profile } from '../data/profile';
 import { skillCategories } from '../data/skills';
+import { images } from '../data/images';
 import { AnimatedSection, SkillBadge } from '../components';
 
 const highlights = [
@@ -36,7 +37,7 @@ export default function About() {
     <div className="min-h-screen bg-primary-bg pt-20">
       <section className="relative py-20 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-secondary-bg/30 to-transparent" />
-        <div className="absolute inset-0 bg-[url('/images/About_Page.png')] bg-cover bg-center opacity-5" />
+        <div className="absolute inset-0 bg-cover bg-center opacity-5" style={{ backgroundImage: `url(${images.aboutPage})` }} />
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <AnimatedSection>
@@ -62,12 +63,10 @@ export default function About() {
                   className="relative aspect-square max-w-sm mx-auto rounded-2xl overflow-hidden bg-card ring-1 ring-gray-800"
                 >
                   <img
-                    src="/images/Profile_photo.jpg"
+                    src={images.profilePhoto}
                     alt={profile.name}
+                    loading="lazy"
                     className="w-full h-full object-cover"
-                    onError={(e) => {
-                      e.currentTarget.style.display = 'none';
-                    }}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-card to-transparent opacity-50" />
                   <div className="absolute bottom-0 left-0 right-0 p-6">

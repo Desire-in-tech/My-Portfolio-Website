@@ -40,6 +40,33 @@
   }
 }
 
+@layer components {
+  .blog-content h2 {
+    @apply text-2xl font-bold text-white mt-10 mb-4;
+  }
+  .blog-content h3 {
+    @apply text-xl font-semibold text-white mt-6 mb-3;
+  }
+  .blog-content p {
+    @apply text-muted leading-relaxed mb-4;
+  }
+  .blog-content ul {
+    @apply list-disc list-inside space-y-2 mb-4 text-muted;
+  }
+  .blog-content li {
+    @apply leading-relaxed;
+  }
+  .blog-content strong {
+    @apply text-white font-semibold;
+  }
+  .blog-content code {
+    @apply px-1.5 py-0.5 bg-secondary-bg rounded text-primary-accent text-sm;
+  }
+  .blog-content a {
+    @apply text-primary-accent underline hover:no-underline;
+  }
+}
+
 @layer utilities {
   .line-clamp-2 {
     display: -webkit-box;

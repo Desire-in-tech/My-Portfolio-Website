@@ -1,9 +1,10 @@
 import { useState, FormEvent } from 'react';
 import { motion } from 'framer-motion';
-import { Mail, Github, Linkedin, Send, MapPin, Phone, ExternalLink, LucideIcon, CheckCircle, AlertCircle } from 'lucide-react';
+import { Mail, Github, Linkedin, Send, MapPin, Phone, ExternalLink, Video as LucideIcon, CircleCheck as CheckCircle, CircleAlert as AlertCircle } from 'lucide-react';
 import emailjs from '@emailjs/browser';
 import { profile } from '../data/profile';
 import { socials } from '../data/socials';
+import { images } from '../data/images';
 import { AnimatedSection } from '../components';
 
 const SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID as string;
@@ -58,7 +59,7 @@ export default function Contact() {
     <div className="min-h-screen bg-primary-bg pt-20">
       <section className="relative py-20 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-secondary-bg/30 to-transparent" />
-        <div className="absolute inset-0 bg-[url('/images/Contact_page.png')] bg-cover bg-center opacity-5" />
+        <div className="absolute inset-0 bg-cover bg-center opacity-5" style={{ backgroundImage: `url(${images.contactPage})` }} />
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <AnimatedSection>

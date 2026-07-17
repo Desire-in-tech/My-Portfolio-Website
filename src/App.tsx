@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { Navbar, Footer } from "./components";
-import { Home, About, Projects, Contact } from "./pages";
+import { Home, About, Projects, ProjectDetail, Blog, BlogPost, Contact } from "./pages";
 import PageTransition from "./components/PageTransition";
 
 function AppRoutes() {
@@ -12,6 +12,9 @@ function AppRoutes() {
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
         <Route path="/projects" element={<Projects />} />
+        <Route path="/projects/:slug" element={<ProjectDetail />} />
+        <Route path="/blog" element={<Blog />} />
+        <Route path="/blog/:slug" element={<BlogPost />} />
         <Route path="/contact" element={<Contact />} />
       </Routes>
     </PageTransition>

@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { ArrowRight, Download, Code, Cpu, Rocket } from 'lucide-react';
 import { profile } from '../data/profile';
 import { getFeaturedProjects } from '../data/projects';
+import { images } from '../data/images';
 import { ProjectCard, AnimatedSection } from '../components';
 
 const stats = [
@@ -21,7 +22,7 @@ export default function Home() {
           <div className="absolute inset-0 bg-gradient-to-br from-primary-bg via-primary-bg to-secondary-bg" />
           <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary-accent/5 rounded-full blur-3xl" />
           <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-secondary-accent/5 rounded-full blur-3xl" />
-          <div className="absolute inset-0 bg-[url('/images/Home_page.png')] bg-cover bg-center opacity-10" />
+          <div className="absolute inset-0 bg-cover bg-center opacity-10" style={{ backgroundImage: `url(${images.homePage})` }} />
         </div>
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32">

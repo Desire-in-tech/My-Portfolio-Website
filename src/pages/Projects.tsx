@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Filter } from 'lucide-react';
+import { ListFilter as Filter } from 'lucide-react';
 import { projects, ProjectCategory } from '../data/projects';
+import { images } from '../data/images';
 import { ProjectCard, AnimatedSection } from '../components';
 
 const categories: { label: string; value: ProjectCategory | 'All' }[] = [
@@ -24,7 +25,7 @@ export default function Projects() {
     <div className="min-h-screen bg-primary-bg pt-20">
       <section className="relative py-20 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-secondary-bg/30 to-transparent" />
-        <div className="absolute inset-0 bg-[url('/images/Home_page.png')] bg-cover bg-center opacity-5" />
+        <div className="absolute inset-0 bg-cover bg-center opacity-5" style={{ backgroundImage: `url(${images.homePage})` }} />
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <AnimatedSection>
