@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { ChevronRight, Home } from 'lucide-react';
+import { ChevronRight, Hop as Home } from 'lucide-react';
 import { useEffect } from 'react';
 
 export interface Crumb {
