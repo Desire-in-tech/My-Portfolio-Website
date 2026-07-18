@@ -65,6 +65,25 @@
   .blog-content a {
     @apply text-primary-accent underline hover:no-underline;
   }
+  .blog-content .blog-image {
+    @apply my-8;
+  }
+  .blog-content .blog-image img {
+    @apply w-full rounded-xl border border-slate-700 shadow-lg;
+  }
+  .blog-content .blog-image figcaption {
+    @apply mt-3 text-sm text-muted text-center italic;
+  }
+  .blog-content table {
+    @apply w-full my-6 border-collapse text-muted;
+  }
+  .blog-content th,
+  .blog-content td {
+    @apply border border-slate-700 px-4 py-2 text-left;
+  }
+  .blog-content th {
+    @apply bg-secondary-bg text-white font-semibold;
+  }
 }
 
 @layer utilities {

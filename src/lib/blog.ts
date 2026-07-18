@@ -124,6 +124,16 @@ export function renderMarkdown(markdown: string): string {
       html.push(`<li>${inline(bullet[1])}</li>`);
       continue;
     }
+    const img = line.match(/^!\[(.*?)\]\((https?:\/\/[^\s)]+)\)$/);
+    if (img) {
+      closeList();
+      const alt = img[1];
+      const src = img[2];
+      html.push(
+        `<figure class="blog-image"><img src="${src}" alt="${escapeHtml(alt)}" loading="lazy" /><figcaption>${escapeHtml(alt)}</figcaption></figure>`
+      );
+      continue;
+    }
     closeList();
     html.push(`<p>${inline(line)}</p>`);
   }
