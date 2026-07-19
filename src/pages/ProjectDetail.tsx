@@ -4,8 +4,9 @@ import { motion } from 'framer-motion';
 import { ArrowLeft, Github, ExternalLink, CircleCheck as CheckCircle, Layers } from 'lucide-react';
 import { getProjectBySlug, projects } from '../data/projects';
 import { blogPosts, BlogPost } from '../data/blogPosts';
-import { AnimatedSection, RelatedArticles, Breadcrumbs, CloudinaryImage } from '../components';
+import { AnimatedSection, RelatedArticles, TableOfContents, Breadcrumbs, CloudinaryImage } from '../components';
 import { useSeo } from '../hooks/use-seo';
+import { extractHeadings, renderMarkdown } from '../lib/blog';
 import { getRelatedArticlesForProject } from '../lib/related';
 
 export default function ProjectDetail() {
@@ -16,6 +17,15 @@ export default function ProjectDetail() {
     if (!project) return [];
     return getRelatedArticlesForProject(project, blogPosts);
   }, [project]);
+
+  const headings = useMemo(
+    () => (project?.content ? extractHeadings(project.content) : []),
+    [project]
+  );
+  const contentHtml = useMemo(
+    () => (project?.content ? renderMarkdown(project.content) : ''),
+    [project]
+  );
 
   useSeo({
     title: project ? `${project.title} | Desire Eyotaru` : 'Project | Desire Eyotaru',
@@ -185,6 +195,20 @@ export default function ProjectDetail() {
           </aside>
         </div>
       </section>
+
+      {project.content && (
+        <section className="py-12 border-t border-gray-800">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-[1fr_220px] gap-12">
+            <div
+              className="prose prose-invert max-w-none blog-content"
+              dangerouslySetInnerHTML={{ __html: contentHtml }}
+            />
+            <aside className="hidden lg:block">
+              <TableOfContents headings={headings} />
+            </aside>
+          </div>
+        </section>
+      )}
 
       <section className="py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
