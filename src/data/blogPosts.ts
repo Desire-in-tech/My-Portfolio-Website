@@ -31,7 +31,7 @@ export const blogPosts: BlogPost[] = [
     title: 'Customer Segmentation with K-Means Clustering and PCA',
     slug: 'customer-segmentation-machine-learning',
     category: 'Machine Learning',
-    publishDate: '2025-01-15',
+    publishDate: '2026-08-09',
     updatedDate: '2025-02-02',
     author: 'Desire',
     readingTime: '8 min read',
@@ -84,7 +84,7 @@ Clustering is as much about interpretation as it is about the algorithm. The mod
       'Building an End-to-End Customer Churn Prediction System with React, Django, XGBoost, and SHAP',
     slug: 'predicting-customer-churn-xgboost-shap',
     category: 'Machine Learning',
-    publishDate: '2025-01-22',
+    publishDate: '2026-08-09',
     author: 'Desire',
     readingTime: '25 min read',
     excerpt:
@@ -830,7 +830,7 @@ As organizations continue investing in predictive analytics, solutions like this
     title: 'Forecasting Stock Volatility with GARCH Models',
     slug: 'forecasting-stock-volatility-garch',
     category: 'Backend',
-    publishDate: '2025-02-03',
+    publishDate: '2026-08-09',
     author: 'Desire',
     readingTime: '7 min read',
     excerpt:
@@ -875,7 +875,7 @@ Financial time series reward careful modeling over brute force. GARCH is a small
     title: 'Sentiment Analysis: TF-IDF vs BERT',
     slug: 'sentiment-analysis-tfidf-vs-bert',
     category: 'Machine Learning',
-    publishDate: '2025-02-12',
+    publishDate: '2026-08-09',
     author: 'Desire',
     readingTime: '9 min read',
     excerpt:
@@ -920,7 +920,7 @@ Start simple, measure, then decide whether the transformer is worth the complexi
       'Building a Production-Style Hospital Management System API with FastAPI, PostgreSQL, JWT Authentication, and Docker',
     slug: 'hospital-management-system-api',
     category: 'Backend',
-    publishDate: '2026-07-18',
+    publishDate: '2026-08-09',
     author: 'Desire',
     excerpt:
       'A production-style FastAPI REST API for hospital management featuring JWT authentication, role-based access control, PostgreSQL, Docker, and secure healthcare workflows.',
