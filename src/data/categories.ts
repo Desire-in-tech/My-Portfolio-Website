@@ -25,6 +25,11 @@ export const blogCategories: BlogCategory[] = [
     slug: 'career',
     description: 'Notes on learning, job hunting, and growing as an engineer.',
   },
+  {
+    name: 'Software Engineering',
+    slug: 'software-engineering',
+    description: 'Design patterns, architecture, clean code, and engineering best practices.',
+  },
 ];
 
 export const getBlogCategoryBySlug = (slug: string): BlogCategory | undefined =>
