@@ -2271,7 +2271,7 @@ Testing your authentication system thoroughly ensures reliability and security. 
     author: 'Desire E',
     excerpt:
       'Machine learning engineering is transforming how businesses deploy AI at scale, combining the analytical power of data science with the robust infrastructure of software engineering to create production-ready intelligent systems.',
-    featuredImage: '/images/featured/image.png',
+    featuredImage: 'https://res.cloudinary.com/f7ko7ayw/image/upload/v1785605738/Guide_to_ML_Engineering_di06qo.png',
     imageAlt: 'Machine learning engineering pipeline',
     metaTitle: 'Bridging Data Science and Software Engineering',
     metaDescription:
