@@ -1,22 +1,45 @@
+import { lazy, Suspense } from "react";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { Navbar, Footer } from "./components";
-import { Home, About, Projects, ProjectDetail, Blog, BlogPost, Contact } from "./pages";
+import Home from "./pages/Home";
+import About from "./pages/About";
+import Projects from "./pages/Projects";
+import Contact from "./pages/Contact";
 import PageTransition from "./components/PageTransition";
+
+// Loaded on demand so the homepage does not download blog article data.
+// Eager pages are imported from their modules, not the pages barrel, because
+// that barrel also re-exports these three routes.
+const Blog = lazy(() => import("./pages/Blog"));
+const BlogPost = lazy(() => import("./pages/BlogPost"));
+const ProjectDetail = lazy(() => import("./pages/ProjectDetail"));
+
+function RouteFallback() {
+  return (
+    <div className="min-h-screen bg-primary-bg pt-20 flex items-center justify-center">
+      <p className="text-muted text-sm" role="status">
+        Loading...
+      </p>
+    </div>
+  );
+}
 
 function AppRoutes() {
   const location = useLocation();
 
   return (
     <PageTransition location={location}>
-      <Routes location={location}>
-        <Route path="/" element={<Home />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/projects" element={<Projects />} />
-        <Route path="/projects/:slug" element={<ProjectDetail />} />
-        <Route path="/blog" element={<Blog />} />
-        <Route path="/blog/:slug" element={<BlogPost />} />
-        <Route path="/contact" element={<Contact />} />
-      </Routes>
+      <Suspense fallback={<RouteFallback />}>
+        <Routes location={location}>
+          <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/projects" element={<Projects />} />
+          <Route path="/projects/:slug" element={<ProjectDetail />} />
+          <Route path="/blog" element={<Blog />} />
+          <Route path="/blog/:slug" element={<BlogPost />} />
+          <Route path="/contact" element={<Contact />} />
+        </Routes>
+      </Suspense>
     </PageTransition>
   );
 }
