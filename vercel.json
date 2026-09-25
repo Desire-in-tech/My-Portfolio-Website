@@ -1,4 +1,36 @@
 {
+  "redirects": [
+    {
+      "source": "/blog/machine-learning-pipline",
+      "destination": "/blog/machine-learning-pipeline",
+      "permanent": true
+    },
+    {
+      "source": "/blog/alemic-migrations",
+      "destination": "/blog/alembic-migrations",
+      "permanent": true
+    },
+    {
+      "source": "/blog/dockering-a-fastapi-application",
+      "destination": "/blog/dockerizing-a-fastapi-application",
+      "permanent": true
+    },
+    {
+      "source": "/blog/engineering-software-with-postgreSQL",
+      "destination": "/blog/engineering-software-with-postgresql",
+      "permanent": true
+    },
+    {
+      "source": "/blog/fastapi-authentication-tutorial-using-jwt-and-Oauth2",
+      "destination": "/blog/fastapi-authentication-tutorial-using-jwt-and-oauth2",
+      "permanent": true
+    },
+    {
+      "source": "/blog/architecture-with-SQL-Alchemy",
+      "destination": "/blog/architecture-with-sql-alchemy",
+      "permanent": true
+    }
+  ],
   "rewrites": [
     { "source": "/(.*)", "destination": "/index.html" }
   ]

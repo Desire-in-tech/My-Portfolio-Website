@@ -545,39 +545,16 @@ Do not invent project slugs.
 
 # Bulk Blog Import
 
-The repository may contain a temporary directory:
+The blog migration is complete. The production blog is `src/data/blogPosts.ts`.
 
-```text
-blog-import/
+Historical note: imports were staged in a temporary directory named `blog-import/`, with one Markdown file per post. That directory was removed after the final migration in commit `b8a35046928910d58191c227413720c5aa6ef29c`. It is not in the repository and is not used at runtime. Do not expect it to exist, and do not recreate it unless the user explicitly supplies new source files.
+
+The original Markdown sources remain recoverable from git history:
+
+```bash
+git log --all -- blog-import
+git show <sha>:<path>
 ```
-
-This directory is a staging area for Markdown files that need to be imported into the blog.
-
-It is NOT the production blog database.
-
-It is NOT the source used by the website at runtime.
-
-The production blog remains:
-
-```text
-src/data/blogPosts.ts
-```
-
-Each Markdown file normally represents one blog post.
-
-Example:
-
-```text
-blog-import/
-├── post-001.md
-├── post-002.md
-├── post-003.md
-└── post-004.md
-```
-
-Do not delete source Markdown files immediately after importing them.
-
-They should remain available until the import has been verified.
 
 ---
 
@@ -713,13 +690,9 @@ Do not proceed to the next batch if the current batch has unresolved errors.
 
 # Initial Test Batch
 
-For the first test, import only the four explicitly selected Markdown files.
+Historical. The initial four-post validation batch and the later import batches are complete. Do not look for a `blog-import/` directory or limit work to that four-file test. The staging directory was removed after the final migration in commit `b8a35046928910d58191c227413720c5aa6ef29c`. Original sources remain recoverable with `git log --all -- blog-import` and `git show <sha>:<path>`.
 
-Do not automatically process every file in `blog-import/`.
-
-The first four posts are a validation batch.
-
-Verify that:
+If the user explicitly requests another import, verify that:
 
 1. The Google Docs Markdown format is parsed correctly.
 2. Metadata is mapped correctly.
@@ -734,9 +707,7 @@ Verify that:
 11. Typecheck passes.
 12. Build passes.
 
-After the four-post test has been successfully validated, future batches may contain approximately 10 posts unless instructed otherwise.
-
-The agent must process only the requested batch.
+The four-post test and the later batches are complete. If the user later asks for another import, process only the files they specify.
 
 ---
 
