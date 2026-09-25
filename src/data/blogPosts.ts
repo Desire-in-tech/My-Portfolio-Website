@@ -2167,7 +2167,7 @@ Real-world application of software design patterns requires balancing multiple c
   {
     id: '08',
     title: 'FastAPI Authentication Tutorial Using JWT And OAuth2',
-    slug: 'fastapi-authentication-tutorial-using-jwt-and-Oauth2',
+    slug: 'fastapi-authentication-tutorial-using-jwt-and-oauth2',
     category: 'Backend',
     publishDate: '2026-08-20',
     author: 'Desire E',
@@ -2422,7 +2422,7 @@ For those considering a career in machine learning engineering, the outlook rema
   {
     id: '10',
     title: 'Understanding Software Architecture with SQLAlchemy ORM',
-    slug: 'architecture-with-SQL-Alchemy',
+    slug: 'architecture-with-sql-alchemy',
     category: 'Backend',
     publishDate: '2026-08-28',
     author: 'Desire E',
@@ -3580,7 +3580,7 @@ Ultimately, both ML engineer vs AI engineer career paths offer extraordinary opp
     id: '26',
     title: 'Machine Learning Operations: Bridging The Gap Between Experimentation And Production',
     slug: 'machine-learning-operations',
-    category: 'Machine learning',
+    category: 'Machine Learning',
     publishDate: '2026-09-21',
     author: 'Desire E',
     excerpt:
@@ -3643,7 +3643,7 @@ Building this infrastructure requires balancing multiple considerations: open-so
   {
     id: '27',
     title: 'Machine Learning Pipeline: An In-Depth Guide To Building And Optimizing Your ML Workflow',
-    slug: 'machine-learning-pipline',
+    slug: 'machine-learning-pipeline',
     category: 'Machine Learning',
     publishDate: '2026-09-21',
     author: 'Desire E',
@@ -4326,7 +4326,7 @@ Finally, establish feedback loops that drive continuous improvement. Collect met
   {
     id: '37',
     title: 'How Alembic Migrations Enhance Database Optimization for Developers',
-    slug: 'alemic-migrations',
+    slug: 'alembic-migrations',
     category: 'Backend',
     publishDate: '2026-09-20',
     author: 'Desire E',
@@ -4669,7 +4669,7 @@ Finally, continuously optimize your deployment costs as your SaaS scales. Use au
     excerpt:
       'Transform your Python application from development to a robust, scalable production environment that handles millions of requests without breaking a sweat.',
     featuredImage:
-      'http://res.cloudinary.com/f7ko7ayw/image/upload/v1785605448/Deploy_Python_Product_w2b7er.png',
+      'https://res.cloudinary.com/f7ko7ayw/image/upload/v1785605448/Deploy_Python_Product_w2b7er.png',
     imageAlt: 'Deploy Python Product',
     metaTitle: 'How to Deploy a Python Product',
     metaDescription:
@@ -6191,7 +6191,7 @@ Documentation and knowledge management tools enhance the long-term value of code
     id: '64',
     title: 'Complete AI Engineer Road Map For Beginners',
     slug: 'ai-engineer-roadmap',
-    category: 'Machine Leaning',
+    category: 'Machine Learning',
     publishDate: '2026-09-20',
     author: 'Desire E',
     excerpt:
@@ -6580,7 +6580,7 @@ Document your images and containers thoroughly. Maintain clear README files expl
   {
     id: '70',
     title: 'Dockerizing A FastAPI Application Step By Step',
-    slug: 'dockering-a-fastapi-application',
+    slug: 'dockerizing-a-fastapi-application',
     category: 'Backend',
     publishDate: '2026-09-20',
     author: 'Desire E',
@@ -6715,7 +6715,7 @@ Choosing the right message queue technology for your specific use case requires 
   {
     id: '72',
     title: 'Engineering Software with PostgreSQL: A Complete Guide for Backend Developers',
-    slug: 'engineering-software-with-postgreSQL',
+    slug: 'engineering-software-with-postgresql',
     category: 'Backend',
     publishDate: '2026-09-20',
     author: 'Desire E',

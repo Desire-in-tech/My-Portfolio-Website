@@ -110,7 +110,7 @@ export default function BlogPost() {
                 <Calendar size={14} /> {formatDate(post.publishDate)}
               </span>
               <span className="flex items-center gap-1">
-                <Clock size={14} /> {post.readingTime}
+                <Clock size={14} /> {post.readingTime ?? getReadingTime(post.content)}
               </span>
             </div>
 

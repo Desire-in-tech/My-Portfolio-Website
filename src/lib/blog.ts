@@ -55,6 +55,28 @@ export function getExcerpt(post: { excerpt?: string; content: string }): string 
 }
 
 export function formatDate(dateStr: string): string {
+  const dateOnly = /^(\d{4})-(\d{2})-(\d{2})$/.exec(dateStr);
+  // Date-only values are calendar dates. Parsing them with `new Date("YYYY-MM-DD")`
+  // treats them as UTC midnight and shifts the displayed day west of UTC.
+  if (dateOnly) {
+    const year = Number(dateOnly[1]);
+    const month = Number(dateOnly[2]);
+    const day = Number(dateOnly[3]);
+    const local = new Date(year, month - 1, day);
+    if (
+      local.getFullYear() !== year ||
+      local.getMonth() !== month - 1 ||
+      local.getDate() !== day
+    ) {
+      return dateStr;
+    }
+    return local.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    });
+  }
+
   const d = new Date(dateStr);
   if (Number.isNaN(d.getTime())) return dateStr;
   return d.toLocaleDateString('en-US', {
