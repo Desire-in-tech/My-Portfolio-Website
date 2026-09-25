@@ -2,10 +2,10 @@ import { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Calendar, Clock, ArrowRight } from 'lucide-react';
-import { getSortedPosts, getFeaturedPosts } from '../data/blogPosts';
+import { getSortedPostDetails, getFeaturedPostDetails } from 'virtual:blog-details';
 import { AnimatedSection, BlogGrid, BlogSearch, CategoryFilter, Pagination, Breadcrumbs, CloudinaryImage } from '../components';
 import { useSeo } from '../hooks/use-seo';
-import { formatDate, getReadingTime, getExcerpt } from '../lib/blog';
+import { formatDate } from '../lib/blog';
 
 const POSTS_PER_PAGE = 6;
 
@@ -21,8 +21,8 @@ export default function Blog() {
     type: 'website',
   });
 
-  const allPosts = useMemo(() => getSortedPosts(), []);
-  const featuredPosts = useMemo(() => getFeaturedPosts(), []);
+  const allPosts = useMemo(() => getSortedPostDetails(), []);
+  const featuredPosts = useMemo(() => getFeaturedPostDetails(), []);
   const categories = useMemo(
     () => Array.from(new Set(allPosts.map((p) => p.category))),
     [allPosts]
@@ -35,7 +35,7 @@ export default function Blog() {
       const matchesSearch =
         !q ||
         p.title.toLowerCase().includes(q) ||
-        getExcerpt(p).toLowerCase().includes(q) ||
+        p.displayExcerpt.toLowerCase().includes(q) ||
         p.targetKeywords.some((k) => k.toLowerCase().includes(q));
       return matchesCategory && matchesSearch;
     });
@@ -101,13 +101,13 @@ export default function Blog() {
                       <Calendar size={12} /> {formatDate(featuredPost.publishDate)}
                     </span>
                     <span className="flex items-center gap-1">
-                      <Clock size={12} /> {featuredPost.readingTime ?? getReadingTime(featuredPost.content)}
+                      <Clock size={12} /> {featuredPost.readingTime}
                     </span>
                   </div>
                   <h3 className="text-2xl font-bold text-white mb-3">
                     <Link to={`/blog/${featuredPost.slug}`}>{featuredPost.title}</Link>
                   </h3>
-                  <p className="text-muted mb-6 line-clamp-3">{getExcerpt(featuredPost)}</p>
+                  <p className="text-muted mb-6 line-clamp-3">{featuredPost.displayExcerpt}</p>
                   <Link
                     to={`/blog/${featuredPost.slug}`}
                     className="inline-flex items-center gap-2 text-primary-accent font-medium hover:gap-3 transition-all"

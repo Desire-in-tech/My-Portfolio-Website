@@ -1,11 +1,20 @@
 import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
-import { BlogPost } from '../data/blogPosts';
-import { getExcerpt } from '../lib/blog';
 import CloudinaryImage from './CloudinaryImage';
 
+interface RelatedArticlePost {
+  id: string;
+  slug: string;
+  title: string;
+  category: string;
+  excerpt?: string;
+  displayExcerpt: string;
+  featuredImage: string;
+  imageAlt: string;
+}
+
 interface RelatedArticlesProps {
-  posts: BlogPost[];
+  posts: RelatedArticlePost[];
 }
 
 export default function RelatedArticles({ posts }: RelatedArticlesProps) {
@@ -33,7 +42,7 @@ export default function RelatedArticles({ posts }: RelatedArticlesProps) {
               <h3 className="text-base font-semibold text-white mt-2 group-hover:text-primary-accent transition-colors line-clamp-2">
                 {post.title}
               </h3>
-              <p className="text-muted text-sm mt-1 line-clamp-2">{getExcerpt(post)}</p>
+              <p className="text-muted text-sm mt-1 line-clamp-2">{post.displayExcerpt}</p>
               <span className="inline-flex items-center gap-1 text-primary-accent text-sm mt-3">
                 Read <ArrowRight size={14} />
               </span>

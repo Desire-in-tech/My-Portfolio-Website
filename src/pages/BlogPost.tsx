@@ -1,9 +1,8 @@
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Calendar, Clock, ArrowLeft, ArrowRight, User, CreditCard as Edit3 } from 'lucide-react';
-import { blogPosts, getBlogPostBySlug, getSortedPosts } from '../data/blogPosts';
-import type { BlogPost } from '../data/blogPosts';
+import { blogPostDetails, getBlogPostDetailsBySlug, getSortedPostDetails, loadBlogContent } from 'virtual:blog-details';
 import { projects } from '../data/projects';
 import {
   AnimatedSection,
@@ -15,7 +14,7 @@ import {
   CloudinaryImage,
 } from '../components';
 import { useSeo } from '../hooks/use-seo';
-import { extractHeadings, renderMarkdown, formatDate, getReadingTime, getExcerpt } from '../lib/blog';
+import { extractHeadings, renderMarkdown, formatDate } from '../lib/blog';
 import { SITE_URL } from '../lib/site';
 import { getRelatedArticles, getRelatedProjectsForPost } from '../lib/related';
 
@@ -23,12 +22,28 @@ export default function BlogPost() {
   const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
 
-  const post = slug ? getBlogPostBySlug(slug) : undefined;
+  const post = slug ? getBlogPostDetailsBySlug(slug) : undefined;
+  const [loaded, setLoaded] = useState<{ slug: string; content: string } | null>(null);
 
-  const headings = useMemo(() => (post ? extractHeadings(post.content) : []), [post]);
-  const html = useMemo(() => (post ? renderMarkdown(post.content) : ''), [post]);
+  useEffect(() => {
+    if (!post) return;
+    let cancelled = false;
+    const requested = post.slug;
+    const loader = loadBlogContent[requested];
+    if (!loader) return;
+    loader().then((mod) => {
+      if (!cancelled) setLoaded({ slug: requested, content: mod.default });
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [post]);
 
-  const sorted = useMemo(() => getSortedPosts(), []);
+  const body = post && loaded?.slug === post.slug ? loaded.content : null;
+  const headings = useMemo(() => (body ? extractHeadings(body) : []), [body]);
+  const html = useMemo(() => (body ? renderMarkdown(body) : ''), [body]);
+
+  const sorted = useMemo(() => getSortedPostDetails(), []);
   const index = post ? sorted.findIndex((p) => p.slug === post.slug) : -1;
   const prev = index > 0 ? sorted[index - 1] : undefined;
   const next = index >= 0 && index < sorted.length - 1 ? sorted[index + 1] : undefined;
@@ -38,14 +53,14 @@ export default function BlogPost() {
     [post]
   );
 
-  const relatedArticles = useMemo<BlogPost[]>(() => {
+  const relatedArticles = useMemo(() => {
     if (!post) return [];
-    return getRelatedArticles(post, blogPosts);
+    return getRelatedArticles(post, blogPostDetails);
   }, [post]);
 
   useSeo({
     title: post?.metaTitle ?? post?.title ?? 'Article | Desire Eyotaru',
-    description: post?.metaDescription ?? (post ? getExcerpt(post) : '') ?? '',
+    description: post?.metaDescription ?? post?.displayExcerpt ?? '',
     keywords: post?.targetKeywords,
     image: post?.featuredImage,
     type: 'article',
@@ -111,7 +126,7 @@ export default function BlogPost() {
                 <Calendar size={14} /> {formatDate(post.publishDate)}
               </span>
               <span className="flex items-center gap-1">
-                <Clock size={14} /> {post.readingTime ?? getReadingTime(post.content)}
+                <Clock size={14} /> {post.readingTime}
               </span>
             </div>
 
@@ -155,12 +170,16 @@ export default function BlogPost() {
 
       <section className="pb-12">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-[1fr_220px] gap-12">
-          <div
-            className="prose prose-invert max-w-none blog-content"
-            dangerouslySetInnerHTML={{ __html: html }}
-          />
+          {body ? (
+            <div
+              className="prose prose-invert max-w-none blog-content"
+              dangerouslySetInnerHTML={{ __html: html }}
+            />
+          ) : (
+            <p className="text-muted text-sm" role="status">Loading article...</p>
+          )}
           <aside className="hidden lg:block">
-            <TableOfContents headings={headings} />
+            {body ? <TableOfContents headings={headings} /> : null}
           </aside>
         </div>
       </section>

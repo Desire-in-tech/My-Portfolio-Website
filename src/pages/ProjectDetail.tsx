@@ -3,7 +3,7 @@ import { useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Github, ExternalLink, CircleCheck as CheckCircle, Layers } from 'lucide-react';
 import { getProjectBySlug, projects } from '../data/projects';
-import { blogPosts, BlogPost } from '../data/blogPosts';
+import { blogPostDetails } from 'virtual:blog-details';
 import { AnimatedSection, RelatedArticles, TableOfContents, Breadcrumbs, CloudinaryImage } from '../components';
 import { useSeo } from '../hooks/use-seo';
 import { extractHeadings, renderMarkdown } from '../lib/blog';
@@ -14,9 +14,9 @@ export default function ProjectDetail() {
   const { slug } = useParams<{ slug: string }>();
   const project = slug ? getProjectBySlug(slug) : undefined;
 
-  const relatedArticles = useMemo<BlogPost[]>(() => {
+  const relatedArticles = useMemo(() => {
     if (!project) return [];
-    return getRelatedArticlesForProject(project, blogPosts);
+    return getRelatedArticlesForProject(project, blogPostDetails);
   }, [project]);
 
   const headings = useMemo(
