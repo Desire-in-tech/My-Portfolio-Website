@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { SITE_URL } from '../lib/site';
 import { ChevronRight, Hop as Home } from 'lucide-react';
 import { useEffect } from 'react';
 
@@ -21,7 +22,7 @@ export default function Breadcrumbs({ items }: BreadcrumbsProps) {
         position: i + 1,
         name: item.label,
         item: item.path
-          ? `https://desireeyotaru.vercel.app${item.path}`
+          ? `${SITE_URL}${item.path}`
           : undefined,
       })),
     };
