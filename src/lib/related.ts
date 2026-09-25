@@ -1,5 +1,12 @@
-import { BlogPost } from '../data/blogPosts';
 import { Project } from '../data/projects';
+
+interface RelatedPostFields {
+  slug: string;
+  category: string;
+  publishDate: string;
+  tags: string[];
+  targetKeywords: string[];
+}
 
 const normalize = (s: string): string => s.toLowerCase().replace(/[^a-z0-9]/g, '');
 
@@ -7,7 +14,7 @@ const normalize = (s: string): string => s.toLowerCase().replace(/[^a-z0-9]/g, '
  * Score how related a blog post is to a project by comparing tags, keywords,
  * and project technologies. Returns 0 for the post itself.
  */
-function scorePostToProject(post: BlogPost, project: Project): number {
+function scorePostToProject(post: RelatedPostFields, project: Project): number {
   let score = 0;
   const postTokens = new Set([
     ...post.tags.map(normalize),
@@ -24,7 +31,7 @@ function scorePostToProject(post: BlogPost, project: Project): number {
 }
 
 /** Score post-to-post similarity via shared tags and keywords. */
-function scorePostToPost(a: BlogPost, b: BlogPost): number {
+function scorePostToPost(a: RelatedPostFields, b: RelatedPostFields): number {
   let score = 0;
   const aTokens = new Set([
     ...a.tags.map(normalize),
@@ -37,7 +44,7 @@ function scorePostToPost(a: BlogPost, b: BlogPost): number {
   return score;
 }
 
-export function getRelatedArticles(post: BlogPost, all: BlogPost[], limit = 3): BlogPost[] {
+export function getRelatedArticles<T extends RelatedPostFields>(post: T, all: T[], limit = 3): T[] {
   return all
     .filter((p) => p.slug !== post.slug)
     .map((p) => ({ post: p, score: scorePostToPost(post, p) }))
@@ -46,7 +53,7 @@ export function getRelatedArticles(post: BlogPost, all: BlogPost[], limit = 3): 
     .map((x) => x.post);
 }
 
-export function getRelatedProjectsForPost(post: BlogPost, all: Project[], limit = 1): Project[] {
+export function getRelatedProjectsForPost(post: RelatedPostFields, all: Project[], limit = 1): Project[] {
   return all
     .map((p) => ({ project: p, score: scorePostToProject(post, p) }))
     .sort((a, b) => b.score - a.score)
@@ -55,7 +62,7 @@ export function getRelatedProjectsForPost(post: BlogPost, all: Project[], limit 
     .map((x) => x.project);
 }
 
-export function getRelatedArticlesForProject(project: Project, all: BlogPost[], limit = 3): BlogPost[] {
+export function getRelatedArticlesForProject<T extends RelatedPostFields>(project: Project, all: T[], limit = 3): T[] {
   return all
     .map((p) => ({ post: p, score: scorePostToProject(p, project) }))
     .sort((a, b) => b.score - a.score || new Date(b.post.publishDate).getTime() - new Date(a.post.publishDate).getTime())

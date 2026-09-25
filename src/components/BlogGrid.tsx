@@ -1,8 +1,20 @@
-import { BlogPost } from '../data/blogPosts';
 import BlogCard from './BlogCard';
 
+interface BlogGridPost {
+  id: string;
+  slug: string;
+  title: string;
+  category: string;
+  publishDate: string;
+  readingTime: string;
+  excerpt?: string;
+  displayExcerpt: string;
+  featuredImage: string;
+  imageAlt: string;
+}
+
 interface BlogGridProps {
-  posts: BlogPost[];
+  posts: BlogGridPost[];
 }
 
 export default function BlogGrid({ posts }: BlogGridProps) {
