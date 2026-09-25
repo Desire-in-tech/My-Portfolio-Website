@@ -16,6 +16,7 @@ import {
 } from '../components';
 import { useSeo } from '../hooks/use-seo';
 import { extractHeadings, renderMarkdown, formatDate, getReadingTime, getExcerpt } from '../lib/blog';
+import { SITE_URL } from '../lib/site';
 import { getRelatedArticles, getRelatedProjectsForPost } from '../lib/related';
 
 export default function BlogPost() {
@@ -51,7 +52,7 @@ export default function BlogPost() {
     publishedTime: post?.publishDate,
     modifiedTime: post?.updatedDate,
     author: post?.author,
-    canonical: post ? `https://desireeyotaru.vercel.app/blog/${post.slug}` : undefined,
+    canonical: post ? `${SITE_URL}/blog/${post.slug}` : undefined,
     articleSchema: post
       ? {
           '@context': 'https://schema.org',
@@ -63,7 +64,7 @@ export default function BlogPost() {
           dateModified: post.updatedDate ?? post.publishDate,
           author: { '@type': 'Person', name: post.author },
           publisher: { '@type': 'Person', name: 'Desire Eyotaru' },
-          mainEntityOfPage: { '@type': 'WebPage', '@id': `https://desireeyotaru.vercel.app/blog/${post.slug}` },
+          mainEntityOfPage: { '@type': 'WebPage', '@id': `${SITE_URL}/blog/${post.slug}` },
         }
       : undefined,
   });
@@ -145,7 +146,7 @@ export default function BlogPost() {
             </motion.div>
 
             <SocialShare
-              url={`https://desireeyotaru.vercel.app/blog/${post.slug}`}
+              url={`${SITE_URL}/blog/${post.slug}`}
               title={post.title}
             />
           </AnimatedSection>
@@ -167,7 +168,7 @@ export default function BlogPost() {
       <section className="py-12 border-t border-gray-800">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
           <SocialShare
-            url={`https://desireeyotaru.vercel.app/blog/${post.slug}`}
+            url={`${SITE_URL}/blog/${post.slug}`}
             title={post.title}
           />
         </div>

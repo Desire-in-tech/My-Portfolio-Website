@@ -8,6 +8,7 @@ import { AnimatedSection, RelatedArticles, TableOfContents, Breadcrumbs, Cloudin
 import { useSeo } from '../hooks/use-seo';
 import { extractHeadings, renderMarkdown } from '../lib/blog';
 import { getRelatedArticlesForProject } from '../lib/related';
+import { SITE_URL } from '../lib/site';
 
 export default function ProjectDetail() {
   const { slug } = useParams<{ slug: string }>();
@@ -32,7 +33,7 @@ export default function ProjectDetail() {
     description: project?.description ?? '',
     image: project?.image,
     type: 'article',
-    canonical: project ? `https://desireeyotaru.vercel.app/projects/${project.slug}` : undefined,
+    canonical: project ? `${SITE_URL}/projects/${project.slug}` : undefined,
   });
 
   if (!project) {

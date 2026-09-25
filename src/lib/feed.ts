@@ -2,8 +2,7 @@ import { blogPosts } from '../data/blogPosts';
 import { getSortedPosts } from '../data/blogPosts';
 import { getExcerpt } from './blog';
 import { profile } from '../data/profile';
-
-const SITE_URL = 'https://desireeyotaru.vercel.app';
+import { SITE_URL } from './site';
 
 export function generateRssFeed(): string {
   const posts = getSortedPosts();

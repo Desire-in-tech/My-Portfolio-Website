@@ -1,7 +1,6 @@
 import { blogPosts } from '../data/blogPosts';
 import { projects } from '../data/projects';
-
-const SITE_URL = 'https://desireeyotaru.vercel.app';
+import { SITE_URL } from './site';
 
 export function generateSitemap(): string {
   const staticPages = [
