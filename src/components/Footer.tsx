@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { Github, Linkedin, Mail, LucideIcon } from 'lucide-react';
 import { socials } from '../data/socials';
 import { profile } from '../data/profile';
+import { openCookieSettings } from '../lib/consent';
 
 const navLinks = [
   { name: 'Home', path: '/' },
@@ -80,6 +81,27 @@ export default function Footer() {
           <p className="text-muted text-sm">
             &copy; {new Date().getFullYear()} {profile.name}. All rights reserved.
           </p>
+          <nav aria-label="Legal" className="mt-3 flex flex-wrap items-center justify-center gap-x-4 gap-y-2">
+            <Link
+              to="/privacy-policy"
+              className="text-muted hover:text-primary-accent transition-colors text-sm rounded focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-accent"
+            >
+              Privacy Policy
+            </Link>
+            <Link
+              to="/cookies-policy"
+              className="text-muted hover:text-primary-accent transition-colors text-sm rounded focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-accent"
+            >
+              Cookies Policy
+            </Link>
+            <button
+              type="button"
+              onClick={openCookieSettings}
+              className="text-muted hover:text-primary-accent transition-colors text-sm rounded focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-accent"
+            >
+              Cookie settings
+            </button>
+          </nav>
         </div>
       </div>
     </footer>

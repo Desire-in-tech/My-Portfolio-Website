@@ -6,6 +6,7 @@ import About from "./pages/About";
 import Projects from "./pages/Projects";
 import Contact from "./pages/Contact";
 import PageTransition from "./components/PageTransition";
+import CookieConsentBanner from "./components/CookieConsentBanner";
 
 // Loaded on demand so the homepage does not download blog article data.
 // Eager pages are imported from their modules, not the pages barrel, because
@@ -13,6 +14,8 @@ import PageTransition from "./components/PageTransition";
 const Blog = lazy(() => import("./pages/Blog"));
 const BlogPost = lazy(() => import("./pages/BlogPost"));
 const ProjectDetail = lazy(() => import("./pages/ProjectDetail"));
+const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
+const CookiesPolicy = lazy(() => import("./pages/CookiesPolicy"));
 
 function RouteFallback() {
   return (
@@ -38,6 +41,8 @@ function AppRoutes() {
           <Route path="/blog" element={<Blog />} />
           <Route path="/blog/:slug" element={<BlogPost />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/cookies-policy" element={<CookiesPolicy />} />
         </Routes>
       </Suspense>
     </PageTransition>
@@ -51,6 +56,7 @@ function App() {
         <Navbar />
         <AppRoutes />
         <Footer />
+        <CookieConsentBanner />
       </div>
     </BrowserRouter>
   );
