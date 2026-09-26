@@ -1,6 +1,6 @@
 import { useState, FormEvent } from 'react';
 import { motion } from 'framer-motion';
-import { Mail, Github, Linkedin, Send, MapPin, Phone, ExternalLink, CircleCheck as CheckCircle, CircleAlert as AlertCircle, type LucideIcon } from 'lucide-react';
+import { Mail, Github, Linkedin, Send, ExternalLink, CircleCheck as CheckCircle, CircleAlert as AlertCircle, type LucideIcon } from 'lucide-react';
 import emailjs from '@emailjs/browser';
 import { profile } from '../data/profile';
 import { socials } from '../data/socials';
@@ -100,33 +100,6 @@ export default function Contact() {
                         <p className="text-white">{profile.email}</p>
                       </div>
                     </motion.a>
-
-                    <motion.a
-                      href={`tel:${profile.phone}`}
-                      whileHover={{ scale: 1.02 }}
-                      className="flex items-center p-4 bg-card rounded-xl border border-gray-800 hover:border-primary-accent/50 transition-colors"
-                    >
-                      <div className="p-3 bg-primary-accent/10 rounded-lg text-primary-accent mr-4">
-                        <Phone size={20} />
-                      </div>
-                      <div>
-                        <p className="text-sm text-muted">Phone</p>
-                        <p className="text-white">{profile.phone}</p>
-                      </div>
-                    </motion.a>
-
-                    <motion.div
-                      whileHover={{ scale: 1.02 }}
-                      className="flex items-center p-4 bg-card rounded-xl border border-gray-800"
-                    >
-                      <div className="p-3 bg-secondary-accent/10 rounded-lg text-secondary-accent mr-4">
-                        <MapPin size={20} />
-                      </div>
-                      <div>
-                        <p className="text-sm text-muted">Location</p>
-                        <p className="text-white">{profile.location}</p>
-                      </div>
-                    </motion.div>
                   </div>
                 </div>
 

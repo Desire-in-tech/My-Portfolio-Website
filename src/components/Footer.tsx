@@ -79,7 +79,7 @@ export default function Footer() {
 
         <div className="mt-8 pt-8 border-t border-gray-800 text-center">
           <p className="text-muted text-sm">
-            &copy; {new Date().getFullYear()} {profile.name}. All rights reserved.
+            &copy; {new Date().getFullYear()} Desire E. All rights reserved.
           </p>
           <nav aria-label="Legal" className="mt-3 flex flex-wrap items-center justify-center gap-x-4 gap-y-2">
             <Link

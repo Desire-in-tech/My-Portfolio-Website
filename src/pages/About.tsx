@@ -103,8 +103,7 @@ export default function About() {
                     </p>
                     <p>
                       I am always willing to learn, grow, and put in the work to
-                      deliver. I'm seeking remote opportunities worldwide and am
-                      open to employers hiring from Africa (Uganda, GMT+3).
+                      deliver. I'm seeking remote opportunities worldwide.
                     </p>
                   </div>
                 </div>
