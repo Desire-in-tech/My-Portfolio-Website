@@ -1,213 +1,404 @@
-# Desire Eyotaru — Portfolio
+# Desire E — Software Engineer & AI Developer Portfolio
 
-> Personal portfolio website for **Desire Eyotaru**, Software Engineer & AI Developer specialising in machine learning, backend APIs, and data-driven solutions.
+A modern, responsive personal portfolio website showcasing software engineering, machine learning, backend development, data science, and technical writing projects.
 
-**Live site:** _add your Vercel URL here after deploying_
+The portfolio is designed to present practical technical work, demonstrate problem-solving ability, and provide a central place for projects, blog content, professional information, and contact details.
+
+## Live Website
+
+**Production:** https://desire-dev.vercel.app
+
+**Source Code:** https://github.com/Desire-in-tech/My-Portfolio-Website
+
+---
+
+## About the Project
+
+This portfolio brings together software engineering and data-focused projects across:
+
+* Machine Learning
+* Artificial Intelligence
+* Backend Development
+* Data Science
+* Python Development
+* React Development
+* REST APIs
+* Data Visualization
+* Technical Writing
+
+The website also includes a technical blog covering software development, machine learning, data science, backend engineering, career development, and related technology topics.
+
+The project is built as a frontend application and deployed to Vercel.
 
 ---
 
 ## Features
 
-- **Animated hero section** with availability badge and stats
-- **Projects gallery** — 6 real projects with GitHub links and live demos
-- **About page** — background, skills, and tech stack breakdown
-- **Contact form** — sends emails directly to your inbox via EmailJS (no backend needed)
-- **Resume download** — one-click PDF download from the navbar
-- **Fully responsive** — looks great on all screen sizes
-- **Smooth animations** — powered by Framer Motion throughout
+### Portfolio
+
+* Responsive personal portfolio
+* Home, About, Projects, Blog, and Contact sections
+* Project showcase with dedicated project pages
+* Technical skills and professional information
+* Responsive navigation and mobile-friendly layouts
+* Global/remote-oriented professional presentation
+
+### Projects
+
+The portfolio currently showcases projects across machine learning, backend development, APIs, NLP, fraud detection, financial analysis, and data science.
+
+Featured projects include:
+
+#### Consumer Finance Segmentation
+
+Customer segmentation using the 2019 Survey of Consumer Finances (SCF) data from U.S. households, published by the Federal Reserve.
+
+Key techniques include:
+
+* K-Means clustering
+* Principal Component Analysis (PCA)
+* Exploratory data analysis
+* Customer segmentation
+* Interactive data visualization
+
+#### Telecom Customer Churn Prediction
+
+A full-stack machine learning application for predicting telecom customer churn.
+
+Technologies and techniques include:
+
+* React
+* Vite
+* Django REST Framework
+* XGBoost
+* SHAP
+* Machine learning classification
+* Model explainability
+
+The project uses the IBM Telco Customer Churn dataset containing 7,043 customer records.
+
+#### Credit Card Fraud Detection
+
+A machine learning project focused on detecting fraudulent credit-card transactions in a highly imbalanced dataset.
+
+Key aspects include:
+
+* Fraud detection
+* Imbalanced classification
+* Machine learning
+* Model evaluation
+* Financial transaction analysis
+
+The dataset contains a very small proportion of fraudulent transactions, making class imbalance an important part of the problem.
+
+#### NLP Sentiment Analysis
+
+A natural language processing project using the IMDB movie review dataset.
+
+The project explores:
+
+* Text preprocessing
+* Natural language processing
+* Sentiment classification
+* Machine learning
+* Text-based prediction
+
+The dataset contains 50,000 labeled movie reviews.
+
+#### Stock Volatility API
+
+A backend API for retrieving financial market data and analyzing stock volatility.
+
+Technologies include:
+
+* Python
+* FastAPI
+* Yahoo Finance data
+* GARCH-based volatility analysis
+* REST API development
+
+#### Hospital Management API
+
+A backend API demonstrating secure API architecture and role-based access control.
+
+Key features include:
+
+* Django REST Framework
+* JWT authentication
+* Role-based access control
+* Docker
+* RESTful API architecture
 
 ---
 
-## Tech Stack
+## Blog
 
-| Area | Technology |
-|---|---|
-| Framework | React 19 + TypeScript |
-| Build tool | Vite 7 |
-| Styling | Tailwind CSS v3 |
-| Animations | Framer Motion |
-| Routing | React Router DOM v7 |
-| Icons | Lucide React |
-| Email | EmailJS |
-| Deployment | Vercel |
+The portfolio includes a dedicated technical blog with individual post pages and SEO-oriented metadata.
+
+Blog content covers areas including:
+
+* Machine Learning
+* Backend Development
+* Data Science
+* Software Engineering
+* Career Development
+* Artificial Intelligence
+* Technology
+
+Each blog post can include:
+
+* Title
+* Slug
+* Category
+* Publication date
+* Updated date
+* Author
+* Excerpt
+* Featured image
+* Image alt text
+* SEO title
+* SEO description
+* Target keywords
+* Tags
+* Article content
+* Featured-post status
+
+The blog is integrated directly into the application rather than relying on an external CMS.
+
+---
+
+## Technology Stack
+
+### Frontend
+
+* React
+* TypeScript
+* Vite
+* Tailwind CSS
+
+### Development
+
+* Node.js
+* npm
+* Git
+* GitHub
+
+### Deployment
+
+* Vercel
+
+### Backend / Machine Learning Projects
+
+Depending on the individual project, the portfolio demonstrates technologies including:
+
+* Python
+* Django
+* Django REST Framework
+* FastAPI
+* XGBoost
+* SHAP
+* scikit-learn
+* PCA
+* K-Means
+* GARCH
+* JWT authentication
+* Docker
+
+### External Services
+
+The portfolio uses selected external services for functionality and content delivery, including:
+
+* Cloudinary for hosted images and visual assets
+* Google Analytics 4 for consent-aware website analytics
+
+---
+
+## Analytics & Privacy
+
+The portfolio uses a consent-aware Google Analytics 4 implementation.
+
+GA4 property:
+
+`G-WQB2VFRK7T`
+
+Analytics are **denied by default** and are activated only after the visitor provides analytics consent.
+
+The implementation includes:
+
+* Consent-aware analytics loading
+* SPA route tracking
+* Manual pageview tracking
+* Analytics consent revocation
+* Analytics cookie handling
+* Google Signals disabled
+* Ad personalization disabled
+* User-provided data collection disabled
+* Location and device data protections
+* No intentional transmission of contact-form information to analytics
+* Query-string protection against transmitting email addresses through pageview URLs
+
+The website also provides dedicated Privacy Policy and Cookies Policy pages.
+
+### Privacy Policies
+
+* Privacy Policy
+* Cookies Policy
+
+Both policies have an effective date of September 27, 2026.
+
+---
+
+## Search Engine Optimization
+
+The portfolio includes SEO-related functionality such as:
+
+* Page-specific titles
+* Meta descriptions
+* Blog metadata
+* Canonical URLs
+* Open Graph/social metadata
+* XML sitemap
+* `robots.txt`
+* Blog RSS feed
+* Structured navigation
+* Search Engine indexing support
+
+The website is verified in Google Search Console.
+
+---
+
+## Accessibility & Responsive Design
+
+The website is designed to work across desktop and mobile screen sizes.
+
+Accessibility considerations include:
+
+* Semantic HTML
+* Descriptive image alternative text
+* Responsive layouts
+* Keyboard-accessible interactive elements
+* Clear navigation
+* Mobile-friendly interfaces
 
 ---
 
 ## Project Structure
 
-```
-portfolio/
-├── index.html                 # App entry point
-├── vite.config.ts             # Vite build config
-├── tailwind.config.js         # Tailwind theme (colors, fonts, animations)
-├── tsconfig.json              # TypeScript config
-├── vercel.json                # Vercel SPA routing rules
-├── .env.example               # Required environment variable names
-│
+```text
+My-Portfolio-Website/
 ├── public/
-│   ├── documents/
-│   │   └── Resume.pdf         # Downloadable resume
-│   └── images/                # Page backgrounds + project screenshots
-│
-└── src/
-    ├── main.tsx               # React entry point
-    ├── App.tsx                # Router + layout
-    ├── index.css              # Global styles + Tailwind base
-    │
-    ├── pages/
-    │   ├── Home.tsx           # Hero, stats, featured projects
-    │   ├── About.tsx          # Background, skills, timeline
-    │   ├── Projects.tsx       # Full project grid with filters
-    │   └── Contact.tsx        # EmailJS contact form + social links
-    │
-    ├── components/
-    │   ├── Navbar.tsx         # Fixed top nav with mobile menu
-    │   ├── Footer.tsx         # Footer with links
-    │   ├── ProjectCard.tsx    # Reusable project card
-    │   ├── AnimatedSection.tsx # Scroll-triggered fade-in wrapper
-    │   ├── PageTransition.tsx # Page-to-page animation wrapper
-    │   └── SkillBadge.tsx     # Tech skill badge component
-    │
-    └── data/                  # All content lives here — edit to update the site
-        ├── profile.ts         # Name, email, phone, location, availability
-        ├── projects.ts        # Projects list with GitHub + demo links
-        ├── skills.ts          # Skills and proficiency levels
-        └── socials.ts         # GitHub and LinkedIn URLs
+├── src/
+│   ├── components/
+│   ├── data/
+│   ├── lib/
+│   └── ...
+├── index.html
+├── package.json
+├── package-lock.json
+├── postcss.config.js
+├── tailwind.config.js
+├── tsconfig.json
+├── vercel.json
+├── vite.config.ts
+└── README.md
 ```
+
+The application source code lives primarily inside `src/`, while static assets and generated/public resources are handled through the appropriate project directories.
 
 ---
 
-## Getting Started Locally
+## Running the Project Locally
 
 ### Prerequisites
 
-- [Node.js](https://nodejs.org/) v18+
-- [pnpm](https://pnpm.io/) (or npm / yarn)
+* Node.js
+* npm
+* Git
 
-### 1. Clone the repo
-
-```bash
-git clone https://github.com/Desire-in-tech/YOUR-REPO-NAME.git
-cd YOUR-REPO-NAME
-```
-
-### 2. Install dependencies
+### Clone the repository
 
 ```bash
-pnpm install
+git clone https://github.com/Desire-in-tech/My-Portfolio-Website.git
+cd My-Portfolio-Website
 ```
 
-### 3. Set up environment variables
-
-Copy the example file and fill in your EmailJS credentials:
+### Install dependencies
 
 ```bash
-cp .env.example .env.local
+npm install
 ```
 
-Open `.env.local` and add your values:
-
-```env
-VITE_EMAILJS_SERVICE_ID=service_xxxxxxx
-VITE_EMAILJS_TEMPLATE_ID=template_xxxxxxx
-VITE_EMAILJS_PUBLIC_KEY=xxxxxxxxxxxxxxxxxxxx
-```
-
-> See the [EmailJS Setup](#emailjs-setup) section below for how to get these values.
-
-### 4. Run the development server
+### Start the development server
 
 ```bash
-pnpm dev
+npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) in your browser.
+Vite will provide the local development URL in the terminal.
+
+### Build for production
+
+```bash
+npm run build
+```
+
+### Type checking
+
+```bash
+npm run typecheck
+```
 
 ---
 
-## EmailJS Setup
+## Deployment
 
-The contact form sends emails directly from the browser — no server required.
+The production site is deployed through Vercel.
 
-1. Create a free account at [emailjs.com](https://www.emailjs.com/)
-2. **Add an Email Service** → Email Services → Add New Service → choose Gmail → connect your account. Copy the **Service ID**.
-3. **Create a Template** → Email Templates → Create New Template. Use these variables in the body:
+The deployment workflow is connected to the GitHub repository, allowing changes merged into the production branch to trigger the normal Vercel deployment process.
 
-   ```
-   From: {{from_name}} ({{from_email}})
-   
-   {{message}}
-   ```
+Production:
 
-   Set the subject to: `New message from {{from_name}} — Portfolio`
-   Copy the **Template ID**.
-
-4. **Get your Public Key** → Account → General → Public Key
-
-Add all three values to your `.env.local` file (locally) and to your Vercel environment variables (in production).
+**https://desire-dev.vercel.app**
 
 ---
 
-## Customising Your Content
+## SEO & Indexing
 
-All site content lives in `src/data/` — no need to touch the component files:
+The production website has been connected to Google Search Console for search-engine monitoring and indexing management.
 
-| File | What to change |
-|---|---|
-| `profile.ts` | Your name, title, email, phone, location, availability status |
-| `projects.ts` | Add/edit/remove projects — title, description, tech stack, GitHub link, demo link, image |
-| `skills.ts` | Your skills and proficiency levels |
-| `socials.ts` | Your GitHub and LinkedIn profile URLs |
-
-To replace your **resume**, swap out `public/documents/Resume.pdf` (keep the same filename).
-
-To replace **page images**, drop new files into `public/images/` (keep the same filenames).
+The site provides an XML sitemap and `robots.txt` file to help search engines discover and crawl its content.
 
 ---
 
-## Deployment on Vercel
+## Development Principles
 
-### Option A — Automatic (recommended)
+The project is maintained with an emphasis on:
 
-1. Push this repo to GitHub
-2. Go to [vercel.com](https://vercel.com) → New Project → import your GitHub repo
-3. Leave all build settings as defaults (Vercel auto-detects Vite)
-4. Go to **Settings → Environment Variables** and add all three `VITE_EMAILJS_*` variables
-5. Click **Deploy**
+* Minimal, targeted changes
+* Maintainable React/TypeScript code
+* Responsive design
+* Privacy-conscious analytics
+* SEO-friendly content
+* Accessible interfaces
+* Production-ready deployments
+* Clear separation between application functionality and external services
 
-Every push to `main` will trigger a new deployment automatically.
-
-### Option B — Vercel CLI
-
-```bash
-pnpm install -g vercel
-vercel
-```
-
-Follow the prompts, then add environment variables in the Vercel dashboard.
+Changes should avoid unnecessary modifications to unrelated files or functionality.
 
 ---
 
-## Available Scripts
+## Author
 
-| Command | Description |
-|---|---|
-| `pnpm dev` | Start the local development server |
-| `pnpm build` | Build for production (output → `dist/`) |
-| `pnpm preview` | Preview the production build locally |
-| `pnpm typecheck` | Run TypeScript type checking |
+**Desire E**
+
+Software Engineer & AI Developer
+
+Focused on building practical software solutions across machine learning, backend development, data science, and modern web technologies.
 
 ---
 
 ## License
 
-This project is open source and available under the [MIT License](LICENSE).
+This repository is a personal portfolio project.
 
----
-
-## Contact
-
-**Desire Eyotaru** — [desireintech@gmail.com](mailto:desireintech@gmail.com)
-
-- GitHub: [@Desire-in-tech](https://github.com/Desire-in-tech)
-- LinkedIn: [desire-e-92935a363](https://www.linkedin.com/in/desire-e-92935a363)
+Unless otherwise stated, the project's original source code, written content, visual assets, and other original materials remain the property of the author.
