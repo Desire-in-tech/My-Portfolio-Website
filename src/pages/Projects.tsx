@@ -4,6 +4,7 @@ import { ListFilter as Filter } from 'lucide-react';
 import { projects, ProjectCategory } from '../data/projects';
 import { images } from '../data/images';
 import { ProjectCard, AnimatedSection, Breadcrumbs } from '../components';
+import { useSeo } from '../hooks/use-seo';
 
 const categories: { label: string; value: ProjectCategory | 'All' }[] = [
   { label: 'All Projects', value: 'All' },
@@ -12,6 +13,12 @@ const categories: { label: string; value: ProjectCategory | 'All' }[] = [
 ];
 
 export default function Projects() {
+  useSeo({
+    title: 'Projects | Desire Eyotaru',
+    description:
+      'A showcase of my work in machine learning, backend development, and full-stack applications',
+  });
+
   const [activeCategory, setActiveCategory] = useState<ProjectCategory | 'All'>(
     'All'
   );

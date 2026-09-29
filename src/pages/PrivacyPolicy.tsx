@@ -18,7 +18,7 @@ export default function PrivacyPolicy() {
         <div className="mx-auto max-w-3xl break-words px-4 sm:px-6 lg:px-8">
           <Breadcrumbs items={[{ label: 'Home', path: '/' }, { label: 'Privacy Policy' }]} />
           <h1 className="mb-4 text-4xl font-bold text-white sm:text-5xl">Privacy Policy</h1>
-          <p className="mb-8 text-sm text-muted">Effective date: September 26, 2026</p>
+          <p className="mb-8 text-sm text-muted">Effective date: September 27, 2026</p>
           <div className="blog-content">
             <p>
               This page describes how the website at {SITE_URL} handles information. It is
@@ -34,17 +34,21 @@ export default function PrivacyPolicy() {
             </p>
 
             <h2>What this site stores on your device</h2>
-            <p>This site does not set cookies.</p>
             <p>
-              The only item this site writes on your device is a consent record in the
-              browser&apos;s localStorage, under the key <code>cookie-consent</code>. That
-              record is not a cookie. It holds a version number (currently 1), your
-              analytics choice (<code>granted</code> or <code>denied</code>), and the time
-              the choice was saved (<code>updatedAt</code>). If no record for the current
-              version is stored, analytics is treated as denied. Choosing Decline saves
-              denied. Choosing Accept saves granted. You can change the choice from Cookie
-              settings in the footer or on the <Link to="/cookies-policy">Cookies Policy</Link>{' '}
-              page. Clearing this site&apos;s data in your browser removes the record.
+              Google Analytics 4 may set analytics cookies (<code>_ga</code> and{' '}
+              <code>_ga_&lt;ID&gt;</code>) only after you grant analytics consent. Declining
+              does not set those cookies.
+            </p>
+            <p>
+              This site also writes a consent record in the browser&apos;s localStorage,
+              under the key <code>cookie-consent</code>. That record is not a cookie. It
+              holds a version number (currently 1), your analytics choice (
+              <code>granted</code> or <code>denied</code>), and the time the choice was
+              saved (<code>updatedAt</code>). If no record for the current version is
+              stored, analytics is treated as denied. Choosing Decline saves denied.
+              Choosing Accept saves granted. You can change the choice from Cookie settings
+              in the footer or on the <Link to="/cookies-policy">Cookies Policy</Link> page.
+              Clearing this site&apos;s data in your browser removes the record.
             </p>
             <p>
               This site does not use localStorage or sessionStorage for an account, a theme
@@ -55,8 +59,8 @@ export default function PrivacyPolicy() {
             <p>
               The site is hosted by Vercel. When your browser requests a page, that host
               receives ordinary request data such as an IP address, the browser user agent,
-              and the requested URL. This site&apos;s code does not add a separate analytics
-              product on top of hosting. Vercel Web Analytics and Speed Insights are not
+              and the requested URL. Google Analytics 4 is used for website analytics, and
+              it is separate from hosting. Vercel Web Analytics and Speed Insights are not
               used.
             </p>
 
@@ -89,20 +93,21 @@ export default function PrivacyPolicy() {
               Viewing a page does not load those services&apos; scripts.
             </p>
 
-            <h2>Analytics tools that are not on this site</h2>
+            <h2>Google Analytics 4</h2>
             <p>
-              Google Analytics 4 is not installed. Google Tag Manager is not installed.
-              This site does not set Google Analytics cookies. A later update may add
-              Google Analytics 4, and possibly Google Tag Manager, and would turn those
-              tags on only after you have allowed analytics. Until that update is
-              published, Accept and Decline only save your choice in this browser.
-              Advertising cookies are not used.
+              Google Analytics 4 is used for website analytics. It is activated only after
+              you grant analytics consent through the cookie banner. Declining prevents
+              normal GA4 collection. After consent, GA4 may set analytics cookies (
+              <code>_ga</code> and <code>_ga_&lt;ID&gt;</code>). This site does not use
+              Google Tag Manager. Vercel Web Analytics and Speed Insights are not used.
+              Advertising cookies are not used. Cookie settings can withdraw consent, and
+              the site then removes <code>_ga</code> cookies.
             </p>
 
             <h2>Changes to this page</h2>
             <p>
               If this site starts handling information differently, this page will be
-              updated. The effective date of this page is September 26, 2026.
+              updated. The effective date of this page is September 27, 2026.
             </p>
           </div>
         </div>

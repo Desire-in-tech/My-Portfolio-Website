@@ -1,4 +1,4 @@
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, useEffect } from "react";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { Navbar, Footer } from "./components";
 import Home from "./pages/Home";
@@ -7,6 +7,8 @@ import Projects from "./pages/Projects";
 import Contact from "./pages/Contact";
 import PageTransition from "./components/PageTransition";
 import CookieConsentBanner from "./components/CookieConsentBanner";
+import AnalyticsRouteTracker from "./components/AnalyticsRouteTracker";
+import { startAnalytics } from "./lib/analytics";
 
 // Loaded on demand so the homepage does not download blog article data.
 // Eager pages are imported from their modules, not the pages barrel, because
@@ -50,6 +52,10 @@ function AppRoutes() {
 }
 
 function App() {
+  useEffect(() => {
+    startAnalytics();
+  }, []);
+
   return (
     <BrowserRouter>
       <div className="min-h-screen bg-primary-bg text-white">
@@ -57,6 +63,7 @@ function App() {
         <AppRoutes />
         <Footer />
         <CookieConsentBanner />
+        <AnalyticsRouteTracker />
       </div>
     </BrowserRouter>
   );

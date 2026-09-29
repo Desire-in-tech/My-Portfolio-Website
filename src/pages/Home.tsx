@@ -5,6 +5,7 @@ import { profile } from '../data/profile';
 import { getFeaturedProjects } from '../data/projects';
 import { images } from '../data/images';
 import { ProjectCard, AnimatedSection } from '../components';
+import { useSeo } from '../hooks/use-seo';
 
 const stats = [
   { icon: Code, label: 'Projects Built', value: '6+' },
@@ -13,6 +14,12 @@ const stats = [
 ];
 
 export default function Home() {
+  useSeo({
+    title: 'Desire Eyotaru | Software Engineer & AI Developer',
+    description:
+      'Software Engineer & AI Developer specializing in machine learning, backend development, and data-driven solutions. Building intelligent applications with Python, React, Django, and FastAPI.',
+  });
+
   const featuredProjects = getFeaturedProjects();
 
   return (

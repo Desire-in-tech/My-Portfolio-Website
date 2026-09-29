@@ -6,6 +6,7 @@ import { profile } from '../data/profile';
 import { socials } from '../data/socials';
 import { images } from '../data/images';
 import { AnimatedSection, Breadcrumbs } from '../components';
+import { useSeo } from '../hooks/use-seo';
 
 const SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID as string;
 const TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID as string;
@@ -17,6 +18,12 @@ const iconMap: Record<string, LucideIcon> = {
 };
 
 export default function Contact() {
+  useSeo({
+    title: 'Contact | Desire Eyotaru',
+    description:
+      "Have a project in mind or want to discuss opportunities? I'd love to hear from you.",
+  });
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',

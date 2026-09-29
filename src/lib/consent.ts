@@ -9,15 +9,11 @@
  * JSON shape: { "version": 1, "analytics": "granted" | "denied", "updatedAt": "<ISO-8601>" }
  * A missing, unreadable, or different-version record means analytics is denied.
  *
- * Phase 3B (not implemented here) would:
- * 1. In the GTM Consent Initialization trigger, before any Google tag, set
- *    Consent Mode defaults to denied for analytics_storage, ad_storage,
- *    ad_user_data, and ad_personalization, with wait_for_update.
- * 2. In that same early step, read `cookie-consent`. If version is 1 and
- *    analytics is "granted", call gtag('consent', 'update', { analytics_storage: 'granted' }).
- *    Otherwise leave the defaults denied. Do not grant ad storage.
- * 3. After this app loads, subscribe() or listen for `cookie-consent-change`
- *    and call gtag('consent', 'update', { analytics_storage: record.analytics }).
+ * GA4 reads this record from `src/lib/analytics.ts`. That module is not
+ * Google Tag Manager. It sets Consent Mode defaults to denied, loads the GA4
+ * gtag script only after analytics is granted, and listens for
+ * `cookie-consent-change` to call gtag('consent', 'update'). Ad storage stays
+ * denied. This file still does not load a script itself.
  */
 
 export const CONSENT_STORAGE_KEY = 'cookie-consent';

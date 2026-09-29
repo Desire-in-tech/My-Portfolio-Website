@@ -4,6 +4,7 @@ import { profile } from '../data/profile';
 import { skillCategories } from '../data/skills';
 import { images } from '../data/images';
 import { AnimatedSection, SkillBadge, Breadcrumbs, CloudinaryImage } from '../components';
+import { useSeo } from '../hooks/use-seo';
 
 const highlights = [
   {
@@ -33,6 +34,11 @@ const highlights = [
 ];
 
 export default function About() {
+  useSeo({
+    title: 'About | Desire Eyotaru',
+    description: 'Get to know my journey, skills, and what drives me as a developer',
+  });
+
   return (
     <div className="min-h-screen bg-primary-bg pt-20">
       <section className="relative py-20 overflow-hidden">

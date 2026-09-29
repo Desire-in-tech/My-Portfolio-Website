@@ -19,7 +19,7 @@ export default function CookiesPolicy() {
         <div className="mx-auto max-w-3xl break-words px-4 sm:px-6 lg:px-8">
           <Breadcrumbs items={[{ label: 'Home', path: '/' }, { label: 'Cookies Policy' }]} />
           <h1 className="mb-4 text-4xl font-bold text-white sm:text-5xl">Cookies Policy</h1>
-          <p className="mb-8 text-sm text-muted">Effective date: September 26, 2026</p>
+          <p className="mb-8 text-sm text-muted">Effective date: September 27, 2026</p>
           <div className="blog-content">
             <p>
               This page explains what {SITE_URL} stores in your browser and which outside
@@ -30,8 +30,9 @@ export default function CookiesPolicy() {
 
             <h2>Cookies</h2>
             <p>
-              This site does not set a cookie. Visiting a page does not add a cookie for
-              this site.
+              Google Analytics 4 may set analytics cookies (<code>_ga</code> and{' '}
+              <code>_ga_&lt;ID&gt;</code>) only after you grant analytics consent. Declining
+              does not set those cookies.
             </p>
 
             <h2>Consent record</h2>
@@ -64,9 +65,8 @@ export default function CookiesPolicy() {
               no advertising choice on this site. Advertising cookies are not used.
             </p>
             <p>
-              Saving granted does not start Google Analytics or Google Tag Manager. Those
-              tools are not installed. The saved choice is the record a later, consent-gated
-              analytics update would read.
+              Saving granted starts Google Analytics 4. Saving denied prevents normal GA4
+              collection. This site does not use Google Tag Manager.
             </p>
 
             <h2>How to change your choice</h2>
@@ -103,20 +103,22 @@ export default function CookiesPolicy() {
               option on, so a submission does not write that value.
             </p>
 
-            <h2>Analytics tools that are not on this site</h2>
+            <h2>Google Analytics 4</h2>
             <p>
-              This site does not contact Google Analytics or Google Tag Manager, and it does
-              not set Google Analytics cookies. A later phase may add Google Analytics 4,
-              and possibly Google Tag Manager. If that happens, those tools are planned to
-              stay off unless the saved analytics choice is granted, using the{' '}
-              <code>cookie-consent</code> record described above. This page will be updated
-              if that phase is published. See the <Link to="/privacy-policy">Privacy Policy</Link>{' '}
-              for the rest of how this site handles information.
+              Google Analytics 4 is used for website analytics. It is activated only after
+              you grant analytics consent through the cookie banner. Declining prevents
+              normal GA4 collection. After consent, GA4 may set analytics cookies (
+              <code>_ga</code> and <code>_ga_&lt;ID&gt;</code>). This site does not use
+              Google Tag Manager. Vercel Web Analytics and Speed Insights are not used.
+              Cookie settings can withdraw consent, and the site then removes{' '}
+              <code>_ga</code> cookies. See the{' '}
+              <Link to="/privacy-policy">Privacy Policy</Link> for the rest of how this site
+              handles information.
             </p>
             <p>
               Privacy questions can be sent to{' '}
               <a href="mailto:desireintech@gmail.com">desireintech@gmail.com</a>. The site
-              operator is Desire E. The effective date of this page is September 26, 2026.
+              operator is Desire E. The effective date of this page is September 27, 2026.
             </p>
           </div>
         </div>
