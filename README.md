@@ -6,9 +6,19 @@ The portfolio is designed to present practical technical work, demonstrate probl
 
 ## Live Website
 
-**Production:** https://desire-dev.vercel.app
+**Production:** https://desire-djh.pages.dev
 
 **Source Code:** https://github.com/Desire-in-tech/My-Portfolio-Website
+
+## Website Screenshots
+
+The previews below show the portfolio frontend. Select any screenshot to open the full-size image.
+
+<p align="center">
+  <a href="https://res.cloudinary.com/f7ko7ayw/image/upload/v1792953038/Screenshot_2026-10-25_205748_ukwmug.png"><img src="https://res.cloudinary.com/f7ko7ayw/image/upload/v1792953038/Screenshot_2026-10-25_205748_ukwmug.png" alt="Portfolio frontend screenshot 1" width="32%" /></a>
+  <a href="https://res.cloudinary.com/f7ko7ayw/image/upload/v1792953075/Screenshot_2026-10-25_210026_kwrsa4.png"><img src="https://res.cloudinary.com/f7ko7ayw/image/upload/v1792953075/Screenshot_2026-10-25_210026_kwrsa4.png" alt="Portfolio frontend screenshot 2" width="32%" /></a>
+  <a href="https://res.cloudinary.com/f7ko7ayw/image/upload/v1792953055/Screenshot_2026-10-25_205944_wv3cvt.png"><img src="https://res.cloudinary.com/f7ko7ayw/image/upload/v1792953055/Screenshot_2026-10-25_205944_wv3cvt.png" alt="Portfolio frontend screenshot 3" width="32%" /></a>
+</p>
 
 ---
 
@@ -28,7 +38,7 @@ This portfolio brings together software engineering and data-focused projects ac
 
 The website also includes a technical blog covering software development, machine learning, data science, backend engineering, career development, and related technology topics.
 
-The project is built as a frontend application and deployed to Vercel.
+The project is built as a frontend application and deployed to Cloudflare Pages.
 
 ---
 
@@ -185,7 +195,7 @@ The blog is integrated directly into the application rather than relying on an e
 
 ### Deployment
 
-* Vercel
+* Cloudflare Pages
 
 ### Backend / Machine Learning Projects
 
@@ -352,13 +362,13 @@ npm run typecheck
 
 ## Deployment
 
-The production site is deployed through Vercel.
+The production site is deployed through Cloudflare Pages.
 
-The deployment workflow is connected to the GitHub repository, allowing changes merged into the production branch to trigger the normal Vercel deployment process.
+The deployment workflow is connected to the GitHub repository, allowing changes merged into the production branch to trigger the Cloudflare Pages deployment process.
 
 Production:
 
-**https://desire-dev.vercel.app**
+**https://desire-djh.pages.dev**
 
 ---
 
