@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import * as m from 'framer-motion/m';
 import { Calendar, Clock, ArrowRight } from 'lucide-react';
 import { getSortedPostDetails, getFeaturedPostDetails } from 'virtual:blog-details';
 import { AnimatedSection, BlogGrid, BlogSearch, CategoryFilter, Pagination, Breadcrumbs, CloudinaryImage } from '../components';
@@ -80,7 +80,7 @@ export default function Blog() {
               <h2 className="text-sm font-semibold text-primary-accent uppercase tracking-wider mb-4">
                 Featured Article
               </h2>
-              <motion.div
+              <m.div
                 whileHover={{ scale: 1.005 }}
                 className="grid grid-cols-1 lg:grid-cols-2 gap-8 bg-card rounded-2xl overflow-hidden border border-gray-800 hover:border-primary-accent/30 transition-colors"
               >
