@@ -130,11 +130,17 @@ markdown.renderer.rules.image = (tokens, index, options, _env, self) => {
   }</figure>`;
 };
 
+markdown.renderer.rules.table_open = (tokens, index, options, _env, self) => {
+  return `<div class="blog-table-wrapper" role="region" aria-label="Scrollable table" tabindex="0">\n${self.renderToken(tokens, index, options)}`;
+};
+
+markdown.renderer.rules.table_close = () => '</table>\n</div>\n';
+
 function sanitizeHtml(html: string): string {
   return DOMPurify.sanitize(html, {
     USE_PROFILES: { html: true },
     ALLOW_DATA_ATTR: false,
-    ADD_ATTR: ['target', 'rel', 'loading', 'decoding', 'class', 'id'],
+    ADD_ATTR: ['target', 'rel', 'loading', 'decoding', 'class', 'id', 'tabindex'],
     FORBID_TAGS: ['script', 'style', 'iframe', 'object', 'embed', 'form', 'input', 'button'],
   });
 }
