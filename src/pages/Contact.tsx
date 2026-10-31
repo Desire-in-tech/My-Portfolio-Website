@@ -1,5 +1,5 @@
 import { useState, FormEvent } from 'react';
-import { motion } from 'framer-motion';
+import * as m from 'framer-motion/m';
 import { Mail, Github, Linkedin, Send, ExternalLink, CircleCheck as CheckCircle, CircleAlert as AlertCircle, type LucideIcon } from 'lucide-react';
 import emailjs from '@emailjs/browser';
 import { profile } from '../data/profile';
@@ -94,7 +94,7 @@ export default function Contact() {
                     Contact Information
                   </h2>
                   <div className="space-y-4">
-                    <motion.a
+                    <m.a
                       href={`mailto:${profile.email}`}
                       whileHover={{ scale: 1.02 }}
                       className="flex items-center p-4 bg-card rounded-xl border border-gray-800 hover:border-primary-accent/50 transition-colors"
@@ -119,7 +119,7 @@ export default function Contact() {
                     {socials.map((social) => {
                       const Icon = iconMap[social.icon];
                       return (
-                        <motion.a
+                        <m.a
                           key={social.name}
                           href={social.url}
                           target="_blank"
@@ -135,7 +135,7 @@ export default function Contact() {
                   </div>
                 </div>
 
-                <motion.div
+                <m.div
                   whileHover={{ scale: 1.02 }}
                   className="p-6 bg-gradient-to-r from-primary-accent/10 to-secondary-accent/10 rounded-xl border border-primary-accent/20"
                 >
@@ -154,7 +154,7 @@ export default function Contact() {
                 </h2>
 
                 {status === 'success' ? (
-                  <motion.div
+                  <m.div
                     initial={{ opacity: 0, scale: 0.9 }}
                     animate={{ opacity: 1, scale: 1 }}
                     className="text-center py-12"
@@ -172,7 +172,7 @@ export default function Contact() {
                 ) : (
                   <form onSubmit={handleSubmit} className="space-y-6">
                     {status === 'error' && (
-                      <motion.div
+                      <m.div
                         initial={{ opacity: 0, y: -8 }}
                         animate={{ opacity: 1, y: 0 }}
                         className="flex items-center gap-3 p-4 bg-red-500/10 border border-red-500/30 rounded-lg"
@@ -247,7 +247,7 @@ export default function Contact() {
                       />
                     </div>
 
-                    <motion.button
+                    <m.button
                       type="submit"
                       disabled={isSubmitting}
                       whileHover={{ scale: 1.02 }}
