@@ -118,8 +118,12 @@ markdown.renderer.rules.image = (tokens, index, options, _env, self) => {
   token.attrSet('loading', 'lazy');
   token.attrSet('decoding', 'async');
 
+  // Markdown-it stores image alt text in child tokens, not reliably in an
+  // "alt" attribute. Populate it before rendering so the image stays accessible.
+  const alt = getHeadingText({ children: token.children ?? [] });
+  token.attrSet('alt', alt);
+
   const image = self.renderToken(tokens, index, options);
-  const alt = String(token.attrGet('alt') ?? '');
 
   return `<figure class="blog-image">${image}${
     alt ? `<figcaption>${markdown.utils.escapeHtml(alt)}</figcaption>` : ''
