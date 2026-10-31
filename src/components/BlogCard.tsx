@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import * as m from 'framer-motion/m';
 import { Calendar, Clock, ArrowRight } from 'lucide-react';
 import { formatDate } from '../lib/blog';
 import CloudinaryImage from './CloudinaryImage';
@@ -23,7 +23,7 @@ interface BlogCardProps {
 
 export default function BlogCard({ post, index = 0 }: BlogCardProps) {
   return (
-    <motion.article
+    <m.article
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
