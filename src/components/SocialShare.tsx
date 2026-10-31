@@ -24,7 +24,7 @@ export default function SocialShare({ url, title }: SocialShareProps) {
   };
 
   return (
-    <div className="flex items-center gap-3">
+    <div className="flex flex-wrap items-center gap-2 sm:gap-3">
       <span className="text-sm text-muted">Share:</span>
       {links.map((l) => (
         <a

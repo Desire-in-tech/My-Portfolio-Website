@@ -57,13 +57,13 @@ export default function Blog() {
 
   return (
     <div className="min-h-screen bg-primary-bg pt-20">
-      <section className="relative py-20 overflow-hidden">
+      <section className="relative py-14 sm:py-20 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-secondary-bg/30 to-transparent" />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <AnimatedSection>
             <Breadcrumbs items={[{ label: 'Home', path: '/' }, { label: 'Blog' }]} />
-            <div className="text-center mb-16">
-              <h1 className="text-4xl sm:text-5xl font-bold text-white mb-4">Blog</h1>
+            <div className="text-center mb-10 sm:mb-16">
+              <h1 className="text-3xl sm:text-5xl font-bold text-white mb-4">Blog</h1>
               <p className="text-muted text-lg max-w-2xl mx-auto">
                 Articles on machine learning, backend engineering, and building
                 data-driven applications.
@@ -92,8 +92,8 @@ export default function Blog() {
                     className="w-full h-full object-cover"
                   />
                 </Link>
-                <div className="p-8 flex flex-col justify-center">
-                  <div className="flex items-center gap-3 mb-3 text-xs text-muted">
+                <div className="min-w-0 p-5 sm:p-8 flex flex-col justify-center">
+                  <div className="flex flex-wrap items-center gap-x-3 gap-y-2 mb-3 text-xs text-muted">
                     <span className="px-2 py-1 bg-primary-accent/10 text-primary-accent rounded font-medium">
                       {featuredPost.category}
                     </span>
@@ -104,7 +104,7 @@ export default function Blog() {
                       <Clock size={12} /> {featuredPost.readingTime}
                     </span>
                   </div>
-                  <h3 className="text-2xl font-bold text-white mb-3">
+                  <h3 className="break-words text-xl sm:text-2xl font-bold text-white mb-3">
                     <Link to={`/blog/${featuredPost.slug}`}>{featuredPost.title}</Link>
                   </h3>
                   <p className="text-muted mb-6 line-clamp-3">{featuredPost.displayExcerpt}</p>

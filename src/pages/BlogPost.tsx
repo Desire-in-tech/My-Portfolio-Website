@@ -122,7 +122,7 @@ export default function BlogPost() {
               <ArrowLeft size={16} /> Back to Blog
             </Link>
 
-            <div className="flex items-center gap-3 mb-4 text-sm text-muted">
+            <div className="flex flex-wrap items-center gap-x-3 gap-y-2 mb-4 text-sm text-muted">
               <span className="px-2 py-1 bg-primary-accent/10 text-primary-accent rounded font-medium">
                 {post.category}
               </span>
@@ -134,11 +134,11 @@ export default function BlogPost() {
               </span>
             </div>
 
-            <h1 className="text-3xl sm:text-4xl font-bold text-white mb-4 leading-tight">
+            <h1 className="text-3xl sm:text-4xl font-bold text-white mb-4 leading-tight break-words">
               {post.title}
             </h1>
 
-            <div className="flex items-center gap-4 mb-8 text-sm text-muted">
+            <div className="flex flex-wrap items-center gap-x-4 gap-y-2 mb-8 text-sm text-muted">
               <span className="flex items-center gap-1">
                 <User size={14} /> {post.author}
               </span>

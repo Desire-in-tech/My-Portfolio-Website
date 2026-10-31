@@ -7,7 +7,7 @@ interface PaginationProps {
 export default function Pagination({ page, totalPages, onChange }: PaginationProps) {
   if (totalPages <= 1) return null;
   return (
-    <div className="flex items-center justify-center gap-2 mt-12">
+    <div className="flex flex-wrap items-center justify-center gap-2 mt-12">
       <button
         onClick={() => onChange(page - 1)}
         disabled={page <= 1}
@@ -15,7 +15,7 @@ export default function Pagination({ page, totalPages, onChange }: PaginationPro
       >
         Previous
       </button>
-      <span className="px-4 py-2 text-muted text-sm">
+      <span className="px-2 sm:px-4 py-2 text-muted text-xs sm:text-sm">
         Page {page} of {totalPages}
       </span>
       <button

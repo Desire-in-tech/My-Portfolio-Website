@@ -124,7 +124,11 @@ export default function Navbar() {
           </div>
 
           <button
+            type="button"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            aria-label={isMobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
+            aria-expanded={isMobileMenuOpen}
+            aria-controls="mobile-navigation"
             className="md:hidden p-2 text-white"
           >
             {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -137,9 +141,10 @@ export default function Navbar() {
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
+              id="mobile-navigation"
               className="md:hidden overflow-hidden"
             >
-              <div className="py-4 space-y-4 border-t border-gray-800">
+              <div className="max-h-[calc(100dvh-4rem)] space-y-4 overflow-y-auto overscroll-contain border-t border-gray-800 py-4">
                 {navLinks.map((link) =>
                   link.hasDropdown ? (
                     <div key={link.path} className="space-y-2">
