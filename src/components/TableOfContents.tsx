@@ -57,7 +57,7 @@ export default function TableOfContents({ headings }: TableOfContentsProps) {
       </button>
 
       {expanded && (
-        <ul id={contentId} className="mt-5 space-y-2 border-l border-gray-700 pl-4">
+        <ul id={contentId} className="mt-5 max-h-[60vh] space-y-2 overflow-y-auto overscroll-contain border-l border-gray-700 pl-4 pr-3 sm:max-h-[70vh]">
           {headings.map((heading) => (
             <li
               key={heading.id}
@@ -66,7 +66,7 @@ export default function TableOfContents({ headings }: TableOfContentsProps) {
               <a
                 href={`#${heading.id}`}
                 aria-current={activeId === heading.id ? 'location' : undefined}
-                className={`block text-sm leading-relaxed transition-colors ${
+                className={`block break-words text-sm leading-relaxed transition-colors ${
                   activeId === heading.id
                     ? 'text-primary-accent font-semibold'
                     : 'text-muted hover:text-white'
