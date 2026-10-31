@@ -34,8 +34,8 @@ function getHeadingText(token: {
   children?: Array<{
     type: string;
     content?: string;
-    attrGet?: (name: string) => string | null;
-  }>;
+    attrGet?: (name: string) => string | number | null;
+  }> | null;
 }): string {
   return (token.children ?? [])
     .map((child) => {
@@ -103,7 +103,7 @@ markdown.core.ruler.push('blog_heading_ids', (state) => {
 
 markdown.renderer.rules.link_open = (tokens, index, options, _env, self) => {
   const token = tokens[index];
-  const href = token.attrGet('href') ?? '';
+  const href = String(token.attrGet('href') ?? '');
 
   if (/^https?:\/\//i.test(href)) {
     token.attrSet('target', '_blank');
@@ -119,7 +119,7 @@ markdown.renderer.rules.image = (tokens, index, options, _env, self) => {
   token.attrSet('decoding', 'async');
 
   const image = self.renderToken(tokens, index, options);
-  const alt = token.attrGet('alt') ?? '';
+  const alt = String(token.attrGet('alt') ?? '');
 
   return `<figure class="blog-image">${image}${
     alt ? `<figcaption>${markdown.utils.escapeHtml(alt)}</figcaption>` : ''
@@ -152,7 +152,7 @@ export function extractHeadings(content: string): Heading[] {
 
     const inlineToken = tokens[i + 1];
     const text = inlineToken ? getHeadingText(inlineToken) : '';
-    const id = token.attrGet('id');
+    const id = String(token.attrGet('id') ?? '');
 
     if (id) headings.push({ id, level, text });
   }
