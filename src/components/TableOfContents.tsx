@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useId, useState } from 'react';
+import { ChevronDown, List } from 'lucide-react';
 import { Heading } from '../lib/blog';
 
 interface TableOfContentsProps {
@@ -7,9 +8,12 @@ interface TableOfContentsProps {
 
 export default function TableOfContents({ headings }: TableOfContentsProps) {
   const [activeId, setActiveId] = useState<string>('');
+  const [expanded, setExpanded] = useState(true);
+  const contentId = useId();
 
   useEffect(() => {
     if (headings.length === 0) return;
+
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -18,33 +22,62 @@ export default function TableOfContents({ headings }: TableOfContentsProps) {
       },
       { rootMargin: '-80px 0px -70% 0px' }
     );
-    headings.forEach((h) => {
-      const el = document.getElementById(h.id);
-      if (el) observer.observe(el);
+
+    headings.forEach((heading) => {
+      const element = document.getElementById(heading.id);
+      if (element) observer.observe(element);
     });
+
     return () => observer.disconnect();
   }, [headings]);
 
   if (headings.length === 0) return null;
+
   return (
-    <nav className="sticky top-24">
-      <h4 className="text-sm font-semibold text-white mb-3">Table of Contents</h4>
-      <ul className="space-y-2 border-l border-gray-800 pl-4">
-        {headings.map((h) => (
-          <li key={h.id} style={{ paddingLeft: h.level > 2 ? '0.75rem' : 0 }}>
-            <a
-              href={`#${h.id}`}
-              className={`block text-sm transition-colors ${
-                activeId === h.id
-                  ? 'text-primary-accent font-medium'
-                  : 'text-muted hover:text-white'
-              }`}
+    <nav
+      aria-label="Table of contents"
+      className="blog-toc rounded-xl border border-gray-800 bg-secondary-bg/70 p-5 sm:p-6"
+    >
+      <button
+        type="button"
+        aria-expanded={expanded}
+        aria-controls={contentId}
+        onClick={() => setExpanded((value) => !value)}
+        className="flex w-full items-center justify-between gap-4 text-left"
+      >
+        <span className="flex items-center gap-2 text-base font-semibold text-white">
+          <List size={18} className="text-primary-accent" />
+          Table of Contents
+        </span>
+        <ChevronDown
+          size={18}
+          aria-hidden="true"
+          className={`shrink-0 text-muted transition-transform duration-200 ${expanded ? 'rotate-180' : ''}`}
+        />
+      </button>
+
+      {expanded && (
+        <ul id={contentId} className="mt-5 space-y-2 border-l border-gray-700 pl-4">
+          {headings.map((heading) => (
+            <li
+              key={heading.id}
+              className={heading.level > 2 ? 'pl-4' : ''}
             >
-              {h.text}
-            </a>
-          </li>
-        ))}
-      </ul>
+              <a
+                href={`#${heading.id}`}
+                aria-current={activeId === heading.id ? 'location' : undefined}
+                className={`block text-sm leading-relaxed transition-colors ${
+                  activeId === heading.id
+                    ? 'text-primary-accent font-semibold'
+                    : 'text-muted hover:text-white'
+                }`}
+              >
+                {heading.text}
+              </a>
+            </li>
+          ))}
+        </ul>
+      )}
     </nav>
   );
 }
