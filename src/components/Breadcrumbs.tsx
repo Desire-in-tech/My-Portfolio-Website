@@ -46,7 +46,7 @@ export default function Breadcrumbs({ items }: BreadcrumbsProps) {
         {items.map((item, i) => {
           const isLast = i === items.length - 1;
           return (
-            <li key={i} className="flex items-center gap-1">
+            <li key={i} className="flex min-w-0 items-center gap-1">
               {i === 0 && <Home size={14} className="text-muted" />}
               {item.path && !isLast ? (
                 <Link
@@ -57,7 +57,7 @@ export default function Breadcrumbs({ items }: BreadcrumbsProps) {
                 </Link>
               ) : (
                 <span
-                  className={isLast ? 'text-white font-medium' : 'text-muted'}
+                  className={`break-words ${isLast ? 'text-white font-medium' : 'text-muted'}`}
                   aria-current={isLast ? 'page' : undefined}
                 >
                   {item.label}
