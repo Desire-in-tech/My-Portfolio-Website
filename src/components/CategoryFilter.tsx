@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion';
+import * as m from 'framer-motion/m';
 
 interface CategoryFilterProps {
   categories: string[];
@@ -10,7 +10,7 @@ export default function CategoryFilter({ categories, active, onChange }: Categor
   return (
     <div className="flex items-center flex-wrap gap-3">
       {['All', ...categories].map((cat) => (
-        <motion.button
+        <m.button
           key={cat}
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
