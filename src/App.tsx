@@ -1,4 +1,5 @@
 import { lazy, Suspense, useEffect } from "react";
+import { LazyMotion, domAnimation } from "framer-motion";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { Navbar, Footer } from "./components";
 import Home from "./pages/Home";
@@ -57,13 +58,15 @@ function App() {
 
   return (
     <BrowserRouter>
-      <div className="min-h-screen bg-primary-bg text-white">
-        <Navbar />
-        <AppRoutes />
-        <Footer />
-        <CookieConsentBanner />
-        <AnalyticsRouteTracker />
-      </div>
+      <LazyMotion features={domAnimation}>
+        <div className="min-h-screen bg-primary-bg text-white">
+          <Navbar />
+          <AppRoutes />
+          <Footer />
+          <CookieConsentBanner />
+          <AnalyticsRouteTracker />
+        </div>
+      </LazyMotion>
     </BrowserRouter>
   );
 }
