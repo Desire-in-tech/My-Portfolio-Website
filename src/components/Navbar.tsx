@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
+import { AnimatePresence } from 'framer-motion';
+import * as m from 'framer-motion/m';
 import { Menu, X, Download, ChevronDown } from 'lucide-react';
 import { projects } from '../data/projects';
 import { images } from '../data/images';
@@ -72,7 +73,7 @@ export default function Navbar() {
                   </button>
                   <AnimatePresence>
                     {isProjectsOpen && (
-                      <motion.div
+                      <m.div
                         initial={{ opacity: 0, y: 8 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: 8 }}
@@ -137,7 +138,7 @@ export default function Navbar() {
 
         <AnimatePresence>
           {isMobileMenuOpen && (
-            <motion.div
+            <m.div
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
