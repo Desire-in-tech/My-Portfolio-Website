@@ -1,6 +1,6 @@
 import { useParams, Link } from 'react-router-dom';
 import { useMemo } from 'react';
-import { motion } from 'framer-motion';
+import * as m from 'framer-motion/m';
 import { ArrowLeft, Github, ExternalLink, CircleCheck as CheckCircle, Layers } from 'lucide-react';
 import { getProjectBySlug, projects } from '../data/projects';
 import { blogPostDetails } from 'virtual:blog-details';
@@ -117,7 +117,7 @@ export default function ProjectDetail() {
 
       <section className="pb-12">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
+          <m.div
             initial={{ opacity: 0, scale: 0.98 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.5 }}
