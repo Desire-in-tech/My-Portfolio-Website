@@ -14,9 +14,10 @@ import {
   CloudinaryImage,
 } from '../components';
 import { useSeo } from '../hooks/use-seo';
-import { extractHeadings, renderMarkdown, formatDate } from '../lib/blog';
+import { extractHeadings, renderMarkdownSections, formatDate } from '../lib/blog';
 import { SITE_URL } from '../lib/site';
 import { getRelatedArticles, getRelatedProjectsForPost } from '../lib/related';
+import 'highlight.js/styles/github-dark.css';
 
 export default function BlogPost() {
   const { slug } = useParams<{ slug: string }>();
@@ -41,7 +42,10 @@ export default function BlogPost() {
 
   const body = post && loaded?.slug === post.slug ? loaded.content : null;
   const headings = useMemo(() => (body ? extractHeadings(body) : []), [body]);
-  const html = useMemo(() => (body ? renderMarkdown(body) : ''), [body]);
+  const sections = useMemo(
+    () => (body ? renderMarkdownSections(body) : { introHtml: '', contentHtml: '' }),
+    [body]
+  );
 
   const sorted = useMemo(() => getSortedPostDetails(), []);
   const index = post ? sorted.findIndex((p) => p.slug === post.slug) : -1;
@@ -160,36 +164,44 @@ export default function BlogPost() {
               />
             </motion.div>
 
-            <SocialShare
-              url={`${SITE_URL}/blog/${post.slug}`}
-              title={post.title}
-            />
+            <SocialShare url={`${SITE_URL}/blog/${post.slug}`} title={post.title} />
           </AnimatedSection>
         </div>
       </article>
 
       <section className="pb-12">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-[1fr_220px] gap-12">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
           {body ? (
-            <div
-              className="prose prose-invert max-w-none blog-content"
-              dangerouslySetInnerHTML={{ __html: html }}
-            />
+            <>
+              {sections.introHtml && (
+                <div
+                  className="prose prose-invert max-w-none blog-content"
+                  dangerouslySetInnerHTML={{ __html: sections.introHtml }}
+                />
+              )}
+
+              {headings.length > 0 && (
+                <div className="my-8">
+                  <TableOfContents headings={headings} />
+                </div>
+              )}
+
+              {sections.contentHtml && (
+                <div
+                  className="prose prose-invert max-w-none blog-content"
+                  dangerouslySetInnerHTML={{ __html: sections.contentHtml }}
+                />
+              )}
+            </>
           ) : (
             <p className="text-muted text-sm" role="status">Loading article...</p>
           )}
-          <aside className="hidden lg:block">
-            {body ? <TableOfContents headings={headings} /> : null}
-          </aside>
         </div>
       </section>
 
       <section className="py-12 border-t border-gray-800">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-          <SocialShare
-            url={`${SITE_URL}/blog/${post.slug}`}
-            title={post.title}
-          />
+          <SocialShare url={`${SITE_URL}/blog/${post.slug}`} title={post.title} />
         </div>
       </section>
 
