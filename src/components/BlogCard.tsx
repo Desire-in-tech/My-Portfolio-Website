@@ -38,8 +38,8 @@ export default function BlogCard({ post, index = 0 }: BlogCardProps) {
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
         />
       </Link>
-      <div className="p-6 flex flex-col flex-1">
-        <div className="flex items-center gap-3 mb-3 text-xs text-muted">
+      <div className="min-w-0 p-4 sm:p-6 flex flex-col flex-1">
+        <div className="flex flex-wrap items-center gap-x-3 gap-y-2 mb-3 text-xs text-muted">
           <span className="px-2 py-1 bg-primary-accent/10 text-primary-accent rounded font-medium">
             {post.category}
           </span>
@@ -52,7 +52,7 @@ export default function BlogCard({ post, index = 0 }: BlogCardProps) {
             {post.readingTime}
           </span>
         </div>
-        <h3 className="text-lg font-semibold text-white mb-2 group-hover:text-primary-accent transition-colors">
+        <h3 className="break-words text-lg font-semibold text-white mb-2 group-hover:text-primary-accent transition-colors">
           <Link to={`/blog/${post.slug}`}>{post.title}</Link>
         </h3>
         <p className="text-muted text-sm mb-4 line-clamp-3 flex-1">{post.displayExcerpt}</p>
