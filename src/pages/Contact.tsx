@@ -157,6 +157,9 @@ export default function Contact() {
                   <m.div
                     initial={{ opacity: 0, scale: 0.9 }}
                     animate={{ opacity: 1, scale: 1 }}
+                    role="status"
+                    aria-live="polite"
+                    aria-atomic="true"
                     className="text-center py-12"
                   >
                     <div className="w-16 h-16 bg-green-500/10 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -175,6 +178,8 @@ export default function Contact() {
                       <m.div
                         initial={{ opacity: 0, y: -8 }}
                         animate={{ opacity: 1, y: 0 }}
+                        role="alert"
+                        aria-atomic="true"
                         className="flex items-center gap-3 p-4 bg-red-500/10 border border-red-500/30 rounded-lg"
                       >
                         <AlertCircle size={18} className="text-red-400 shrink-0" />
