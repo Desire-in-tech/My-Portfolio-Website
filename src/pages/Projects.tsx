@@ -55,12 +55,14 @@ export default function Projects() {
           <AnimatedSection>
             <div className="flex items-center justify-center flex-wrap gap-3 mb-12">
               <div className="flex items-center mr-4 text-muted">
-                <Filter size={18} className="mr-2" />
+                <Filter aria-hidden="true" size={18} className="mr-2" />
                 <span className="text-sm font-medium">Filter:</span>
               </div>
               {categories.map((category) => (
                 <m.button
                   key={category.value}
+                  type="button"
+                  aria-pressed={activeCategory === category.value}
                   onClick={() => setActiveCategory(category.value)}
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
