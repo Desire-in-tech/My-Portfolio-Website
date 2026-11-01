@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Twitter, Linkedin, Facebook, Link as LinkIcon } from 'lucide-react';
 
 interface SocialShareProps {
@@ -6,6 +7,7 @@ interface SocialShareProps {
 }
 
 export default function SocialShare({ url, title }: SocialShareProps) {
+  const [copyStatus, setCopyStatus] = useState('');
   const encoded = encodeURIComponent(url);
   const encodedTitle = encodeURIComponent(title);
 
@@ -18,8 +20,9 @@ export default function SocialShare({ url, title }: SocialShareProps) {
   const copyLink = async () => {
     try {
       await navigator.clipboard.writeText(url);
+      setCopyStatus('Link copied to clipboard.');
     } catch {
-      // clipboard not available — no-op
+      setCopyStatus('Unable to copy the link. You can copy the page address from your browser.');
     }
   };
 
@@ -33,18 +36,22 @@ export default function SocialShare({ url, title }: SocialShareProps) {
           target="_blank"
           rel="noopener noreferrer"
           aria-label={`Share on ${l.name}`}
-          className="p-2 bg-card rounded-lg text-muted hover:text-primary-accent hover:bg-secondary-bg transition-all"
+          className="p-2 bg-card rounded-lg text-muted hover:text-primary-accent hover:bg-secondary-bg transition-all focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-accent"
         >
-          <l.icon size={18} />
+          <l.icon aria-hidden="true" size={18} />
         </a>
       ))}
       <button
+        type="button"
         onClick={copyLink}
         aria-label="Copy link"
-        className="p-2 bg-card rounded-lg text-muted hover:text-primary-accent hover:bg-secondary-bg transition-all"
+        className="p-2 bg-card rounded-lg text-muted hover:text-primary-accent hover:bg-secondary-bg transition-all focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-accent"
       >
-        <LinkIcon size={18} />
+        <LinkIcon aria-hidden="true" size={18} />
       </button>
+      <span role="status" aria-live="polite" aria-atomic="true" className="text-sm text-muted">
+        {copyStatus}
+      </span>
     </div>
   );
 }
