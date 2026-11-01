@@ -34,6 +34,7 @@ export default function ProjectDetail() {
     image: project?.image,
     type: 'article',
     canonical: project ? `${SITE_URL}/projects/${project.slug}` : undefined,
+    noindex: !project,
   });
 
   if (!project) {
