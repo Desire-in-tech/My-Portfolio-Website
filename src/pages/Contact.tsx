@@ -122,13 +122,14 @@ export default function Contact() {
                         <m.a
                           key={social.name}
                           href={social.url}
+                          aria-label={social.name}
                           target="_blank"
                           rel="noopener noreferrer"
                           whileHover={{ scale: 1.05 }}
                           whileTap={{ scale: 0.95 }}
                           className="flex items-center justify-center p-4 bg-card rounded-xl border border-gray-800 hover:border-primary-accent/50 hover:bg-secondary-bg transition-all"
                         >
-                          <Icon size={24} color="white" />
+                          <Icon aria-hidden="true" size={24} color="white" />
                         </m.a>
                       );
                     })}
