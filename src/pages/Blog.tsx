@@ -115,7 +115,7 @@ export default function Blog() {
                     Read Article <ArrowRight size={16} />
                   </Link>
                 </div>
-              </motion.div>
+              </m.div>
             </AnimatedSection>
           </div>
         </section>
