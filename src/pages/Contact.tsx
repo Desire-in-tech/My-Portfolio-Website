@@ -106,7 +106,7 @@ export default function Contact() {
                         <p className="text-sm text-muted">Email</p>
                         <p className="text-white">{profile.email}</p>
                       </div>
-                    </motion.a>
+                    </m.a>
                   </div>
                 </div>
 
@@ -129,7 +129,7 @@ export default function Contact() {
                           className="flex items-center justify-center p-4 bg-card rounded-xl border border-gray-800 hover:border-primary-accent/50 hover:bg-secondary-bg transition-all"
                         >
                           <Icon size={24} color="white" />
-                        </motion.a>
+                        </m.a>
                       );
                     })}
                   </div>
@@ -143,7 +143,7 @@ export default function Contact() {
                     I typically respond within 24-48 hours. For urgent inquiries,
                     please reach out via email directly.
                   </p>
-                </motion.div>
+                </m.div>
               </div>
             </AnimatedSection>
 
@@ -168,7 +168,7 @@ export default function Contact() {
                     <p className="text-muted">
                       Thank you for reaching out. I'll get back to you soon.
                     </p>
-                  </motion.div>
+                  </m.div>
                 ) : (
                   <form onSubmit={handleSubmit} className="space-y-6">
                     {status === 'error' && (
@@ -184,7 +184,7 @@ export default function Contact() {
                             {profile.email}
                           </a>
                         </p>
-                      </motion.div>
+                      </m.div>
                     )}
 
                     <div>
@@ -256,7 +256,7 @@ export default function Contact() {
                     >
                       <Send size={18} />
                       <span>{isSubmitting ? 'Sending...' : 'Send Message'}</span>
-                    </motion.button>
+                    </m.button>
                   </form>
                 )}
               </div>
