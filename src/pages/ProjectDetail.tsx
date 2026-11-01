@@ -130,7 +130,7 @@ export default function ProjectDetail() {
               className="w-full h-full object-cover"
               loading="eager"
             />
-          </motion.div>
+          </m.div>
         </div>
       </section>
 
