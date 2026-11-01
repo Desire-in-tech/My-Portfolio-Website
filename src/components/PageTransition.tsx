@@ -22,7 +22,7 @@ export default function PageTransition({
         transition={{ duration: 0.3 }}
       >
         {children}
-      </motion.div>
+      </m.div>
     </AnimatePresence>
   );
 }
