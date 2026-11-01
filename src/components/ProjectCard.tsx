@@ -81,6 +81,6 @@ export default function ProjectCard({ project, index = 0 }: ProjectCardProps) {
           )}
         </div>
       </div>
-    </motion.div>
+    </m.div>
   );
 }
