@@ -60,7 +60,7 @@ function makeHead(meta) {
   head = head.replace(/<meta\s+(?:name|property)="(?:description|keywords|author|robots|og:[^"]+|twitter:[^"]+|article:[^"]+)"[^>]*\/?>/gi, '');
   head = head.replace(/<link\s+rel="canonical"[^>]*\/?>/gi, '');
   head = head.replace(/<script\s+id="page-schema"[\s\S]*?<\/script>/gi, '');
-  return head.replace('</head>', \`    \${tags}\n  </head>\`);
+  return head.replace('</head>', '    ' + tags + '\n  </head>');
 }
 
 function homepageSchema() {
