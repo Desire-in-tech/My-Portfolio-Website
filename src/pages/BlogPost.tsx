@@ -164,6 +164,8 @@ export default function BlogPost() {
                 aspectClass="w-full h-full"
                 className="w-full h-full object-cover"
                 loading="eager"
+                fetchPriority="high"
+                sizes="(max-width: 767px) 100vw, 768px"
               />
             </m.div>
 
