@@ -42,10 +42,10 @@ export default function Navbar() {
           : 'bg-transparent'
       }`}
     >
-      <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <nav aria-label="Main navigation" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 md:h-20">
-          <Link to="/" className="flex items-center space-x-2">
-            <CloudinaryImage src={images.logo} alt="Desire Eyotaru logo" className="h-8 w-8 rounded-lg" loading="eager" />
+          <Link to="/" aria-label="Desire home" className="flex items-center space-x-2">
+            <CloudinaryImage src={images.logo} alt="" className="h-8 w-8 rounded-lg" loading="eager" />
             <span className="text-xl font-bold text-white">
               Desire<span className="text-primary-accent">.</span>
             </span>
@@ -59,9 +59,17 @@ export default function Navbar() {
                   className="relative"
                   onMouseEnter={() => setIsProjectsOpen(true)}
                   onMouseLeave={() => setIsProjectsOpen(false)}
+                  onBlur={(event) => {
+                    if (!event.currentTarget.contains(event.relatedTarget as Node | null)) {
+                      setIsProjectsOpen(false);
+                    }
+                  }}
                 >
                   <button
-                    onClick={() => setIsProjectsOpen((v) => !v)}
+                    type="button"
+                    aria-expanded={isProjectsOpen}
+                    aria-controls="projects-navigation"
+                    onClick={() => setIsProjectsOpen((v) => !v)
                     className={`flex items-center gap-1 text-sm font-medium transition-colors duration-200 ${
                       location.pathname.startsWith('/projects')
                         ? 'text-primary-accent'
@@ -78,6 +86,7 @@ export default function Navbar() {
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: 8 }}
                         transition={{ duration: 0.15 }}
+                        id="projects-navigation"
                         className="absolute left-1/2 -translate-x-1/2 mt-2 w-72 bg-card rounded-xl border border-gray-800 shadow-xl shadow-black/40 overflow-hidden"
                       >
                         <Link
@@ -119,7 +128,7 @@ export default function Navbar() {
               rel="noopener noreferrer"
               className="flex items-center space-x-2 px-4 py-2 bg-primary-accent/10 border border-primary-accent text-primary-accent rounded-lg hover:bg-primary-accent hover:text-primary-bg transition-all duration-200"
             >
-              <Download size={16} />
+              <Download aria-hidden="true" size={16} />
               <span className="text-sm font-medium">Resume</span>
             </a>
           </div>
@@ -132,7 +141,7 @@ export default function Navbar() {
             aria-controls="mobile-navigation"
             className="md:hidden p-2 text-white"
           >
-            {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            {isMobileMenuOpen ? <X aria-hidden="true" size={24} /> : <Menu aria-hidden="true" size={24} />}
           </button>
         </div>
 
@@ -191,7 +200,7 @@ export default function Navbar() {
                   rel="noopener noreferrer"
                   className="flex items-center space-x-2 py-2 text-primary-accent"
                 >
-                  <Download size={18} />
+                  <Download aria-hidden="true" size={18} />
                   <span className="font-medium">Resume</span>
                 </a>
               </div>
