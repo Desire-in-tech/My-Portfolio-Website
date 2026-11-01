@@ -56,7 +56,7 @@ function setJsonLd(id: string, data: Record<string, unknown>) {
 
 function getCanonicalUrl(canonical?: string) {
   if (canonical) return canonical;
-  const pathname = window.location.pathname.replace(/\\/+$/, '') || '/';
+  const pathname = window.location.pathname.replace(/\/+$/, '') || '/';
   return `${SITE_URL}${pathname === '/' ? '/' : pathname}`;
 }
 
