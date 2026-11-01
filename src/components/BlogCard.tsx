@@ -24,7 +24,7 @@ interface BlogCardProps {
 export default function BlogCard({ post, index = 0 }: BlogCardProps) {
   return (
     <m.article
-      initial={{ opacity: 0, y: 20 }}
+      initial={false}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.5, delay: index * 0.08 }}
@@ -36,6 +36,7 @@ export default function BlogCard({ post, index = 0 }: BlogCardProps) {
           alt={post.imageAlt}
           aspectClass="w-full h-full"
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+          sizes="(max-width: 767px) 100vw, (max-width: 1023px) 50vw, 33vw"
         />
       </Link>
       <div className="min-w-0 p-4 sm:p-6 flex flex-col flex-1">
