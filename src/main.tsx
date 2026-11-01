@@ -18,7 +18,7 @@ const app = (
 // Production route files contain server-rendered markup. Keep Vite's empty
 // development shell working by falling back to createRoot when there is no HTML.
 if (root.hasChildNodes()) {
-  hydrateRoot(root, app);
+  hydrateRoot(root, app, { identifierPrefix: 'desire-portfolio-' });
 } else {
   createRoot(root).render(app);
 }
