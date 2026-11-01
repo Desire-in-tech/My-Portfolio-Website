@@ -1,12 +1,13 @@
 import { lazy, Suspense, useEffect } from "react";
 import { LazyMotion, MotionConfig, domAnimation } from "framer-motion";
-import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation, Link } from "react-router-dom";
 import { Navbar, Footer } from "./components";
 import Home from "./pages/Home";
 import PageTransition from "./components/PageTransition";
 import CookieConsentBanner from "./components/CookieConsentBanner";
 import AnalyticsRouteTracker from "./components/AnalyticsRouteTracker";
 import { startAnalytics } from "./lib/analytics";
+import { useSeo } from "./hooks/use-seo";
 
 // Keep the homepage eager for the initial visit; load secondary routes only
 // when visitors navigate to them so their dependencies stay out of the entry chunk.
@@ -29,6 +30,32 @@ function RouteFallback() {
   );
 }
 
+function NotFoundPage() {
+  useSeo({
+    title: 'Page Not Found | Desire E',
+    description: 'The page you are looking for could not be found.',
+    noindex: true,
+  });
+
+  return (
+    <section className="min-h-[70vh] bg-primary-bg pt-28 pb-20 flex items-center justify-center">
+      <div className="max-w-xl px-6 text-center">
+        <p className="text-primary-accent text-sm font-semibold tracking-widest mb-4">404 ERROR</p>
+        <h1 className="text-4xl sm:text-5xl font-bold text-white mb-5">Page not found</h1>
+        <p className="text-muted mb-8">
+          The page may have moved, or the address may be incorrect.
+        </p>
+        <Link
+          to="/"
+          className="inline-flex items-center rounded-lg bg-primary-accent px-6 py-3 font-semibold text-primary-bg transition-colors hover:bg-primary-accent/90"
+        >
+          Return to homepage
+        </Link>
+      </div>
+    </section>
+  );
+}
+
 function AppRoutes() {
   const location = useLocation();
 
@@ -45,6 +72,7 @@ function AppRoutes() {
           <Route path="/contact" element={<Contact />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/cookies-policy" element={<CookiesPolicy />} />
+          <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </Suspense>
     </PageTransition>
