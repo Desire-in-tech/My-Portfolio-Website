@@ -72,6 +72,7 @@ export default function BlogPost() {
     modifiedTime: post?.updatedDate,
     author: post?.author,
     canonical: post ? `${SITE_URL}/blog/${post.slug}` : undefined,
+    noindex: !post,
     articleSchema: post
       ? {
           '@context': 'https://schema.org',
