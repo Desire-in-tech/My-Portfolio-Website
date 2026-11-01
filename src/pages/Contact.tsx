@@ -97,14 +97,14 @@ export default function Contact() {
                     <m.a
                       href={`mailto:${profile.email}`}
                       whileHover={{ scale: 1.02 }}
-                      className="flex items-center p-4 bg-card rounded-xl border border-gray-800 hover:border-primary-accent/50 transition-colors"
+                      className="flex min-w-0 items-center p-4 bg-card rounded-xl border border-gray-800 hover:border-primary-accent/50 transition-colors"
                     >
                       <div className="p-3 bg-primary-accent/10 rounded-lg text-primary-accent mr-4">
                         <Mail size={20} />
                       </div>
-                      <div>
+                      <div className="min-w-0">
                         <p className="text-sm text-muted">Email</p>
-                        <p className="text-white">{profile.email}</p>
+                        <p className="break-words text-white">{profile.email}</p>
                       </div>
                     </m.a>
                   </div>
@@ -115,7 +115,7 @@ export default function Contact() {
                     <ExternalLink size={18} className="mr-2 text-primary-accent" />
                     Social Links
                   </h3>
-                  <div className="flex items-center space-x-4">
+                  <div className="flex flex-wrap items-center gap-4">
                     {socials.map((social) => {
                       const Icon = iconMap[social.icon];
                       return (
@@ -149,7 +149,7 @@ export default function Contact() {
             </AnimatedSection>
 
             <AnimatedSection delay={0.2}>
-              <div className="bg-card rounded-2xl border border-gray-800 p-8">
+              <div className="bg-card rounded-2xl border border-gray-800 p-5 sm:p-8">
                 <h2 className="text-2xl font-bold text-white mb-6">
                   Send a Message
                 </h2>
@@ -184,7 +184,7 @@ export default function Contact() {
                         className="flex items-center gap-3 p-4 bg-red-500/10 border border-red-500/30 rounded-lg"
                       >
                         <AlertCircle size={18} className="text-red-400 shrink-0" />
-                        <p className="text-red-400 text-sm">
+                        <p className="min-w-0 break-words text-red-400 text-sm">
                           Something went wrong. Please email me directly at{' '}
                           <a href={`mailto:${profile.email}`} className="underline">
                             {profile.email}
