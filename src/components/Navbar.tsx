@@ -69,7 +69,7 @@ export default function Navbar() {
                     type="button"
                     aria-expanded={isProjectsOpen}
                     aria-controls="projects-navigation"
-                    onClick={() => setIsProjectsOpen((v) => !v)
+                    onClick={() => setIsProjectsOpen((v) => !v)}
                     className={`flex items-center gap-1 text-sm font-medium transition-colors duration-200 ${
                       location.pathname.startsWith('/projects')
                         ? 'text-primary-accent'
