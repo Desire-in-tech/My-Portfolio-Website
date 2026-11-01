@@ -22,7 +22,7 @@ export default function CategoryFilter({ categories, active, onChange }: Categor
           }`}
         >
           {cat}
-        </motion.button>
+        </m.button>
       ))}
     </div>
   );
