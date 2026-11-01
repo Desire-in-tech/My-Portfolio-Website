@@ -1,5 +1,5 @@
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { useEffect, useMemo, useState } from 'react';
+import { use, useMemo } from 'react';
 import * as m from 'framer-motion/m';
 import { Calendar, Clock, ArrowLeft, ArrowRight, User, CreditCard as Edit3 } from 'lucide-react';
 import { blogPostDetails, getBlogPostDetailsBySlug, getSortedPostDetails, loadBlogContent } from 'virtual:blog-details';
@@ -19,28 +19,30 @@ import { SITE_URL } from '../lib/site';
 import { getRelatedArticles, getRelatedProjectsForPost } from '../lib/related';
 import 'highlight.js/styles/github-dark.css';
 
+// Keep one stable promise per article so React can suspend while its lazy
+// content chunk loads. React's static prerender API waits for this boundary,
+// allowing the complete article body to be included in generated HTML.
+const blogContentPromises = new Map<string, Promise<string>>();
+const EMPTY_CONTENT_PROMISE = Promise.resolve('');
+
+function getBlogContent(slug: string): Promise<string> {
+  const cached = blogContentPromises.get(slug);
+  if (cached) return cached;
+
+  const loader = loadBlogContent[slug];
+  if (!loader) return EMPTY_CONTENT_PROMISE;
+
+  const promise = loader().then((module) => module.default);
+  blogContentPromises.set(slug, promise);
+  return promise;
+}
+
 export default function BlogPost() {
   const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
 
   const post = slug ? getBlogPostDetailsBySlug(slug) : undefined;
-  const [loaded, setLoaded] = useState<{ slug: string; content: string } | null>(null);
-
-  useEffect(() => {
-    if (!post) return;
-    let cancelled = false;
-    const requested = post.slug;
-    const loader = loadBlogContent[requested];
-    if (!loader) return;
-    loader().then((mod) => {
-      if (!cancelled) setLoaded({ slug: requested, content: mod.default });
-    });
-    return () => {
-      cancelled = true;
-    };
-  }, [post]);
-
-  const body = post && loaded?.slug === post.slug ? loaded.content : null;
+  const body = use(post ? getBlogContent(post.slug) : EMPTY_CONTENT_PROMISE);
   const headings = useMemo(() => (body ? extractHeadings(body) : []), [body]);
   const sections = useMemo(
     () => (body ? renderMarkdownSections(body) : { introHtml: '', contentHtml: '' }),
