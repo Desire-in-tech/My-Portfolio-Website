@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion';
+import * as m from 'framer-motion/m';
 import { User, Code, Laptop, Lightbulb, Rocket } from 'lucide-react';
 import { profile } from '../data/profile';
 import { skillCategories } from '../data/skills';
@@ -65,7 +65,7 @@ export default function About() {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
             <AnimatedSection>
               <div className="lg:sticky lg:top-24">
-                <motion.div
+                <m.div
                   whileHover={{ scale: 1.02 }}
                   className="relative aspect-square max-w-sm mx-auto rounded-2xl overflow-hidden bg-card ring-1 ring-gray-800"
                 >
@@ -82,7 +82,7 @@ export default function About() {
                       <span className="text-sm text-muted">Available</span>
                     </div>
                   </div>
-                </motion.div>
+                </m.div>
               </div>
             </AnimatedSection>
 
@@ -118,7 +118,7 @@ export default function About() {
               <AnimatedSection delay={0.2}>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {highlights.map((highlight, index) => (
-                    <motion.div
+                    <m.div
                       key={highlight.title}
                       initial={{ opacity: 0, y: 20 }}
                       whileInView={{ opacity: 1, y: 0 }}
@@ -134,7 +134,7 @@ export default function About() {
                         {highlight.title}
                       </h3>
                       <p className="text-muted text-sm">{highlight.description}</p>
-                    </motion.div>
+                    </m.div>
                   ))}
                 </div>
               </AnimatedSection>
@@ -178,7 +178,7 @@ export default function About() {
       <section className="py-20">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <AnimatedSection>
-            <motion.div
+            <m.div
               whileHover={{ scale: 1.02 }}
               className="p-8 bg-gradient-to-r from-primary-accent/10 to-secondary-accent/10 rounded-2xl border border-primary-accent/20"
             >
@@ -195,7 +195,7 @@ export default function About() {
               >
                 Get In Touch
               </a>
-            </motion.div>
+            </m.div>
           </AnimatedSection>
         </div>
       </section>

@@ -1,4 +1,5 @@
-import { motion, AnimatePresence } from "framer-motion";
+import { AnimatePresence } from "framer-motion";
+import * as m from "framer-motion/m";
 import { ReactNode } from "react";
 import { Location } from "react-router-dom";
 
@@ -13,7 +14,7 @@ export default function PageTransition({
 }: PageTransitionProps) {
   return (
     <AnimatePresence mode="wait">
-      <motion.div
+      <m.div
         key={location.pathname}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -21,7 +22,7 @@ export default function PageTransition({
         transition={{ duration: 0.3 }}
       >
         {children}
-      </motion.div>
+      </m.div>
     </AnimatePresence>
   );
 }

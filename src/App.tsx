@@ -1,18 +1,18 @@
 import { lazy, Suspense, useEffect } from "react";
+import { LazyMotion, domAnimation } from "framer-motion";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { Navbar, Footer } from "./components";
 import Home from "./pages/Home";
-import About from "./pages/About";
-import Projects from "./pages/Projects";
-import Contact from "./pages/Contact";
 import PageTransition from "./components/PageTransition";
 import CookieConsentBanner from "./components/CookieConsentBanner";
 import AnalyticsRouteTracker from "./components/AnalyticsRouteTracker";
 import { startAnalytics } from "./lib/analytics";
 
-// Loaded on demand so the homepage does not download blog article data.
-// Eager pages are imported from their modules, not the pages barrel, because
-// that barrel also re-exports these three routes.
+// Keep the homepage eager for the initial visit; load secondary routes only
+// when visitors navigate to them so their dependencies stay out of the entry chunk.
+const About = lazy(() => import("./pages/About"));
+const Projects = lazy(() => import("./pages/Projects"));
+const Contact = lazy(() => import("./pages/Contact"));
 const Blog = lazy(() => import("./pages/Blog"));
 const BlogPost = lazy(() => import("./pages/BlogPost"));
 const ProjectDetail = lazy(() => import("./pages/ProjectDetail"));
@@ -58,13 +58,15 @@ function App() {
 
   return (
     <BrowserRouter>
-      <div className="min-h-screen bg-primary-bg text-white">
-        <Navbar />
-        <AppRoutes />
-        <Footer />
-        <CookieConsentBanner />
-        <AnalyticsRouteTracker />
-      </div>
+      <LazyMotion features={domAnimation}>
+        <div className="min-h-screen bg-primary-bg text-white">
+          <Navbar />
+          <AppRoutes />
+          <Footer />
+          <CookieConsentBanner />
+          <AnalyticsRouteTracker />
+        </div>
+      </LazyMotion>
     </BrowserRouter>
   );
 }

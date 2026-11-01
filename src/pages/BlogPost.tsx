@@ -1,6 +1,6 @@
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useEffect, useMemo, useState } from 'react';
-import { motion } from 'framer-motion';
+import * as m from 'framer-motion/m';
 import { Calendar, Clock, ArrowLeft, ArrowRight, User, CreditCard as Edit3 } from 'lucide-react';
 import { blogPostDetails, getBlogPostDetailsBySlug, getSortedPostDetails, loadBlogContent } from 'virtual:blog-details';
 import { projects } from '../data/projects';
@@ -149,7 +149,7 @@ export default function BlogPost() {
               )}
             </div>
 
-            <motion.div
+            <m.div
               initial={{ opacity: 0, scale: 0.98 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.5 }}
@@ -162,7 +162,7 @@ export default function BlogPost() {
                 className="w-full h-full object-cover"
                 loading="eager"
               />
-            </motion.div>
+            </m.div>
 
             <SocialShare url={`${SITE_URL}/blog/${post.slug}`} title={post.title} />
           </AnimatedSection>

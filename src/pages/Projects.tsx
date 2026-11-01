@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { motion } from 'framer-motion';
+import * as m from 'framer-motion/m';
 import { ListFilter as Filter } from 'lucide-react';
 import { projects, ProjectCategory } from '../data/projects';
 import { images } from '../data/images';
@@ -59,7 +59,7 @@ export default function Projects() {
                 <span className="text-sm font-medium">Filter:</span>
               </div>
               {categories.map((category) => (
-                <motion.button
+                <m.button
                   key={category.value}
                   onClick={() => setActiveCategory(category.value)}
                   whileHover={{ scale: 1.02 }}
@@ -71,19 +71,19 @@ export default function Projects() {
                   }`}
                 >
                   {category.label}
-                </motion.button>
+                </m.button>
               ))}
             </div>
           </AnimatedSection>
 
-          <motion.div
+          <m.div
             layout
             className="grid grid-cols-1 md:grid-cols-2 gap-6"
           >
             {filteredProjects.map((project, index) => (
               <ProjectCard key={project.id} project={project} index={index} />
             ))}
-          </motion.div>
+          </m.div>
 
           {filteredProjects.length === 0 && (
             <div className="text-center py-12">

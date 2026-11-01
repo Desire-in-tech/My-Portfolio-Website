@@ -1,5 +1,5 @@
 import { useState, FormEvent } from 'react';
-import { motion } from 'framer-motion';
+import * as m from 'framer-motion/m';
 import { Mail, Github, Linkedin, Send, ExternalLink, CircleCheck as CheckCircle, CircleAlert as AlertCircle, type LucideIcon } from 'lucide-react';
 import emailjs from '@emailjs/browser';
 import { profile } from '../data/profile';
@@ -94,7 +94,7 @@ export default function Contact() {
                     Contact Information
                   </h2>
                   <div className="space-y-4">
-                    <motion.a
+                    <m.a
                       href={`mailto:${profile.email}`}
                       whileHover={{ scale: 1.02 }}
                       className="flex items-center p-4 bg-card rounded-xl border border-gray-800 hover:border-primary-accent/50 transition-colors"
@@ -106,7 +106,7 @@ export default function Contact() {
                         <p className="text-sm text-muted">Email</p>
                         <p className="text-white">{profile.email}</p>
                       </div>
-                    </motion.a>
+                    </m.a>
                   </div>
                 </div>
 
@@ -119,7 +119,7 @@ export default function Contact() {
                     {socials.map((social) => {
                       const Icon = iconMap[social.icon];
                       return (
-                        <motion.a
+                        <m.a
                           key={social.name}
                           href={social.url}
                           target="_blank"
@@ -129,13 +129,13 @@ export default function Contact() {
                           className="flex items-center justify-center p-4 bg-card rounded-xl border border-gray-800 hover:border-primary-accent/50 hover:bg-secondary-bg transition-all"
                         >
                           <Icon size={24} color="white" />
-                        </motion.a>
+                        </m.a>
                       );
                     })}
                   </div>
                 </div>
 
-                <motion.div
+                <m.div
                   whileHover={{ scale: 1.02 }}
                   className="p-6 bg-gradient-to-r from-primary-accent/10 to-secondary-accent/10 rounded-xl border border-primary-accent/20"
                 >
@@ -143,7 +143,7 @@ export default function Contact() {
                     I typically respond within 24-48 hours. For urgent inquiries,
                     please reach out via email directly.
                   </p>
-                </motion.div>
+                </m.div>
               </div>
             </AnimatedSection>
 
@@ -154,7 +154,7 @@ export default function Contact() {
                 </h2>
 
                 {status === 'success' ? (
-                  <motion.div
+                  <m.div
                     initial={{ opacity: 0, scale: 0.9 }}
                     animate={{ opacity: 1, scale: 1 }}
                     className="text-center py-12"
@@ -168,11 +168,11 @@ export default function Contact() {
                     <p className="text-muted">
                       Thank you for reaching out. I'll get back to you soon.
                     </p>
-                  </motion.div>
+                  </m.div>
                 ) : (
                   <form onSubmit={handleSubmit} className="space-y-6">
                     {status === 'error' && (
-                      <motion.div
+                      <m.div
                         initial={{ opacity: 0, y: -8 }}
                         animate={{ opacity: 1, y: 0 }}
                         className="flex items-center gap-3 p-4 bg-red-500/10 border border-red-500/30 rounded-lg"
@@ -184,7 +184,7 @@ export default function Contact() {
                             {profile.email}
                           </a>
                         </p>
-                      </motion.div>
+                      </m.div>
                     )}
 
                     <div>
@@ -247,7 +247,7 @@ export default function Contact() {
                       />
                     </div>
 
-                    <motion.button
+                    <m.button
                       type="submit"
                       disabled={isSubmitting}
                       whileHover={{ scale: 1.02 }}
@@ -256,7 +256,7 @@ export default function Contact() {
                     >
                       <Send size={18} />
                       <span>{isSubmitting ? 'Sending...' : 'Send Message'}</span>
-                    </motion.button>
+                    </m.button>
                   </form>
                 )}
               </div>

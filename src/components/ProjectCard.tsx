@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion';
+import * as m from 'framer-motion/m';
 import { Github, ExternalLink } from 'lucide-react';
 import { Project } from '../data/projects';
 import CloudinaryImage from './CloudinaryImage';
@@ -10,7 +10,7 @@ interface ProjectCardProps {
 
 export default function ProjectCard({ project, index = 0 }: ProjectCardProps) {
   return (
-    <motion.div
+    <m.div
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
@@ -81,6 +81,6 @@ export default function ProjectCard({ project, index = 0 }: ProjectCardProps) {
           )}
         </div>
       </div>
-    </motion.div>
+    </m.div>
   );
 }
