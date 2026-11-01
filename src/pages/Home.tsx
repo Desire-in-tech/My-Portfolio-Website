@@ -42,7 +42,7 @@ export default function Home() {
               <span className="inline-block px-4 py-2 bg-primary-accent/10 border border-primary-accent/30 rounded-full text-primary-accent text-sm font-medium mb-6">
                 {profile.available ? 'Available for Opportunities' : 'Currently Busy'}
               </span>
-            </motion.div>
+            </m.div>
 
             <m.h1
               initial={{ opacity: 0, y: 30 }}
@@ -51,7 +51,7 @@ export default function Home() {
               className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight"
             >
               {profile.headline}
-            </motion.h1>
+            </m.h1>
 
             <m.p
               initial={{ opacity: 0, y: 30 }}
@@ -60,7 +60,7 @@ export default function Home() {
               className="text-lg sm:text-xl text-muted max-w-3xl mx-auto mb-10"
             >
               {profile.subheadline}
-            </motion.p>
+            </m.p>
 
             <m.div
               initial={{ opacity: 0, y: 30 }}
@@ -84,7 +84,7 @@ export default function Home() {
                 <Download size={18} />
                 <span>Download Resume</span>
               </a>
-            </motion.div>
+            </m.div>
           </div>
         </div>
 
@@ -101,7 +101,7 @@ export default function Home() {
               className="w-1.5 h-1.5 bg-primary-accent rounded-full"
             />
           </div>
-        </motion.div>
+        </m.div>
       </section>
 
       <section className="py-20 bg-secondary-bg/50 border-y border-gray-800">
@@ -124,7 +124,7 @@ export default function Home() {
                     <p className="text-2xl font-bold text-white">{stat.value}</p>
                     <p className="text-muted text-sm">{stat.label}</p>
                   </div>
-                </motion.div>
+                </m.div>
               ))}
             </div>
           </AnimatedSection>
