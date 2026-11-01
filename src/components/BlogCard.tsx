@@ -63,6 +63,6 @@ export default function BlogCard({ post, index = 0 }: BlogCardProps) {
           Read More <ArrowRight size={14} />
         </Link>
       </div>
-    </motion.article>
+    </m.article>
   );
 }
