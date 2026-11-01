@@ -1,2 +1,4 @@
 User-agent: *
 Allow: /
+
+Sitemap: https://desire-djh.pages.dev/sitemap.xml
