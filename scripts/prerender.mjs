@@ -52,15 +52,15 @@ function makeHead(meta) {
     meta.publishedTime ? metaTag('article:published_time', meta.publishedTime, 'property') : '',
     meta.modifiedTime ? metaTag('article:modified_time', meta.modifiedTime, 'property') : '',
     meta.schema ? `<script id="page-schema" type="application/ld+json">${safeJson(meta.schema)}</script>` : '',
-  ].filter(Boolean).join('\\n    ');
+  ].filter(Boolean).join('\n    ');
 
   // Replace only SEO-owned tags. Keep the favicon, viewport, verification,
   // CSS and other application-level head entries from Vite's built template.
-  let head = template.replace(/<title>[\\s\\S]*?<\\/title>/i, '');
-  head = head.replace(/<meta\\s+(?:name|property)="(?:description|keywords|author|robots|og:[^"]+|twitter:[^"]+|article:[^"]+)"[^>]*\\/?>/gi, '');
-  head = head.replace(/<link\\s+rel="canonical"[^>]*\\/?>/gi, '');
-  head = head.replace(/<script\\s+id="page-schema"[\\s\\S]*?<\\/script>/gi, '');
-  return head.replace('</head>', `    ${tags}\\n  </head>`);
+  let head = template.replace(/<title>[\s\S]*?<\/title>/i, '');
+  head = head.replace(/<meta\s+(?:name|property)="(?:description|keywords|author|robots|og:[^"]+|twitter:[^"]+|article:[^"]+)"[^>]*\/?>/gi, '');
+  head = head.replace(/<link\s+rel="canonical"[^>]*\/?>/gi, '');
+  head = head.replace(/<script\s+id="page-schema"[\s\S]*?<\/script>/gi, '');
+  return head.replace('</head>', \`    \${tags}\n  </head>\`);
 }
 
 function homepageSchema() {
@@ -128,7 +128,7 @@ function projectMeta(project) {
 
 function outputPath(route) {
   if (route === '/') return indexPath;
-  return path.join(dist, route.replace(/^\\//, ''), 'index.html');
+  return path.join(dist, route.slice(1), 'index.html');
 }
 
 async function streamToString(stream) {
