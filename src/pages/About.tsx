@@ -82,7 +82,7 @@ export default function About() {
                       <span className="text-sm text-muted">Available</span>
                     </div>
                   </div>
-                </motion.div>
+                </m.div>
               </div>
             </AnimatedSection>
 
@@ -134,7 +134,7 @@ export default function About() {
                         {highlight.title}
                       </h3>
                       <p className="text-muted text-sm">{highlight.description}</p>
-                    </motion.div>
+                    </m.div>
                   ))}
                 </div>
               </AnimatedSection>
@@ -195,7 +195,7 @@ export default function About() {
               >
                 Get In Touch
               </a>
-            </motion.div>
+            </m.div>
           </AnimatedSection>
         </div>
       </section>
