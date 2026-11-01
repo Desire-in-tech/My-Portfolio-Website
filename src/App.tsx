@@ -79,13 +79,12 @@ function AppRoutes() {
   );
 }
 
-function App() {
+export function AppShell() {
   useEffect(() => {
     startAnalytics();
   }, []);
 
   return (
-    <BrowserRouter>
       <MotionConfig reducedMotion="user">
         <LazyMotion features={domAnimation}>
           <div className="min-h-screen bg-primary-bg text-white">
@@ -105,8 +104,13 @@ function App() {
           </div>
         </LazyMotion>
       </MotionConfig>
-    </BrowserRouter>
   );
 }
 
-export default App;
+export default function App() {
+  return (
+    <BrowserRouter>
+      <AppShell />
+    </BrowserRouter>
+  );
+}
