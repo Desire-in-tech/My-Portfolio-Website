@@ -162,7 +162,7 @@ export default function BlogPost() {
                 className="w-full h-full object-cover"
                 loading="eager"
               />
-            </motion.div>
+            </m.div>
 
             <SocialShare url={`${SITE_URL}/blog/${post.slug}`} title={post.title} />
           </AnimatedSection>
