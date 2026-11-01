@@ -137,6 +137,12 @@ markdown.renderer.rules.table_open = (tokens, index, options, _env, self) => {
 markdown.renderer.rules.table_close = () => '</table>\n</div>\n';
 
 function sanitizeHtml(html: string): string {
+  // MarkdownIt is configured with html:false and its default URL validator,
+  // while highlight.js escapes code. Those constraints keep server-rendered
+  // article markup safe without a browser DOM. DOMPurify provides the final
+  // browser-side sanitization once window/document are available.
+  if (typeof window === 'undefined') return html;
+
   return DOMPurify.sanitize(html, {
     USE_PROFILES: { html: true },
     ALLOW_DATA_ATTR: false,
