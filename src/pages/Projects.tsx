@@ -71,7 +71,7 @@ export default function Projects() {
                   }`}
                 >
                   {category.label}
-                </motion.button>
+                </m.button>
               ))}
             </div>
           </AnimatedSection>
@@ -83,7 +83,7 @@ export default function Projects() {
             {filteredProjects.map((project, index) => (
               <ProjectCard key={project.id} project={project} index={index} />
             ))}
-          </motion.div>
+          </m.div>
 
           {filteredProjects.length === 0 && (
             <div className="text-center py-12">
