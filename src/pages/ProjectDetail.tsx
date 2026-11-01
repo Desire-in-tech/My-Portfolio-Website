@@ -72,7 +72,7 @@ export default function ProjectDetail() {
               <ArrowLeft size={16} /> Back to Projects
             </Link>
 
-            <div className="flex items-center gap-3 mb-4 text-sm text-muted">
+            <div className="flex flex-wrap items-center gap-3 mb-4 text-sm text-muted">
               <span className="px-2 py-1 bg-primary-accent/10 text-primary-accent rounded font-medium">
                 {project.category}
               </span>
@@ -87,17 +87,17 @@ export default function ProjectDetail() {
               </span>
             </div>
 
-            <h1 className="text-3xl sm:text-4xl font-bold text-white mb-4 leading-tight">
+            <h1 className="text-3xl sm:text-4xl font-bold text-white mb-4 leading-tight break-words">
               {project.title}
             </h1>
             <p className="text-muted text-lg mb-8">{project.description}</p>
 
-            <div className="flex items-center gap-3">
+            <div className="flex flex-wrap items-center gap-3">
               <a
                 href={project.github}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-2 px-5 py-3 bg-secondary-bg text-white rounded-lg hover:bg-gray-700 transition-colors"
+                className="inline-flex items-center gap-2 px-5 py-3 bg-secondary-bg text-white rounded-lg hover:bg-gray-700 transition-colors"
               >
                 <Github size={18} /> View Code
               </a>
@@ -106,7 +106,7 @@ export default function ProjectDetail() {
                   href={project.demo}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-2 px-5 py-3 bg-primary-accent text-primary-bg rounded-lg hover:bg-primary-accent/90 transition-colors"
+                  className="inline-flex items-center gap-2 px-5 py-3 bg-primary-accent text-primary-bg rounded-lg hover:bg-primary-accent/90 transition-colors"
                 >
                   <ExternalLink size={18} /> Live Demo
                 </a>
@@ -205,7 +205,7 @@ export default function ProjectDetail() {
               className="prose prose-invert max-w-none blog-content"
               dangerouslySetInnerHTML={{ __html: contentHtml }}
             />
-            <aside className="hidden lg:block">
+            <aside className="order-first self-start lg:order-none lg:sticky lg:top-24">
               <TableOfContents headings={headings} />
             </aside>
           </div>
