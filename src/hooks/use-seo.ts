@@ -1,5 +1,7 @@
 import { useEffect } from 'react';
 
+const DEFAULT_SOCIAL_IMAGE = 'https://res.cloudinary.com/f7ko7ayw/image/upload/v1793539435/Socials_image_vkrgiz.png';
+
 export interface SeoMeta {
   title: string;
   description: string;
@@ -55,10 +57,9 @@ export function useSeo(meta: SeoMeta) {
     setTag('name', 'twitter:card', 'summary_large_image');
     setTag('name', 'twitter:title', meta.title);
     setTag('name', 'twitter:description', meta.description);
-    if (meta.image) {
-      setTag('property', 'og:image', meta.image);
-      setTag('name', 'twitter:image', meta.image);
-    }
+    const socialImage = meta.image ?? DEFAULT_SOCIAL_IMAGE;
+    setTag('property', 'og:image', socialImage);
+    setTag('name', 'twitter:image', socialImage);
     if (meta.canonical) {
       setLink('canonical', meta.canonical);
       setTag('property', 'og:url', meta.canonical);
