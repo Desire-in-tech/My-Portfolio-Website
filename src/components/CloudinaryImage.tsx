@@ -6,6 +6,7 @@ interface CloudinaryImageProps {
   className?: string;
   loading?: 'lazy' | 'eager';
   fetchPriority?: 'high' | 'low' | 'auto';
+  sizes?: string;
   /** Aspect ratio class, e.g. 'aspect-video'. When set, a placeholder skeleton shows until loaded. */
   aspectClass?: string;
 }
@@ -27,6 +28,7 @@ export default function CloudinaryImage({
   className = '',
   loading = 'lazy',
   fetchPriority = 'auto',
+  sizes,
   aspectClass,
 }: CloudinaryImageProps) {
   const [currentSrc, setCurrentSrc] = useState(src);
@@ -56,6 +58,7 @@ export default function CloudinaryImage({
       alt={alt}
       loading={loading}
       fetchPriority={fetchPriority}
+      sizes={sizes}
       onError={handleError}
       onLoad={() => setLoaded(true)}
       className={`${className} ${loaded ? 'opacity-100' : 'opacity-0'} transition-opacity duration-300`}
