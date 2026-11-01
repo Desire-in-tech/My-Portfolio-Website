@@ -6,7 +6,6 @@ interface CloudinaryImageProps {
   className?: string;
   loading?: 'lazy' | 'eager';
   fetchPriority?: 'high' | 'low' | 'auto';
-  sizes?: string;
   /** Aspect ratio class, e.g. 'aspect-video'. When set, a placeholder skeleton shows until loaded. */
   aspectClass?: string;
 }
@@ -22,36 +21,12 @@ const FALLBACK =
     </svg>`
   );
 
-function getResponsiveSrcSet(src: string): string | undefined {
-  const uploadMarker = '/image/upload/';
-  const markerIndex = src.indexOf(uploadMarker);
-
-  if (
-    markerIndex < 0 ||
-    !src.startsWith('https://res.cloudinary.com/') ||
-    /\.svg(?:$|[?#])/i.test(src)
-  ) {
-    return undefined;
-  }
-
-  const assetPath = src.slice(markerIndex + uploadMarker.length);
-  // Only transform the simple versioned URLs used by this site's image data.
-  // Leave pre-transformed or otherwise unusual Cloudinary URLs untouched.
-  if (!/^v\d+\//.test(assetPath)) return undefined;
-
-  const baseUrl = src.slice(0, markerIndex + uploadMarker.length);
-  return [480, 768, 1200, 1600]
-    .map((width) => `${baseUrl}f_auto,q_auto,c_limit,w_${width}/${assetPath} ${width}w`)
-    .join(', ');
-}
-
 export default function CloudinaryImage({
   src,
   alt,
   className = '',
   loading = 'lazy',
   fetchPriority = 'auto',
-  sizes = '100vw',
   aspectClass,
 }: CloudinaryImageProps) {
   const [currentSrc, setCurrentSrc] = useState(src);
@@ -78,8 +53,6 @@ export default function CloudinaryImage({
   const img = (
     <img
       src={currentSrc}
-      srcSet={!failed ? getResponsiveSrcSet(src) : undefined}
-      sizes={sizes}
       alt={alt}
       loading={loading}
       fetchPriority={fetchPriority}
