@@ -12,12 +12,16 @@ const buttonClass =
 
 export default function CookieConsentBanner() {
   const titleId = useId();
-  const [visible, setVisible] = useState(() => getConsent() === null);
-  const [savedChoice, setSavedChoice] = useState<AnalyticsConsent | null>(
-    () => getConsent()?.analytics ?? null
-  );
+  // Start from deterministic server/client state. Read browser storage only
+  // after hydration to avoid a mismatch for visitors with a saved choice.
+  const [visible, setVisible] = useState(false);
+  const [savedChoice, setSavedChoice] = useState<AnalyticsConsent | null>(null);
 
   useEffect(() => {
+    const consent = getConsent();
+    setSavedChoice(consent?.analytics ?? null);
+    setVisible(consent === null);
+
     const open = () => {
       setSavedChoice(getConsent()?.analytics ?? null);
       setVisible(true);
