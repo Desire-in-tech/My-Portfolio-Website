@@ -95,7 +95,7 @@ export default function Navbar() {
                             {p.title}
                           </Link>
                         ))}
-                      </motion.div>
+                      </m.div>
                     )}
                   </AnimatePresence>
                 </div>
@@ -195,7 +195,7 @@ export default function Navbar() {
                   <span className="font-medium">Resume</span>
                 </a>
               </div>
-            </motion.div>
+            </m.div>
           )}
         </AnimatePresence>
       </nav>
