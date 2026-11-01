@@ -1,3 +1,4 @@
+import { useId } from 'react';
 import { Search } from 'lucide-react';
 
 interface BlogSearchProps {
@@ -6,10 +7,14 @@ interface BlogSearchProps {
 }
 
 export default function BlogSearch({ value, onChange }: BlogSearchProps) {
+  const inputId = useId();
+
   return (
     <div className="relative w-full max-w-md">
-      <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-muted" />
+      <label htmlFor={inputId} className="sr-only">Search articles</label>
+      <Search aria-hidden="true" size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-muted" />
       <input
+        id={inputId}
         type="search"
         value={value}
         onChange={(e) => onChange(e.target.value)}

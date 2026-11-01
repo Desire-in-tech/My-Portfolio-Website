@@ -35,7 +35,7 @@ export default function RelatedProjects({ projects }: RelatedProjectsProps) {
                   className={`px-2 py-1 text-xs font-medium rounded ${
                     project.status === 'Deployed'
                       ? 'bg-green-500/10 text-green-400'
-                      : 'bg-secondary-accent/10 text-secondary-accent'
+                      : 'bg-secondary-accent/10 text-violet-300'
                   }`}
                 >
                   {project.status}

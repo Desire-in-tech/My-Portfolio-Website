@@ -5,6 +5,11 @@
 @tailwind utilities;
 
 @layer base {
+  :focus-visible {
+    outline: 2px solid #00E5FF;
+    outline-offset: 3px;
+  }
+
   html {
     scroll-behavior: smooth;
     scroll-padding-top: 6rem;
@@ -214,5 +219,22 @@
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
+  }
+}
+
+
+/* Respect operating-system motion preferences and retain usable anchor navigation. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }

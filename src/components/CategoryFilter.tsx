@@ -8,10 +8,12 @@ interface CategoryFilterProps {
 
 export default function CategoryFilter({ categories, active, onChange }: CategoryFilterProps) {
   return (
-    <div className="flex items-center flex-wrap gap-3">
+    <div role="group" aria-label="Filter articles by category" className="flex items-center flex-wrap gap-3">
       {['All', ...categories].map((cat) => (
         <m.button
           key={cat}
+          type="button"
+          aria-pressed={active === cat}
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
           onClick={() => onChange(cat)}

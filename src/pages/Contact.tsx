@@ -122,13 +122,14 @@ export default function Contact() {
                         <m.a
                           key={social.name}
                           href={social.url}
+                          aria-label={social.name}
                           target="_blank"
                           rel="noopener noreferrer"
                           whileHover={{ scale: 1.05 }}
                           whileTap={{ scale: 0.95 }}
                           className="flex items-center justify-center p-4 bg-card rounded-xl border border-gray-800 hover:border-primary-accent/50 hover:bg-secondary-bg transition-all"
                         >
-                          <Icon size={24} color="white" />
+                          <Icon aria-hidden="true" size={24} color="white" />
                         </m.a>
                       );
                     })}
@@ -157,6 +158,9 @@ export default function Contact() {
                   <m.div
                     initial={{ opacity: 0, scale: 0.9 }}
                     animate={{ opacity: 1, scale: 1 }}
+                    role="status"
+                    aria-live="polite"
+                    aria-atomic="true"
                     className="text-center py-12"
                   >
                     <div className="w-16 h-16 bg-green-500/10 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -175,6 +179,8 @@ export default function Contact() {
                       <m.div
                         initial={{ opacity: 0, y: -8 }}
                         animate={{ opacity: 1, y: 0 }}
+                        role="alert"
+                        aria-atomic="true"
                         className="flex items-center gap-3 p-4 bg-red-500/10 border border-red-500/30 rounded-lg"
                       >
                         <AlertCircle size={18} className="text-red-400 shrink-0" />
