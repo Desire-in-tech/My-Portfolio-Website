@@ -118,7 +118,8 @@
   }
 
   .blog-content pre code {
-    @apply block bg-transparent p-0 text-sm text-slate-200 rounded-none;
+    @apply block bg-transparent p-0 text-sm rounded-none;
+    color: #e2e8f0;
   }
 
   .blog-content pre code.hljs {
