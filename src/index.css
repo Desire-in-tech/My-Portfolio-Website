@@ -249,7 +249,15 @@
 }
 
 .bg-card {
-  color: #ffffff;
+  color: #000000;
+}
+
+.bg-card.text-white {
+  color: #000000 !important;
+}
+
+.bg-card::placeholder {
+  color: #000000 !important;
 }
 
 .bg-card .text-white,
@@ -263,12 +271,24 @@
 .bg-card .text-gray-300,
 .bg-card .text-gray-400,
 .bg-card .text-primary-accent {
-  color: #ffffff !important;
+  color: #000000 !important;
 }
 
 .bg-primary-accent,
 .bg-secondary-accent {
   background-color: #8c52ff !important;
+  color: #000000 !important;
+}
+
+a.bg-secondary-bg.text-white,
+button.bg-secondary-bg.text-white {
+  background-color: #8c52ff !important;
+  color: #000000 !important;
+}
+
+a.bg-secondary-bg.text-white:hover,
+button.bg-secondary-bg.text-white:hover {
+  background-color: #7138e8 !important;
   color: #ffffff !important;
 }
 
@@ -276,7 +296,7 @@
 .bg-secondary-accent.text-primary-bg,
 .bg-primary-accent .text-white,
 .bg-secondary-accent .text-white {
-  color: #ffffff !important;
+  color: #000000 !important;
 }
 
 .border-gray-800,
