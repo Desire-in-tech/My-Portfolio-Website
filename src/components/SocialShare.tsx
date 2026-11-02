@@ -1,5 +1,13 @@
 import { useState } from 'react';
-import { Twitter, Linkedin, Facebook, Link as LinkIcon } from 'lucide-react';
+import { Linkedin, Facebook, Link as LinkIcon } from 'lucide-react';
+
+function XLogo() {
+  return (
+    <svg aria-hidden="true" viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24h-6.657l-5.214-6.817-5.963 6.817H1.685l7.73-8.835L1.26 2.25h6.826l4.713 6.231zm-1.16 17.52h1.833L7.293 4.126H5.326z" />
+    </svg>
+  );
+}
 
 interface SocialShareProps {
   url: string;
@@ -12,7 +20,7 @@ export default function SocialShare({ url, title }: SocialShareProps) {
   const encodedTitle = encodeURIComponent(title);
 
   const links = [
-    { name: 'Twitter', icon: Twitter, href: `https://twitter.com/intent/tweet?url=${encoded}&text=${encodedTitle}` },
+    { name: 'X', icon: XLogo, href: `https://x.com/intent/post?url=${encoded}&text=${encodedTitle}` },
     { name: 'LinkedIn', icon: Linkedin, href: `https://www.linkedin.com/sharing/share-offsite/?url=${encoded}` },
     { name: 'Facebook', icon: Facebook, href: `https://www.facebook.com/sharer/sharer.php?u=${encoded}` },
   ];
