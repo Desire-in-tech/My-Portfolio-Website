@@ -4,8 +4,6 @@ import { AnimatePresence } from 'framer-motion';
 import * as m from 'framer-motion/m';
 import { Menu, X, Download, ChevronDown } from 'lucide-react';
 import { projects } from '../data/projects';
-import { images } from '../data/images';
-import CloudinaryImage from './CloudinaryImage';
 
 const navLinks = [
   { name: 'Home', path: '/' },
@@ -45,7 +43,6 @@ export default function Navbar() {
       <nav aria-label="Main navigation" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 md:h-20">
           <Link to="/" aria-label="Desire home" className="flex items-center space-x-2">
-            <CloudinaryImage src={images.logo} alt="" className="h-8 w-8 rounded-lg" loading="eager" />
             <span className="text-xl font-bold text-white">
               Desire<span className="text-primary-accent">.</span>
             </span>

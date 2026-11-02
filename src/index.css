@@ -3,6 +3,11 @@
 @tailwind utilities;
 
 @layer base {
+  p,
+  li {
+    text-align: justify;
+  }
+
   :focus-visible {
     outline: 2px solid #00E5FF;
     outline-offset: 3px;
@@ -47,6 +52,7 @@
 @layer components {
   .blog-content {
     color: #CBD5E1;
+    text-align: justify;
     overflow-wrap: anywhere;
   }
 
