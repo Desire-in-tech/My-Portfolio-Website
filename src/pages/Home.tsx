@@ -155,7 +155,7 @@ export default function Home() {
                 key={project.id}
                 project={project}
                 index={index}
-                sizes="(max-width: 767px) 100vw, (max-width: 1023px) 50vw, (max-width: 1279px) 33vw, 400px"
+                sizes="(max-width: 767px) calc(100vw - 32px), (max-width: 1023px) calc((100vw - 72px) / 2), (max-width: 1279px) calc((100vw - 112px) / 3), 390px"
               />
             ))}
           </div>
