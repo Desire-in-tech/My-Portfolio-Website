@@ -22,6 +22,10 @@ export default function Home() {
   });
 
   const featuredProjects = getFeaturedProjects();
+  const optimizedHomeBackground = images.homePage.replace(
+    '/image/upload/',
+    '/image/upload/f_auto,q_auto,w_1600/'
+  );
 
   return (
     <div className="min-h-screen bg-primary-bg">
@@ -30,7 +34,7 @@ export default function Home() {
           <div className="absolute inset-0 bg-gradient-to-br from-primary-bg via-primary-bg to-secondary-bg" />
           <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary-accent/5 rounded-full blur-3xl" />
           <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-secondary-accent/5 rounded-full blur-3xl" />
-          <div className="absolute inset-0 bg-cover bg-center opacity-10" style={{ backgroundImage: `url(${images.homePage})` }} />
+          <div className="absolute inset-0 bg-cover bg-center opacity-10" style={{ backgroundImage: `url(${optimizedHomeBackground})` }} />
         </div>
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32">
@@ -147,7 +151,12 @@ export default function Home() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
             {featuredProjects.map((project, index) => (
-              <ProjectCard key={project.id} project={project} index={index} />
+              <ProjectCard
+                key={project.id}
+                project={project}
+                index={index}
+                sizes="(max-width: 767px) calc(100vw - 32px), (max-width: 1023px) calc((100vw - 72px) / 2), (max-width: 1279px) calc((100vw - 112px) / 3), 390px"
+              />
             ))}
           </div>
 
