@@ -3,6 +3,7 @@ import { useMemo } from 'react';
 import * as m from 'framer-motion/m';
 import { ArrowLeft, Github, ExternalLink, CircleCheck as CheckCircle, Layers } from 'lucide-react';
 import { getProjectBySlug, projects } from '../data/projects';
+import { projectContent } from '../data/projectContent';
 import { blogPostDetails } from 'virtual:blog-details';
 import { AnimatedSection, RelatedArticles, TableOfContents, Breadcrumbs, CloudinaryImage } from '../components';
 import { useSeo } from '../hooks/use-seo';
@@ -19,13 +20,14 @@ export default function ProjectDetail() {
     return getRelatedArticlesForProject(project, blogPostDetails);
   }, [project]);
 
+  const content = project ? projectContent[project.slug] : undefined;
   const headings = useMemo(
-    () => (project?.content ? extractHeadings(project.content) : []),
-    [project]
+    () => (content ? extractHeadings(content) : []),
+    [content]
   );
   const contentHtml = useMemo(
-    () => (project?.content ? renderMarkdown(project.content) : ''),
-    [project]
+    () => (content ? renderMarkdown(content) : ''),
+    [content]
   );
 
   useSeo({
@@ -198,7 +200,7 @@ export default function ProjectDetail() {
         </div>
       </section>
 
-      {project.content && (
+      {content && (
         <section className="py-12 border-t border-gray-800">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-[1fr_220px] gap-12">
             <div
