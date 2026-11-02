@@ -3,8 +3,13 @@
 @tailwind utilities;
 
 @layer base {
+  p,
+  li {
+    text-align: justify;
+  }
+
   :focus-visible {
-    outline: 2px solid #c0a6f4;
+    outline: 2px solid #00E5FF;
     outline-offset: 3px;
   }
 
@@ -15,21 +20,15 @@
 
   body {
     font-family: 'Inter', system-ui, sans-serif;
-    background-color: #5ce1e6;
-    color: #000000;
+    background-color: #0B1120;
+    color: #FFFFFF;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
 
-  p,
-  li {
-    text-align: justify;
-    text-align-last: left;
-  }
-
   ::selection {
-    background-color: rgba(192, 166, 244, 0.28);
-    color: #000000;
+    background-color: rgba(0, 229, 255, 0.3);
+    color: #FFFFFF;
   }
 
   ::-webkit-scrollbar {
@@ -37,22 +36,22 @@
   }
 
   ::-webkit-scrollbar-track {
-    background: #ffffff;
+    background: #111827;
   }
 
   ::-webkit-scrollbar-thumb {
-    background: #c0a6f4;
+    background: #374151;
     border-radius: 4px;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    background: #c0a6f4;
+    background: #4B5563;
   }
 }
 
 @layer components {
   .blog-content {
-    color: #000000;
+    color: #CBD5E1;
     text-align: justify;
     overflow-wrap: anywhere;
   }
@@ -61,8 +60,7 @@
   .blog-content h2,
   .blog-content h3,
   .blog-content h4 {
-    color: #000000;
-    text-align: left;
+    color: #FFFFFF;
     scroll-margin-top: 6rem;
   }
 
@@ -100,11 +98,11 @@
   }
 
   .blog-content strong {
-    @apply text-black font-semibold;
+    @apply text-white font-semibold;
   }
 
   .blog-content em {
-    @apply text-black;
+    @apply text-slate-200;
   }
 
   .blog-content code {
@@ -112,14 +110,12 @@
   }
 
   .blog-content pre {
-    @apply my-7 overflow-x-auto rounded-xl border bg-[#0d1117] p-4 text-sm leading-6;
-    border-color: #374151;
+    @apply my-7 overflow-x-auto rounded-xl border border-slate-700 bg-[#0d1117] p-4 text-sm leading-6;
     tab-size: 2;
   }
 
   .blog-content pre code {
-    @apply block bg-transparent p-0 text-sm rounded-none;
-    color: #e2e8f0;
+    @apply block bg-transparent p-0 text-sm text-slate-200 rounded-none;
   }
 
   .blog-content pre code.hljs {
@@ -128,7 +124,7 @@
   }
 
   .blog-content blockquote {
-    @apply my-6 border-l-4 border-primary-accent/60 bg-secondary-bg/60 px-5 py-3 text-black rounded-r-lg;
+    @apply my-6 border-l-4 border-primary-accent/60 bg-secondary-bg/60 px-5 py-3 text-slate-300 rounded-r-lg;
   }
 
   .blog-content blockquote p:last-child {
@@ -141,7 +137,6 @@
 
   .blog-content a {
     @apply text-primary-accent underline underline-offset-4 hover:no-underline;
-    font-weight: 600;
   }
 
   .blog-content .blog-image {
@@ -149,13 +144,11 @@
   }
 
   .blog-content .blog-image img {
-    @apply w-full rounded-xl border shadow-lg;
-    border-color: rgba(0, 0, 0, 0.2);
+    @apply w-full rounded-xl border border-slate-700 shadow-lg;
   }
 
   .blog-content .blog-image figcaption {
     @apply mt-3 text-sm text-muted text-center italic;
-    text-align: center;
   }
 
   .blog-content table {
@@ -163,8 +156,7 @@
   }
 
   .blog-content .blog-table-wrapper {
-    @apply my-6 w-full overflow-x-auto overscroll-x-contain rounded-lg border;
-    border-color: rgba(0, 0, 0, 0.2);
+    @apply my-6 w-full overflow-x-auto overscroll-x-contain rounded-lg border border-slate-700;
     -webkit-overflow-scrolling: touch;
   }
 
@@ -179,13 +171,11 @@
 
   .blog-content th,
   .blog-content td {
-    @apply border px-4 py-3 text-left align-top;
-    border-color: rgba(0, 0, 0, 0.2);
-    text-align: left;
+    @apply border border-slate-700 px-4 py-3 text-left align-top;
   }
 
   .blog-content th {
-    @apply bg-secondary-bg text-black font-semibold;
+    @apply bg-secondary-bg text-white font-semibold;
   }
 
   .blog-content tr:nth-child(even) td {
@@ -234,85 +224,6 @@
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
-}
-
-/*
- * Compatibility styling for existing components that use Tailwind's literal
- * dark-theme utility classes. Keep the component architecture unchanged while
- * applying the new palette consistently across every route.
- */
-.text-white,
-.text-slate-100,
-.text-slate-200,
-.text-slate-300,
-.text-slate-400,
-.text-gray-100,
-.text-gray-200,
-.text-gray-300,
-.text-gray-400 {
-  color: #000000 !important;
-}
-
-.bg-card {
-  color: #000000;
-}
-
-.bg-card.text-white {
-  color: #000000 !important;
-}
-
-.bg-card::placeholder {
-  color: #000000 !important;
-}
-
-.bg-card .text-white,
-.bg-card .text-muted,
-.bg-card .text-slate-100,
-.bg-card .text-slate-200,
-.bg-card .text-slate-300,
-.bg-card .text-slate-400,
-.bg-card .text-gray-100,
-.bg-card .text-gray-200,
-.bg-card .text-gray-300,
-.bg-card .text-gray-400,
-.bg-card .text-primary-accent {
-  color: #000000 !important;
-}
-
-.bg-primary-accent,
-.bg-secondary-accent {
-  background-color: #c0a6f4 !important;
-  color: #000000 !important;
-}
-
-a.bg-secondary-bg.text-white,
-button.bg-secondary-bg.text-white {
-  background-color: #c0a6f4 !important;
-  color: #000000 !important;
-}
-
-a.bg-secondary-bg.text-white:hover,
-button.bg-secondary-bg.text-white:hover {
-  background-color: #c0a6f4 !important;
-  color: #ffffff !important;
-}
-
-.bg-primary-accent.text-primary-bg,
-.bg-secondary-accent.text-primary-bg,
-.bg-primary-accent .text-white,
-.bg-secondary-accent .text-white {
-  color: #000000 !important;
-}
-
-[class~="border-gray-800"],
-[class~="border-gray-700"],
-[class~="border-slate-700"],
-[class~="ring-gray-800"] {
-  border-color: rgba(0, 0, 0, 0.2) !important;
-}
-
-.blog-content pre .text-slate-200 {
-  color: #e2e8f0 !important;
 }
 
 /* Respect operating-system motion preferences and retain usable anchor navigation. */
