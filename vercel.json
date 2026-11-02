@@ -29,16 +29,6 @@
       "source": "/blog/architecture-with-SQL-Alchemy",
       "destination": "/blog/architecture-with-sql-alchemy",
       "permanent": true
-    },
-    {
-      "source": "/",
-      "destination": "https://desire-djh.pages.dev/",
-      "permanent": true
-    },
-    {
-      "source": "/:path*",
-      "destination": "https://desire-djh.pages.dev/:path*",
-      "permanent": true
     }
   ],
   "rewrites": [
