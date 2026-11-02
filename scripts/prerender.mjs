@@ -26,7 +26,7 @@ function metaTag(name, content, attribute = 'name') {
   return content ? `<meta ${attribute}="${escapeHtml(name)}" content="${escapeHtml(content)}" />` : '';
 }
 
-function makeHead(meta) {
+function makeHead(meta, createBreadcrumbSchema) {
   const canonical = meta.canonical ?? `${siteUrl}${meta.path === '/' ? '/' : meta.path}`;
   const image = meta.image ?? socialImage;
   const tags = [
@@ -52,6 +52,7 @@ function makeHead(meta) {
     meta.publishedTime ? metaTag('article:published_time', meta.publishedTime, 'property') : '',
     meta.modifiedTime ? metaTag('article:modified_time', meta.modifiedTime, 'property') : '',
     meta.schema ? `<script id="page-schema" type="application/ld+json">${safeJson(meta.schema)}</script>` : '',
+    meta.breadcrumbs?.length ? `<script id="breadcrumb-schema" type="application/ld+json">${safeJson(createBreadcrumbSchema(meta.breadcrumbs))}</script>` : '',
   ].filter(Boolean).join('\n    ');
 
   // Replace only SEO-owned tags. Keep the favicon, viewport, verification,
@@ -60,6 +61,7 @@ function makeHead(meta) {
   head = head.replace(/<meta\s+(?:name|property)="(?:description|keywords|author|robots|og:[^"]+|twitter:[^"]+|article:[^"]+)"[^>]*\/?>/gi, '');
   head = head.replace(/<link\s+rel="canonical"[^>]*\/?>/gi, '');
   head = head.replace(/<script\s+id="page-schema"[\s\S]*?<\/script>/gi, '');
+  head = head.replace(/<script\s+id="breadcrumb-schema"[\s\S]*?<\/script>/gi, '');
   return head.replace('</head>', '    ' + tags + '\n  </head>');
 }
 
@@ -80,8 +82,8 @@ const staticPages = [
   { path: '/projects', title: 'Projects | Desire Eyotaru', description: 'A showcase of my work in machine learning, backend development, and full-stack applications' },
   { path: '/blog', title: 'Blog | Desire Eyotaru', description: 'Technical articles on machine learning, backend development, and data-driven solutions by Desire Eyotaru.' },
   { path: '/contact', title: 'Contact | Desire Eyotaru', description: "Have a project in mind or want to discuss opportunities? I'd love to hear from you." },
-  { path: '/privacy-policy', title: 'Privacy Policy | Desire E', description: 'How this website handles browser consent storage, hosting, fonts, images, and the contact form. General information, not legal advice.', canonical: `${siteUrl}/privacy-policy` },
-  { path: '/cookies-policy', title: 'Cookies Policy | Desire E', description: 'What this website stores in your browser, how to change the analytics choice, and which font and image requests load for every visitor.', canonical: `${siteUrl}/cookies-policy` },
+  { path: '/privacy-policy', title: 'Privacy Policy | Desire E', description: 'How this website handles browser consent storage, hosting, fonts, images, and the contact form. General information, not legal advice.', canonical: `${siteUrl}/privacy-policy`, breadcrumbs: [{ label: 'Home', path: '/' }, { label: 'Privacy Policy' }] },
+  { path: '/cookies-policy', title: 'Cookies Policy | Desire E', description: 'What this website stores in your browser, how to change the analytics choice, and which font and image requests load for every visitor.', canonical: `${siteUrl}/cookies-policy`, breadcrumbs: [{ label: 'Home', path: '/' }, { label: 'Cookies Policy' }] },
 ];
 
 function blogMeta(post) {
@@ -95,6 +97,7 @@ function blogMeta(post) {
     image: post.featuredImage,
     imageAlt: post.imageAlt,
     type: 'article',
+    breadcrumbs: [{ label: 'Home', path: '/' }, { label: 'Blog', path: '/blog' }, { label: post.title }],
     publishedTime: post.publishDate,
     modifiedTime: post.updatedDate || post.publishDate,
     author: post.author || author,
@@ -113,7 +116,7 @@ function blogMeta(post) {
   };
 }
 
-function projectMeta(project) {
+function projectMeta(project, createProjectSchema) {
   const canonical = `${siteUrl}/projects/${project.slug}`;
   return {
     path: `/projects/${project.slug}`,
@@ -122,7 +125,9 @@ function projectMeta(project) {
     description: project.description,
     image: project.image,
     imageAlt: project.title,
-    type: 'article',
+    type: 'website',
+    breadcrumbs: [{ label: 'Home', path: '/' }, { label: 'Projects', path: '/projects' }, { label: project.title }],
+    schema: createProjectSchema(project),
   };
 }
 
@@ -145,15 +150,16 @@ const vite = await createServer({
 });
 
 try {
-  const [{ default: StaticApp }, { blogPosts }, { projects }] = await Promise.all([
+  const [{ default: StaticApp }, { blogPosts }, { projects }, { createProjectSchema, createBreadcrumbSchema }] = await Promise.all([
     vite.ssrLoadModule('/src/StaticApp.tsx'),
     vite.ssrLoadModule('/src/data/blogPosts.ts'),
     vite.ssrLoadModule('/src/data/projects.ts'),
+    vite.ssrLoadModule('/src/lib/structured-data.ts'),
   ]);
 
   const routes = [
     ...staticPages,
-    ...projects.map(projectMeta),
+    ...projects.map((project) => projectMeta(project, createProjectSchema)),
     ...blogPosts.map(blogMeta),
   ];
   const seen = new Set();
@@ -172,14 +178,20 @@ try {
     if (!markup.trim()) throw new Error(`Empty rendered markup for ${route.path}`);
     if (markup.includes('Loading article...')) throw new Error(`Article content did not finish loading for ${route.path}`);
 
-    const html = makeHead(route).replace(
+    const html = makeHead(route, createBreadcrumbSchema).replace(
       '<div id="root"></div>',
       `<div id="root">${markup}</div>`,
     );
-    if (html === makeHead(route)) throw new Error(`Could not inject rendered markup for ${route.path}`);
+    if (html === makeHead(route, createBreadcrumbSchema)) throw new Error(`Could not inject rendered markup for ${route.path}`);
     if (!html.includes(`<title>${escapeHtml(route.title)}</title>`)) throw new Error(`Missing title for ${route.path}`);
     if (!html.includes(`href="${escapeHtml(route.canonical ?? `${siteUrl}${route.path === '/' ? '/' : route.path}`)}"`)) {
       throw new Error(`Missing canonical URL for ${route.path}`);
+    }
+    if (route.breadcrumbs?.length && !html.includes('id="breadcrumb-schema"')) {
+      throw new Error(`Missing prerendered breadcrumb structured data for ${route.path}`);
+    }
+    if (route.path.startsWith('/projects/') && !html.includes('"@type":"SoftwareSourceCode"')) {
+      throw new Error(`Missing project structured data for ${route.path}`);
     }
     if (route.path.startsWith('/blog/') && !markup.includes('blog-content')) {
       throw new Error(`Blog body missing from generated HTML for ${route.path}`);

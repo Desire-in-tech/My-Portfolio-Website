@@ -10,6 +10,7 @@ import { useSeo } from '../hooks/use-seo';
 import { extractHeadings, renderMarkdown } from '../lib/blog';
 import { getRelatedArticlesForProject } from '../lib/related';
 import { SITE_URL } from '../lib/site';
+import { createProjectSchema } from '../lib/structured-data';
 
 const projectContentPromises = new Map<string, Promise<string>>();
 const EMPTY_CONTENT_PROMISE = Promise.resolve('');
@@ -49,7 +50,8 @@ export default function ProjectDetail() {
     title: project ? `${project.title} | Desire Eyotaru` : 'Project | Desire Eyotaru',
     description: project?.description ?? '',
     image: project?.image,
-    type: 'article',
+    type: 'website',
+    articleSchema: project ? createProjectSchema(project) : undefined,
     canonical: project ? `${SITE_URL}/projects/${project.slug}` : undefined,
     noindex: !project,
   });

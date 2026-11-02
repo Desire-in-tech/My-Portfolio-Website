@@ -3,7 +3,15 @@ import { projects } from '../data/projects';
 import { SITE_URL } from './site';
 
 export function generateSitemap(): string {
-  const staticPages = ['/', '/about', '/projects', '/blog', '/contact'];
+  const staticPages = [
+    '/',
+    '/about',
+    '/projects',
+    '/blog',
+    '/contact',
+    '/privacy-policy',
+    '/cookies-policy',
+  ];
 
   const projectPages = projects.map((project) => `/projects/${project.slug}`);
   const postPages = blogPosts.map((post) => `/blog/${post.slug}`);
