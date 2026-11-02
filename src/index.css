@@ -4,7 +4,7 @@
 
 @layer base {
   :focus-visible {
-    outline: 2px solid #00E5FF;
+    outline: 2px solid #8c52ff;
     outline-offset: 3px;
   }
 
@@ -15,15 +15,21 @@
 
   body {
     font-family: 'Inter', system-ui, sans-serif;
-    background-color: #0B1120;
-    color: #FFFFFF;
+    background-color: #5ce1e6;
+    color: #000000;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
 
+  p,
+  li {
+    text-align: justify;
+    text-align-last: left;
+  }
+
   ::selection {
-    background-color: rgba(0, 229, 255, 0.3);
-    color: #FFFFFF;
+    background-color: rgba(140, 82, 255, 0.28);
+    color: #000000;
   }
 
   ::-webkit-scrollbar {
@@ -31,22 +37,23 @@
   }
 
   ::-webkit-scrollbar-track {
-    background: #111827;
+    background: #ffffff;
   }
 
   ::-webkit-scrollbar-thumb {
-    background: #374151;
+    background: #8c52ff;
     border-radius: 4px;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    background: #4B5563;
+    background: #7138e8;
   }
 }
 
 @layer components {
   .blog-content {
-    color: #CBD5E1;
+    color: #000000;
+    text-align: justify;
     overflow-wrap: anywhere;
   }
 
@@ -54,7 +61,8 @@
   .blog-content h2,
   .blog-content h3,
   .blog-content h4 {
-    color: #FFFFFF;
+    color: #000000;
+    text-align: left;
     scroll-margin-top: 6rem;
   }
 
@@ -92,11 +100,11 @@
   }
 
   .blog-content strong {
-    @apply text-white font-semibold;
+    @apply text-black font-semibold;
   }
 
   .blog-content em {
-    @apply text-slate-200;
+    @apply text-black;
   }
 
   .blog-content code {
@@ -118,7 +126,7 @@
   }
 
   .blog-content blockquote {
-    @apply my-6 border-l-4 border-primary-accent/60 bg-secondary-bg/60 px-5 py-3 text-slate-300 rounded-r-lg;
+    @apply my-6 border-l-4 border-primary-accent/60 bg-secondary-bg/60 px-5 py-3 text-black rounded-r-lg;
   }
 
   .blog-content blockquote p:last-child {
@@ -131,6 +139,7 @@
 
   .blog-content a {
     @apply text-primary-accent underline underline-offset-4 hover:no-underline;
+    font-weight: 600;
   }
 
   .blog-content .blog-image {
@@ -143,6 +152,7 @@
 
   .blog-content .blog-image figcaption {
     @apply mt-3 text-sm text-muted text-center italic;
+    text-align: center;
   }
 
   .blog-content table {
@@ -166,10 +176,11 @@
   .blog-content th,
   .blog-content td {
     @apply border border-slate-700 px-4 py-3 text-left align-top;
+    text-align: left;
   }
 
   .blog-content th {
-    @apply bg-secondary-bg text-white font-semibold;
+    @apply bg-secondary-bg text-black font-semibold;
   }
 
   .blog-content tr:nth-child(even) td {
@@ -218,6 +229,69 @@
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
+}
+
+/*
+ * Compatibility styling for existing components that use Tailwind's literal
+ * dark-theme utility classes. Keep the component architecture unchanged while
+ * applying the new palette consistently across every route.
+ */
+.text-white,
+.text-slate-100,
+.text-slate-200,
+.text-slate-300,
+.text-slate-400,
+.text-gray-100,
+.text-gray-200,
+.text-gray-300,
+.text-gray-400 {
+  color: #000000 !important;
+}
+
+.bg-card {
+  color: #ffffff;
+}
+
+.bg-card .text-white,
+.bg-card .text-muted,
+.bg-card .text-slate-100,
+.bg-card .text-slate-200,
+.bg-card .text-slate-300,
+.bg-card .text-slate-400,
+.bg-card .text-gray-100,
+.bg-card .text-gray-200,
+.bg-card .text-gray-300,
+.bg-card .text-gray-400,
+.bg-card .text-primary-accent {
+  color: #ffffff !important;
+}
+
+.bg-primary-accent,
+.bg-secondary-accent {
+  background-color: #8c52ff !important;
+  color: #ffffff !important;
+}
+
+.bg-primary-accent.text-primary-bg,
+.bg-secondary-accent.text-primary-bg,
+.bg-primary-accent .text-white,
+.bg-secondary-accent .text-white {
+  color: #ffffff !important;
+}
+
+.border-gray-800,
+.border-gray-700,
+.border-slate-700,
+.ring-gray-800 {
+  border-color: rgba(0, 0, 0, 0.2) !important;
+}
+
+.blog-content pre.border-slate-700 {
+  border-color: #374151 !important;
+}
+
+.blog-content pre .text-slate-200 {
+  color: #e2e8f0 !important;
 }
 
 /* Respect operating-system motion preferences and retain usable anchor navigation. */
