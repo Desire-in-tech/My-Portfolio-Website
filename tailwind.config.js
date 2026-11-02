@@ -10,9 +10,9 @@ export default {
         },
         secondary: {
           bg: '#ffffff',
-          accent: '#8c52ff',
+          accent: '#c0a6f4',
         },
-        card: '#8c52ff',
+        card: '#c0a6f4',
         muted: '#000000',
       },
       fontFamily: {
@@ -33,8 +33,8 @@ export default {
           '100%': { opacity: '1', transform: 'translateY(0)' },
         },
         pulseGlow: {
-          '0%, 100%': { boxShadow: '0 0 20px rgba(140, 82, 255, 0.3)' },
-          '50%': { boxShadow: '0 0 40px rgba(140, 82, 255, 0.5)' },
+          '0%, 100%': { boxShadow: '0 0 20px rgba(192, 166, 244, 0.3)' },
+          '50%': { boxShadow: '0 0 40px rgba(192, 166, 244, 0.5)' },
         },
       },
     },
