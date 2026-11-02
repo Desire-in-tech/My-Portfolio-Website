@@ -22,6 +22,25 @@ const FALLBACK =
     </svg>`
   );
 
+// Keep the original Cloudinary URL as the src fallback. The browser can select
+// a suitably sized, automatically formatted/compressed candidate from srcSet.
+const RESPONSIVE_WIDTHS = [320, 480, 640, 768, 960, 1200, 1600];
+
+function buildCloudinarySrcSet(src: string): string | undefined {
+  if (!src.startsWith('https://res.cloudinary.com/') || !src.includes('/image/upload/')) {
+    return undefined;
+  }
+
+  const uploadMarker = '/image/upload/';
+  const uploadIndex = src.indexOf(uploadMarker);
+  const prefix = src.slice(0, uploadIndex + uploadMarker.length);
+  const assetPath = src.slice(uploadIndex + uploadMarker.length);
+
+  return RESPONSIVE_WIDTHS
+    .map((width) => `${prefix}f_auto,q_auto,w_${width}/${assetPath} ${width}w`)
+    .join(', ');
+}
+
 export default function CloudinaryImage({
   src,
   alt,
@@ -62,17 +81,21 @@ export default function CloudinaryImage({
     ? `${aspectClass} overflow-hidden bg-secondary-bg relative`
     : '';
 
+  const responsiveSrcSet = failed ? undefined : buildCloudinarySrcSet(src);
+  const isPriorityImage = loading === 'eager' && fetchPriority === 'high';
+
   const img = (
     <img
       ref={imageRef}
       src={currentSrc}
+      srcSet={responsiveSrcSet}
       alt={alt}
       loading={loading}
       fetchPriority={fetchPriority}
       sizes={sizes}
       onError={handleError}
       onLoad={() => setLoaded(true)}
-      className={`${className} ${loaded ? 'opacity-100' : 'opacity-0'} transition-opacity duration-300`}
+      className={`${className} ${isPriorityImage ? '' : loaded ? 'opacity-100' : 'opacity-0'} ${isPriorityImage ? '' : 'transition-opacity duration-300'}`}
     />
   );
 
@@ -80,7 +103,7 @@ export default function CloudinaryImage({
 
   return (
     <div className={wrapperClass}>
-      {!loaded && (
+      {!loaded && !isPriorityImage && (
         <div className="absolute inset-0 bg-secondary-bg animate-pulse" />
       )}
       {img}
