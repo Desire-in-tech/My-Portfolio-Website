@@ -4,6 +4,7 @@ import { ListFilter as Filter } from 'lucide-react';
 import { projects, ProjectCategory } from '../data/projects';
 import { images } from '../data/images';
 import { ProjectCard, AnimatedSection, Breadcrumbs } from '../components';
+import CloudinaryImage from '../components/CloudinaryImage';
 import { useSeo } from '../hooks/use-seo';
 
 const categories: { label: string; value: ProjectCategory | 'All' }[] = [
@@ -32,7 +33,14 @@ export default function Projects() {
     <div className="min-h-screen bg-primary-bg pt-20">
       <section className="relative py-20 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-secondary-bg/30 to-transparent" />
-        <div className="absolute inset-0 bg-cover bg-center opacity-5" style={{ backgroundImage: `url(${images.homePage})` }} />
+        <CloudinaryImage
+          src={images.homePage}
+          alt=""
+          loading="eager"
+          fetchPriority="high"
+          sizes="100vw"
+          className="absolute inset-0 h-full w-full object-cover object-center opacity-5 pointer-events-none"
+        />
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <AnimatedSection>
