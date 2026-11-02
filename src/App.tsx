@@ -1,7 +1,8 @@
 import { lazy, Suspense, useEffect } from "react";
 import { LazyMotion, MotionConfig, domAnimation } from "framer-motion";
 import { BrowserRouter, Routes, Route, useLocation, Link } from "react-router-dom";
-import { Navbar, Footer } from "./components";
+import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
 import Home from "./pages/Home";
 import PageTransition from "./components/PageTransition";
 import CookieConsentBanner from "./components/CookieConsentBanner";

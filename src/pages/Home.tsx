@@ -4,7 +4,8 @@ import { ArrowRight, Download, Code, Cpu, Rocket } from 'lucide-react';
 import { profile } from '../data/profile';
 import { getFeaturedProjects } from '../data/projects';
 import { images } from '../data/images';
-import { ProjectCard, AnimatedSection } from '../components';
+import ProjectCard from '../components/ProjectCard';
+import AnimatedSection from '../components/AnimatedSection';
 import { useSeo } from '../hooks/use-seo';
 
 const stats = [
