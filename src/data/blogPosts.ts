@@ -1475,9 +1475,9 @@ Some tasks therefore benefit from specialised libraries, native extensions or a 
 
 ### Which Python version should you learn?
 
-Python continues to evolve through regular feature releases and maintenance updates. Python 3.15 was released in October 2026. Its changes include language and standard-library improvements; the official [Python 3.15 release notes](https://docs.python.org/3.15/whatsnew/3.15.html) provide the definitive list.
+Python continues to evolve through regular feature releases and maintenance updates. At the time of writing, Python 3.15 is still listed as a pre-release, while Python 3.14 is in the bug-fix release stage. Treat the [Python 3.15 development notes](https://docs.python.org/3.15/whatsnew/3.15.html) as information about an upcoming version: the documentation itself notes that it is a draft and may change before the final release.
 
-For beginners, the most important consideration is choosing a supported version that works with the libraries and tools required for their projects. A newly released version may not yet be supported by every third-party package.
+For beginners, the most important consideration is choosing a supported stable version that works with the libraries and tools required for their projects. A pre-release or newly released version may not yet be supported by every third-party package. Check the official downloads page and project requirements before choosing a version for a new environment.
 
 Professional development also requires compatibility awareness. A project created for one Python version may depend on packages that do not yet support a newer release. Check project requirements and test dependencies before upgrading a production environment.
 
@@ -1768,7 +1768,7 @@ Use lists when you need an ordered collection that may change.
 Tuples are ordered collections that cannot be reassigned item by item after creation.
 
 ~~~python
-coordinates = (10,  20)
+coordinates = (10, 20)
 ~~~
 
 They are useful for representing fixed groups of values, such as coordinates or configuration details. A tuple can contain mutable objects, so immutability applies to its item references rather than recursively freezing everything inside it.
@@ -2066,18 +2066,23 @@ Databases allow applications to store and retrieve structured information. SQLit
 ~~~python
 import sqlite3
 
-with sqlite3.connect("tasks.db") as connection:
-    connection.execute("""
-        CREATE TABLE IF NOT EXISTS tasks (
-            id INTEGER PRIMARY KEY,
-            title TEXT NOT NULL
-        )
-    """)
+connection = sqlite3.connect("tasks.db")
 
-    connection.execute(
-        "INSERT INTO tasks (title) VALUES (?)",
-        ("Learn Python",)
-    )
+try:
+    with connection:
+        connection.execute("""
+            CREATE TABLE IF NOT EXISTS tasks (
+                id INTEGER PRIMARY KEY,
+                title TEXT NOT NULL
+            )
+        """)
+
+        connection.execute(
+            "INSERT INTO tasks (title) VALUES (?)",
+            ("Learn Python",)
+        )
+finally:
+    connection.close()
 ~~~
 
 The question-mark placeholder keeps the supplied value separate from the SQL statement. Parameterised queries help protect against SQL injection. Do not build SQL by concatenating untrusted input.
