@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { SITE_URL } from '../lib/site';
+import { createBreadcrumbSchema } from '../lib/structured-data';
 import { ChevronRight, Hop as Home } from 'lucide-react';
 import { useEffect } from 'react';
 
@@ -14,18 +14,7 @@ interface BreadcrumbsProps {
 
 export default function Breadcrumbs({ items }: BreadcrumbsProps) {
   useEffect(() => {
-    const schema = {
-      '@context': 'https://schema.org',
-      '@type': 'BreadcrumbList',
-      itemListElement: items.map((item, i) => ({
-        '@type': 'ListItem',
-        position: i + 1,
-        name: item.label,
-        item: item.path
-          ? `${SITE_URL}${item.path}`
-          : undefined,
-      })),
-    };
+    const schema = createBreadcrumbSchema(items);
     let el = document.getElementById('breadcrumb-schema') as HTMLScriptElement | null;
     if (!el) {
       el = document.createElement('script');
