@@ -5,15 +5,15 @@ export default {
     extend: {
       colors: {
         primary: {
-          bg: '#5ce1e6',
-          accent: '#ff3131',
+          bg: '#0B1120',
+          accent: '#00E5FF',
         },
         secondary: {
-          bg: '#ffffff',
-          accent: '#c0a6f4',
+          bg: '#111827',
+          accent: '#7C3AED',
         },
-        card: '#c0a6f4',
-        muted: '#000000',
+        card: '#1F2937',
+        muted: '#94A3B8',
       },
       fontFamily: {
         sans: ['Inter', 'system-ui', 'sans-serif'],
@@ -33,8 +33,8 @@ export default {
           '100%': { opacity: '1', transform: 'translateY(0)' },
         },
         pulseGlow: {
-          '0%, 100%': { boxShadow: '0 0 20px rgba(192, 166, 244, 0.3)' },
-          '50%': { boxShadow: '0 0 40px rgba(192, 166, 244, 0.5)' },
+          '0%, 100%': { boxShadow: '0 0 20px rgba(0, 229, 255, 0.3)' },
+          '50%': { boxShadow: '0 0 40px rgba(0, 229, 255, 0.5)' },
         },
       },
     },
