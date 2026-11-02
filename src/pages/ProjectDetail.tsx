@@ -1,15 +1,30 @@
 import { useParams, Link } from 'react-router-dom';
-import { useMemo } from 'react';
+import { use, useMemo } from 'react';
 import * as m from 'framer-motion/m';
 import { ArrowLeft, Github, ExternalLink, CircleCheck as CheckCircle, Layers } from 'lucide-react';
 import { getProjectBySlug, projects } from '../data/projects';
-import { projectContent } from '../data/projectContent';
+import { loadProjectContent } from '../data/projectContent';
 import { blogPostDetails } from 'virtual:blog-details';
 import { AnimatedSection, RelatedArticles, TableOfContents, Breadcrumbs, CloudinaryImage } from '../components';
 import { useSeo } from '../hooks/use-seo';
 import { extractHeadings, renderMarkdown } from '../lib/blog';
 import { getRelatedArticlesForProject } from '../lib/related';
 import { SITE_URL } from '../lib/site';
+
+const projectContentPromises = new Map<string, Promise<string>>();
+const EMPTY_CONTENT_PROMISE = Promise.resolve('');
+
+function getProjectContent(slug: string): Promise<string> {
+  const cached = projectContentPromises.get(slug);
+  if (cached) return cached;
+
+  const loader = loadProjectContent(slug);
+  if (!loader) return EMPTY_CONTENT_PROMISE;
+
+  const promise = loader.then((module) => module.default);
+  projectContentPromises.set(slug, promise);
+  return promise;
+}
 
 export default function ProjectDetail() {
   const { slug } = useParams<{ slug: string }>();
@@ -20,7 +35,7 @@ export default function ProjectDetail() {
     return getRelatedArticlesForProject(project, blogPostDetails);
   }, [project]);
 
-  const content = project ? projectContent[project.slug] : undefined;
+  const content = use(project ? getProjectContent(project.slug) : EMPTY_CONTENT_PROMISE);
   const headings = useMemo(
     () => (content ? extractHeadings(content) : []),
     [content]
