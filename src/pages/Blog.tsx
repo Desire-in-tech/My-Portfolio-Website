@@ -90,6 +90,9 @@ export default function Blog() {
                     alt={featuredPost.imageAlt}
                     aspectClass="w-full h-full"
                     className="w-full h-full object-cover"
+                    loading="eager"
+                    fetchPriority="high"
+                    sizes="(max-width: 1023px) 100vw, 50vw"
                   />
                 </Link>
                 <div className="min-w-0 p-5 sm:p-8 flex flex-col justify-center">

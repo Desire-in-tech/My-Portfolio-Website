@@ -1,10 +1,12 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 interface CloudinaryImageProps {
   src: string;
   alt: string;
   className?: string;
   loading?: 'lazy' | 'eager';
+  fetchPriority?: 'high' | 'low' | 'auto';
+  sizes?: string;
   /** Aspect ratio class, e.g. 'aspect-video'. When set, a placeholder skeleton shows until loaded. */
   aspectClass?: string;
 }
@@ -25,8 +27,11 @@ export default function CloudinaryImage({
   alt,
   className = '',
   loading = 'lazy',
+  fetchPriority = 'auto',
+  sizes,
   aspectClass,
 }: CloudinaryImageProps) {
+  const imageRef = useRef<HTMLImageElement>(null);
   const [currentSrc, setCurrentSrc] = useState(src);
   const [loaded, setLoaded] = useState(false);
   const [failed, setFailed] = useState(false);
@@ -36,6 +41,15 @@ export default function CloudinaryImage({
     setLoaded(false);
     setFailed(false);
   }, [src]);
+
+  // Cached images (and images loaded before hydration) may already be complete
+  // before React attaches onLoad. Detect that state so they are not left hidden.
+  useEffect(() => {
+    const image = imageRef.current;
+    if (image?.complete && image.naturalWidth > 0) {
+      setLoaded(true);
+    }
+  }, [currentSrc]);
 
   const handleError = () => {
     if (!failed) {
@@ -50,9 +64,12 @@ export default function CloudinaryImage({
 
   const img = (
     <img
+      ref={imageRef}
       src={currentSrc}
       alt={alt}
       loading={loading}
+      fetchPriority={fetchPriority}
+      sizes={sizes}
       onError={handleError}
       onLoad={() => setLoaded(true)}
       className={`${className} ${loaded ? 'opacity-100' : 'opacity-0'} transition-opacity duration-300`}
