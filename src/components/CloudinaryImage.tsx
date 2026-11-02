@@ -24,7 +24,7 @@ const FALLBACK =
 
 // Keep the original Cloudinary URL as the src fallback. The browser can select
 // a suitably sized, automatically formatted/compressed candidate from srcSet.
-const RESPONSIVE_WIDTHS = [320, 480, 640, 768, 960, 1200, 1600];
+const RESPONSIVE_WIDTHS = [320, 400, 480, 640, 768, 960, 1200, 1600];
 
 function buildCloudinarySrcSet(src: string): string | undefined {
   if (!src.startsWith('https://res.cloudinary.com/') || !src.includes('/image/upload/')) {
