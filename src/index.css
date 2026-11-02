@@ -112,7 +112,8 @@
   }
 
   .blog-content pre {
-    @apply my-7 overflow-x-auto rounded-xl border border-slate-700 bg-[#0d1117] p-4 text-sm leading-6;
+    @apply my-7 overflow-x-auto rounded-xl border bg-[#0d1117] p-4 text-sm leading-6;
+    border-color: #374151;
     tab-size: 2;
   }
 
@@ -147,7 +148,8 @@
   }
 
   .blog-content .blog-image img {
-    @apply w-full rounded-xl border border-slate-700 shadow-lg;
+    @apply w-full rounded-xl border shadow-lg;
+    border-color: rgba(0, 0, 0, 0.2);
   }
 
   .blog-content .blog-image figcaption {
@@ -160,7 +162,8 @@
   }
 
   .blog-content .blog-table-wrapper {
-    @apply my-6 w-full overflow-x-auto overscroll-x-contain rounded-lg border border-slate-700;
+    @apply my-6 w-full overflow-x-auto overscroll-x-contain rounded-lg border;
+    border-color: rgba(0, 0, 0, 0.2);
     -webkit-overflow-scrolling: touch;
   }
 
@@ -175,7 +178,8 @@
 
   .blog-content th,
   .blog-content td {
-    @apply border border-slate-700 px-4 py-3 text-left align-top;
+    @apply border px-4 py-3 text-left align-top;
+    border-color: rgba(0, 0, 0, 0.2);
     text-align: left;
   }
 
@@ -299,15 +303,11 @@ button.bg-secondary-bg.text-white:hover {
   color: #000000 !important;
 }
 
-.border-gray-800,
-.border-gray-700,
-.border-slate-700,
-.ring-gray-800 {
+[class~="border-gray-800"],
+[class~="border-gray-700"],
+[class~="border-slate-700"],
+[class~="ring-gray-800"] {
   border-color: rgba(0, 0, 0, 0.2) !important;
-}
-
-.blog-content pre.border-slate-700 {
-  border-color: #374151 !important;
 }
 
 .blog-content pre .text-slate-200 {
