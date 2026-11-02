@@ -6,9 +6,14 @@ import CloudinaryImage from './CloudinaryImage';
 interface ProjectCardProps {
   project: Project;
   index?: number;
+  sizes?: string;
 }
 
-export default function ProjectCard({ project, index = 0 }: ProjectCardProps) {
+export default function ProjectCard({
+  project,
+  index = 0,
+  sizes = '(max-width: 767px) 100vw, 50vw',
+}: ProjectCardProps) {
   return (
     <m.div
       initial={false}
@@ -23,7 +28,7 @@ export default function ProjectCard({ project, index = 0 }: ProjectCardProps) {
           alt={project.title}
           aspectClass="w-full h-full"
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-          sizes="(max-width: 767px) 100vw, 50vw"
+          sizes={sizes}
         />
         <div aria-hidden="true" className="absolute inset-0 bg-gradient-to-t from-card/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
       </div>
