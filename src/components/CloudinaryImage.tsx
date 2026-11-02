@@ -103,7 +103,7 @@ export default function CloudinaryImage({
 
   return (
     <div className={wrapperClass}>
-      {!loaded && (
+      {!loaded && !isPriorityImage && (
         <div className="absolute inset-0 bg-secondary-bg animate-pulse" />
       )}
       {img}
