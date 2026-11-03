@@ -6032,6 +6032,17 @@ Use this checklist during design discussions and code reviews:
 
 If the pattern adds more concepts than it removes, reconsider the design. A successful pattern makes a difficult decision easier to express and maintain.
 
+## Further Reading and Authoritative References
+
+The following resources provide additional explanations and language-specific guidance:
+
+- [Design Patterns Catalog](https://refactoring.guru/design-patterns/catalog) — an illustrated reference for the classic creational, structural and behavioral patterns.
+- [Python Abstract Base Classes](https://docs.python.org/3/library/abc.html) — official documentation for defining abstract interfaces and enforcing implementation requirements.
+- [Python typing and Protocol](https://docs.python.org/3/library/typing.html#typing.Protocol) — official guidance for structural interfaces and static type checking.
+- [Python functools](https://docs.python.org/3/library/functools.html) — utilities including wraps for writing well-behaved decorators.
+- [Python contextlib](https://docs.python.org/3/library/contextlib.html) — tools for implementing and composing context managers.
+- [Azure Architecture Center design patterns](https://learn.microsoft.com/en-us/azure/architecture/patterns/) — guidance on cloud architecture patterns, including resilience and distributed-system concerns.
+
 ## Frequently Asked Questions About Software Design Patterns
 
 ### What are software design patterns?
