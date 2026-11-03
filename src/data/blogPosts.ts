@@ -6315,7 +6315,6 @@ class Settings(BaseSettings):
     jwt_issuer: str
     api_audience: str
     jwks_url: str
-    allowed_jwt_algorithms: list[str] = ["RS256"]
 
 
 settings = Settings()
@@ -6383,7 +6382,8 @@ def verify_access_token(token: str) -> dict:
     if not isinstance(claims.get("sub"), str) or not claims["sub"]:
         raise InvalidTokenError("Token subject is missing")
 
-    if claims.get("token_use") not in {"access", None}:
+    token_use = claims.get("token_use")
+    if token_use is not None and token_use != "access":
         raise InvalidTokenError("Unexpected token type")
 
     return claims
@@ -6433,10 +6433,16 @@ def get_token_claims(token: str = Depends(oauth2_scheme)) -> dict:
             detail="Could not validate credentials",
             headers={"WWW-Authenticate": "Bearer"},
         ) from exc
-    except PyJWKClientError as exc:
+    except PyJWKClientConnectionError as exc:
         raise HTTPException(
             status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
             detail="Authentication provider temporarily unavailable",
+        ) from exc
+    except PyJWKClientError as exc:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Could not validate credentials",
+            headers={"WWW-Authenticate": "Bearer"},
         ) from exc
 ~~~
 
