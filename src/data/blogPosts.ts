@@ -7220,6 +7220,7 @@ A minimal FastAPI example might look like this:
 from fastapi import FastAPI
 from pydantic import BaseModel, Field
 import joblib
+import pandas as pd
 
 app = FastAPI(title="Churn Prediction API")
 model = joblib.load("model.joblib")
@@ -7236,8 +7237,8 @@ def health():
 
 @app.post("/predict")
 def predict(customer: CustomerFeatures):
-    features = customer.model_dump()
-    prediction = model.predict([features])[0]
+    features = pd.DataFrame([customer.model_dump()])
+    prediction = model.predict(features)[0]
 
     return {"churn_prediction": int(prediction)}
 ~~~
