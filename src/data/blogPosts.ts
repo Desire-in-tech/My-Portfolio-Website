@@ -3058,7 +3058,7 @@ A well-designed API is more than a collection of endpoints. It is a dependable i
     publishDate: '2026-08-09',
     updatedDate: '2026-11-03',
     author: 'Desire E',
-    readingTime: '27 min read',
+    readingTime: '36 min read',
     excerpt:
       'Learn how to design robust APIs with clear resource models, HTTP semantics, secure authentication, reliable errors, versioning, documentation and scalability.',
     featuredImage:
