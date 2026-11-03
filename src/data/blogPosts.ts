@@ -3052,106 +3052,725 @@ A well-designed API is more than a collection of endpoints. It is a dependable i
   },
   {
     id: '8',
-    title: 'API Design Fundamentals: Building Robust and Scalable APIs',
+    title: 'API Design Fundamentals: Principles, Best Practices and Security',
     slug: 'api-design-fundamentals',
     category: 'Backend',
     publishDate: '2026-08-09',
+    updatedDate: '2026-11-03',
     author: 'Desire E',
+    readingTime: '27 min read',
     excerpt:
-      'Master the essential principles of API design to create powerful, maintainable interfaces that developers will love and applications can rely on for years to come.',
+      'Learn how to design robust APIs with clear resource models, HTTP semantics, secure authentication, reliable errors, versioning, documentation and scalability.',
     featuredImage:
       'https://res.cloudinary.com/f7ko7ayw/image/upload/v1785604944/api_design_fundamentals_ad9d6q.png',
     imageAlt: 'API design',
-    metaTitle: 'API Design Fundamentals',
+    metaTitle: 'API Design Fundamentals: Best Practices and Security',
     metaDescription:
-      'Master the essential principles of API design to create powerful, maintainable interfaces that developers will love and applications can rely on for years to come.',
+      'Explore API design principles, REST best practices, HTTP methods, schemas, pagination, security, versioning, OpenAPI documentation and performance.',
     targetKeywords: [
-      'API best practices',
-      'API design',
-      'scalable APIs',
-      'backend development',
+      'API design fundamentals',
+      'API design best practices',
+      'REST API design',
+      'API architecture',
+      'API security best practices',
+      'API versioning',
+      'API documentation',
+      'scalable API design',
+      'API error handling',
     ],
     tags: [
-      'API best practices',
       'API design',
-      'scalable APIs',
+      'API best practices',
+      'REST APIs',
       'backend development',
+      'API security',
+      'API documentation',
+      'scalable APIs',
     ],
-    content: `## Understanding the Core Principles of Effective API Architecture
+    content: `Designing an API is not simply a matter of choosing endpoint names and returning JSON. A well-designed application programming interface is a long-lived contract between software systems, developers and the people who depend on them. It should make common tasks straightforward, communicate errors clearly, protect data, behave predictably under failure and evolve without unexpectedly breaking existing integrations.
 
-Before diving into the intricacies of API design, it's crucial to understand what is an API and why it matters. An API, or Application Programming Interface, is a set of protocols, tools, and definitions that allows different software applications to communicate with each other. Think of an API as a waiter in a restaurant: you (the client) tell the waiter what you want, the waiter takes your request to the kitchen (the server), and then brings back what you ordered. This simple yet powerful concept forms the backbone of modern software development, enabling everything from mobile apps to complex enterprise systems to exchange data seamlessly.
+Good API design begins before implementation. It requires decisions about resources, operations, data models, permissions, consistency, pagination, errors, versioning, documentation and operational limits. Those decisions influence how easy an API is to learn, how safely it can be changed and how well it performs as usage grows.
 
-At its core, effective API architecture is built on several fundamental principles that separate mediocre interfaces from exceptional ones. The first principle is clarity and simplicity. Your API should be intuitive enough that developers can understand its basic functionality without extensive documentation. This means using consistent naming conventions, logical resource hierarchies, and predictable patterns throughout your API design. When developers can accurately guess how your API behaves based on what they've already learned, you've achieved true architectural clarity.
+This guide explores the principles and practical techniques behind robust, maintainable and scalable APIs. It focuses on design choices that apply across different languages and frameworks, with REST-style HTTP APIs as the main example. It also covers API contracts, security, testing, performance, governance and newer HTTP capabilities. If you are new to the subject, start with the companion guide explaining [what APIs are and how they work](https://desire-djh.pages.dev/blog/apis-explained), then return here to learn how to design them well.
 
-Client-server communication represents the fundamental model that drives API interactions. In this architecture, the client initiates requests for resources or actions, and the server processes these requests and returns appropriate responses. This separation of concerns allows clients and servers to evolve independently, as long as the interface between them remains stable. The request lifecycle begins when a client constructs an HTTP request containing a method, URL, headers, and optionally a body. This request travels across the network to the server, which parses it, performs the necessary operations, and constructs a response containing status information and data.
+## What Makes an API Well Designed?
 
-Understanding HTTP methods is essential for building RESTful APIs that follow web standards. GET requests retrieve data without modifying server state, making them safe and idempotent. POST requests create new resources and are neither safe nor idempotent. PUT requests update existing resources completely and are idempotent, meaning multiple identical requests produce the same result. PATCH requests partially update resources, while DELETE requests remove resources from the server. Each method serves a specific purpose in API development, and using them correctly ensures your API behaves predictably and aligns with developer expectations.
+An API is an interface through which one software component requests information or functionality from another. Its design defines the available operations, the data clients must provide, the responses they can expect and the rules that govern access.
 
-Status codes provide crucial feedback about the outcome of API requests. The 2xx series indicates success, with 200 OK for successful GET requests, 201 Created for successful POST operations, and 204 No Content when an operation succeeds but returns no data. The 4xx series signals client errors: 400 Bad Request for malformed requests, 401 Unauthorized when authentication fails, 403 Forbidden when the client lacks permissions, and 404 Not Found when the requested resource doesn't exist. The 5xx series indicates server errors, with 500 Internal Server Error for unexpected failures and 503 Service Unavailable when the server is temporarily unable to handle requests. Proper use of status codes helps developers quickly diagnose issues and implement appropriate error handling in their applications.
+A well-designed API is not necessarily the one with the fewest endpoints or the most sophisticated architecture. It is the one that solves its users' problems with the least unnecessary complexity while meeting the system's security, reliability and business requirements.
 
-REST architecture, which stands for Representational State Transfer, provides a set of constraints that guide the design of scalable web services. RESTful APIs are stateless, meaning each request contains all information necessary for the server to process it. They leverage a uniform interface based on resources identified by URLs, use standard HTTP methods, and return data in formats like JSON or XML. REST APIs separate client and server concerns, enabling independent evolution of both. They also support caching to improve performance and can be layered to enhance scalability and security. These architectural constraints might seem restrictive, but they actually provide tremendous flexibility while ensuring APIs remain maintainable and performant at scale.
+Several qualities distinguish a dependable API.
 
-## RESTful Design Patterns and Best Practices for Modern APIs
+### Consistency and predictability
 
-RESTful design patterns form the foundation of modern API development, providing proven solutions to common challenges in backend APIs. The resource-oriented design pattern treats everything as a resource with a unique identifier (URI). For example, instead of creating endpoints like \`/getUserData\` or \`/createNewUser\`, a RESTful approach uses nouns representing resources: \`/users\` for the collection and \`/users/{id}\` for individual users. This pattern creates intuitive, self-documenting APIs that developers can navigate naturally. Collections should use plural nouns (\`/products\`, \`/orders\`, \`/customers\`), and relationships between resources should be expressed through URL hierarchies (\`/users/{id}/orders\` to retrieve a specific user's orders).
+Clients should encounter familiar patterns across the interface. If one collection uses plural nouns, another should not unexpectedly use singular nouns. If validation failures have a standard error structure, the same structure should be used throughout the service. Consistent naming, status codes, pagination and response formats reduce the amount of special-case logic developers need to write.
 
-API design must carefully consider how clients filter, sort, and paginate large datasets. Instead of creating separate endpoints for each variation, use query parameters to modify collection responses. For filtering, use parameters like \`/products?category=electronics&price_max=1000\`. For sorting, implement parameters like \`/users?sort=created_at&order=desc\`. Pagination prevents overwhelming clients with massive datasets and improves performance. Implement offset-based pagination (\`/items?limit=20&offset=40\`) for simple use cases or cursor-based pagination (\`/items?cursor=xyz&limit=20\`) for real-time data where results change frequently. Always include metadata in responses indicating total count, current page, and links to next and previous pages, helping developers implement smooth navigation experiences.
+Predictability also means that an API should behave according to established protocol semantics. A GET request should not unexpectedly create an order, and a DELETE operation should not silently perform an unrelated action. Clients, proxies, monitoring tools and libraries can work more reliably when an API follows HTTP conventions.
 
-Proper error handling distinguishes professional APIs from amateur implementations. Backend APIs should return consistent error responses with meaningful messages that help developers quickly identify and fix issues. Structure error responses to include an error code, human-readable message, and optionally detailed information about what went wrong. For example: \`{"error": {"code": "INVALID_EMAIL", "message": "The email address format is invalid", "field": "email", "documentation_url": "https://api.example.com/docs/errors/invalid-email"}}\`. This structure provides both machine-readable codes for programmatic handling and human-readable messages for debugging. Avoid exposing internal system details or stack traces in production environments, as they can reveal security vulnerabilities.
+### Clarity and discoverability
 
-Content negotiation allows clients to request data in their preferred format. While JSON has become the de facto standard for modern APIs due to its lightweight nature and universal browser support, some clients might prefer XML or other formats. Implement content negotiation through the Accept header, where clients specify their preferred format (\`Accept: application/json\` or \`Accept: application/xml\`). The server then returns the data in the requested format along with an appropriate Content-Type header in the response. This flexibility makes your API more accessible to diverse client applications while maintaining a consistent interface.
+Resource names, fields, parameters and errors should communicate their meaning. Avoid abbreviations that only make sense to the original development team. A field called deliveryAddress is easier to understand than an undocumented field called da.
 
-Idempotency is a critical concept in API development that ensures repeated identical requests produce the same result. GET, PUT, and DELETE operations should be idempotent by design. If a client sends the same PUT request three times due to network issues, the resource should end up in the same state as if the request was sent once. POST operations are typically not idempotent since each request might create a new resource. However, you can implement idempotency for POST requests using idempotency keys—unique identifiers that clients send with requests. The server stores these keys temporarily and, if it receives a request with a key it has already processed, returns the original response instead of performing the operation again. This pattern prevents accidental duplicate charges, multiple account creations, or other unintended side effects in production systems.
+An API should be understandable from its contract and documentation. Developers should be able to discover the supported operations, required inputs, response schemas, authentication requirements and error conditions without inspecting the server's source code.
 
-HATEOAS (Hypermedia as the Engine of Application State) represents the most mature level of REST API design. APIs implementing HATEOAS include hypermedia links in responses, guiding clients on what actions they can perform next. For example, when retrieving a user resource, the response might include links to update the user, delete the user, or retrieve related resources: \`{"id": 123, "name": "John Doe", "email": "john@example.com", "_links": {"self": "/users/123", "orders": "/users/123/orders", "update": "/users/123", "delete": "/users/123"}}\`. While HATEOAS adds complexity, it makes APIs more discoverable and allows server-side changes without breaking clients, since clients follow links rather than constructing URLs themselves.
+### Stability and evolvability
 
-## Authentication, Security, and Rate Limiting Strategies
+An API is a dependency. Once external clients rely on a field, endpoint or behaviour, changing it can break applications that the API provider does not control. A good design anticipates change by using compatible defaults, explicit versioning policies, deprecation communication and migration guidance.
 
-Authentication forms the first line of defense in API security, verifying that clients are who they claim to be. Modern API development employs several authentication methods, each with distinct advantages. API keys provide the simplest approach—clients include a unique key in request headers or query parameters. While easy to implement, API keys lack sophistication for complex scenarios since they don't expire automatically and can't represent different permission levels easily. They work well for public APIs with basic access control needs or for identifying applications rather than individual users.
+Stability does not mean an API can never change. It means changes are introduced deliberately, with a clear understanding of their impact on consumers.
 
-OAuth 2.0 has become the gold standard for API authentication, especially when your API needs to access user data from third-party services or when building systems where users grant limited access to their resources. OAuth 2.0 separates authentication from authorization, allowing users to grant applications specific permissions without sharing credentials. The authorization code flow works for server-side applications, while the implicit flow (now deprecated in favor of authorization code with PKCE) was designed for browser-based apps. The client credentials flow serves machine-to-machine communication where no user is involved. Implementing OAuth 2.0 requires careful attention to security details, including using HTTPS exclusively, validating redirect URIs, and storing tokens securely.
+### Security and least privilege
 
-JSON Web Tokens (JWT) provide a stateless authentication mechanism perfect for distributed systems and microservices architectures. A JWT contains three parts: a header specifying the algorithm used, a payload containing claims about the user, and a signature verifying the token's integrity. After successful authentication, the server generates a JWT and sends it to the client. The client includes this token in the Authorization header of subsequent requests (\`Authorization: Bearer <token>\`). The server validates the token's signature and expiration, then processes the request. Since JWTs are self-contained, servers don't need to store session information or query databases on every request, dramatically improving scalability. However, token invalidation becomes challenging since tokens remain valid until expiration, so use short expiration times and implement refresh token mechanisms for security-sensitive applications.
+An API should expose only the data and operations that a caller is allowed to access. Authentication identifies the caller; authorization determines what that caller can do. Both must be enforced by the server, not merely by the frontend.
 
-Authorization determines what authenticated users can do within your API. Role-Based Access Control (RBAC) assigns users to roles (admin, editor, viewer), and each role has specific permissions. Attribute-Based Access Control (ABAC) makes decisions based on attributes of the user, resource, and environment, providing more granular control. For example, a user might be able to edit documents they created but only view documents created by others in their department. Implement authorization checks at both the API gateway level and within your backend APIs, following the principle of defense in depth. Never rely solely on client-side authorization checks, as determined attackers can bypass them.
+Security also includes input validation, safe error handling, secret management, rate limiting, transport protection and careful handling of data returned by other services.
 
-Rate limiting protects your API from abuse, whether malicious attacks or unintentional overuse. Without rate limits, a single client could consume all server resources, causing service degradation for everyone. Implement tiered rate limits based on authentication status and subscription level—anonymous users might get 100 requests per hour, authenticated free users get 1,000, and premium subscribers get 10,000. Include rate limit information in response headers so clients can adjust their behavior: \`X-RateLimit-Limit\` (total allowed requests), \`X-RateLimit-Remaining\` (requests remaining in current window), and \`X-RateLimit-Reset\` (time when the limit resets). When clients exceed limits, return a 429 Too Many Requests status code with a \`Retry-After\` header indicating when they can try again.
+### Performance and operational reliability
 
-Additional security measures should be standard in every API implementation. Always use HTTPS to encrypt data in transit, preventing eavesdropping and man-in-the-middle attacks. Validate all input rigorously, checking data types, formats, and ranges to prevent injection attacks and data corruption. Implement CORS (Cross-Origin Resource Sharing) policies carefully, specifying which domains can access your API from browsers. Use security headers like Content-Security-Policy, X-Content-Type-Options, and X-Frame-Options to protect against common web vulnerabilities. Log security-relevant events like authentication failures, authorization violations, and unusual access patterns, but avoid logging sensitive data like passwords or full credit card numbers. Regular security audits and penetration testing help identify vulnerabilities before attackers exploit them.
+A useful interface should remain responsive under realistic traffic and degrade gracefully when dependencies fail. Pagination, caching, bounded request sizes, database query design, timeouts and back-pressure all contribute to reliability.
 
-## Versioning and Documentation: Ensuring Long-Term Maintainability
+Performance should be measured rather than guessed. The design should make it possible to observe latency, error rates, traffic patterns and dependency failures.
 
-API versioning is inevitable as your application evolves and requirements change. Without a versioning strategy, you'll face the impossible choice between breaking existing clients or maintaining an increasingly convoluted codebase. Several versioning approaches exist, each with tradeoffs. URL versioning (\`/v1/users\`, \`/v2/users\`) is the most visible and explicit method, making it obvious which version clients use. It's straightforward to implement and cache, but creates URL proliferation and makes some developers uncomfortable since the resource identifier changes between versions. Header versioning (\`Accept: application/vnd.myapi.v2+json\`) keeps URLs clean and is considered more RESTful, but it's less visible and harder to test in browsers.
+## Start With Users, Use Cases and API Contracts
 
-Query parameter versioning (\`/users?version=2\`) offers a middle ground, keeping base URLs stable while making versions explicit. Custom header versioning (\`API-Version: 2\`) provides another option that separates versioning from content negotiation. Regardless of which approach you choose, document it clearly and be consistent throughout your API. Many successful APIs use URL versioning for major versions that involve breaking changes, while handling minor, backward-compatible updates transparently within a version. When introducing a new version, maintain the previous version for a documented deprecation period, giving clients time to migrate.
+One of the most common API design mistakes is beginning with database tables or framework routes instead of understanding what clients need to accomplish. A database schema describes how information is stored. An API contract describes how consumers interact with a capability. The two should be related, but they are not the same thing.
 
-Deprecation policies demonstrate respect for your API consumers and build trust in your platform. When you need to sunset an endpoint or version, communicate early and often. Announce deprecations at least six months before removal, preferably longer for widely-used features. Use deprecation headers in API responses (\`Deprecation: true\`, \`Sunset: Sat, 31 Dec 2024 23:59:59 GMT\`) to programmatically inform clients. Provide clear migration guides explaining what's changing and how to update client code. Consider implementing warnings in responses when deprecated endpoints are called, gradually increasing the warning level as the sunset date approaches. Continue to support deprecated features with bug fixes (though not new features) during the deprecation period.
+Before designing endpoints, identify the consumers of the API. They might include a web frontend, mobile application, partner integration, internal service, reporting tool or third-party developer. Different consumers may have different latency, security, compatibility and data requirements.
 
-API documentation can make or break developer adoption regardless of how well-designed your API is. Comprehensive documentation should cover authentication setup, common use cases, all available endpoints, request and response formats, error codes, and rate limits. Interactive documentation using tools like Swagger/OpenAPI or Postman Collections allows developers to make real API calls directly from the documentation, dramatically reducing time-to-first-successful-request. Include code examples in multiple programming languages—Python, JavaScript, Java, and Ruby are good starting points. Examples should demonstrate not just basic usage but also common patterns like pagination, filtering, error handling, and authentication.
+### Define the main use cases
 
-Structure your documentation with both tutorial and reference sections. Tutorials walk developers through common workflows step-by-step, perfect for beginners getting started with your API. Reference documentation provides detailed information about every endpoint, parameter, and response field, serving as a resource developers return to repeatedly. Include a quickstart guide that takes developers from zero to their first successful API call in under five minutes. Document rate limits, pagination schemes, and error handling conventions prominently. Create a changelog documenting all API changes, no matter how small, so developers can stay informed about updates that might affect their integration.
+Write down the tasks clients need to complete. For an inventory application, these might include:
 
-Beyond traditional documentation, consider creating SDKs (Software Development Kits) in popular programming languages. SDKs wrap your REST API in language-native interfaces, handling authentication, serialization, and error handling automatically. They reduce integration time and errors while providing better developer experience. If building SDKs for every language isn't feasible, focus on the languages your primary users favor. Open-source your SDKs on GitHub, accepting community contributions to improve them. Maintain a developer community through forums, Stack Overflow tags, or Discord channels where developers can ask questions and help each other. An active, supportive community becomes a powerful asset, helping new users get started and often answering questions faster than your support team could.
+- Browse products and filter them by category or availability.
+- Retrieve the details of one product.
+- Create a stock adjustment.
+- View stock movements for a product.
+- Receive a notification when stock falls below a threshold.
 
-## Performance Optimization and Scalability Considerations
+These use cases help reveal the resources, relationships and operations the API needs. They also expose questions that should be resolved early. Can a user adjust stock for every warehouse? Does a stock adjustment require a reason? Can a client retrieve historical movements? Are some operations restricted to administrators?
 
-Performance optimization begins with understanding where your API spends time. Database queries typically dominate backend API response times, so optimize them first. Use database indexes on fields commonly used in WHERE clauses, JOIN conditions, and ORDER BY statements. Analyze slow query logs to identify problematic queries. Avoid the N+1 query problem where you fetch a collection and then make additional queries for each item—instead, use JOIN operations or batch loading to fetch related data efficiently. Implement query result pagination at the database level using LIMIT and OFFSET or keyset pagination for better performance with large datasets.
+### Identify resources and ownership boundaries
 
-Caching dramatically improves API performance by storing frequently accessed data in fast storage layers. Implement caching at multiple levels for maximum benefit. Client-side caching uses HTTP cache headers (Cache-Control, ETag, Last-Modified) to let browsers and HTTP libraries cache responses locally. When properly implemented, subsequent requests for unchanged resources can be satisfied instantly without even hitting your server. Server-side caching stores computed results in memory using systems like Redis or Memcached. Cache database query results, computed values, or entire API responses. Implement cache invalidation strategies carefully—time-based expiration works for data that changes predictably, while event-based invalidation (clearing cache when data changes) maintains consistency for critical data.
+For a resource-oriented API, identify the important business entities and how they relate. An inventory service might have products, warehouses, stock levels and stock movements. An order service might have customers, orders, order items and shipments.
 
-Content Delivery Networks (CDNs) cache API responses at edge locations worldwide, reducing latency for geographically distributed users. While traditionally used for static assets, modern CDNs support dynamic content caching with granular control. Configure your API to set appropriate cache headers for different endpoints—longer cache times for rarely changing data like country lists, shorter times for user-specific data. Use cache keys that include authentication tokens or user IDs to prevent serving one user's cached data to another. For extremely dynamic data that shouldn't be cached, use \`Cache-Control: no-store\` to prevent intermediate caches from storing responses.
+Do not automatically expose every database table as a public resource. Internal tables may represent implementation details, joins, audit records or denormalised data. The API should model concepts that make sense to consumers and enforce the rules that belong to the business domain.
 
-### Database Architecture and Scaling
+Clarify which service owns each resource. If two services can independently modify the same business record, conflicts and data inconsistency become harder to manage. A clear ownership boundary helps establish where validation, authorization and state transitions should occur.
 
-Database architecture choices significantly impact API scalability. Vertical scaling (upgrading to more powerful servers) has limits and becomes exponentially expensive. Horizontal scaling (adding more servers) provides nearly unlimited scalability but requires architectural changes. Implement read replicas to distribute read load across multiple database servers—especially valuable since most APIs read data far more often than they write. For write-heavy workloads, consider database sharding where data is partitioned across multiple servers based on a sharding key. This distributes both read and write load but adds complexity to queries that span shards.
+### Write the contract before the implementation
 
-Asynchronous processing moves time-consuming operations out of the request-response cycle, dramatically improving perceived API performance. When a request triggers operations that take seconds or minutes—sending emails, generating reports, processing uploads, or calling slow external APIs—don't make the client wait. Instead, immediately return a 202 Accepted status with a job ID, then process the operation asynchronously using a job queue system like RabbitMQ, Apache Kafka, or AWS SQS. Provide a status endpoint (\`/jobs/{id}\`) where clients can check operation progress. Implement webhooks to notify clients when operations complete, rather than forcing them to poll repeatedly.
+An API contract describes the interface independently of the code that implements it. It should specify:
 
-Microservices architecture decomposes applications into small, independent services that communicate via APIs. Each service handles a specific business capability and can be developed, deployed, and scaled independently. This architecture enables teams to work in parallel, choose the best technology for each service, and scale services individually based on their specific load patterns. However, microservices introduce complexity—network communication between services adds latency, debugging spans multiple services, and ensuring data consistency across services requires careful design. Implement API gateways as the single entry point for clients, handling authentication, rate limiting, and request routing to backend services.
+- Available paths and HTTP methods.
+- Path, query and header parameters.
+- Request and response media types.
+- Required and optional fields.
+- Data types, formats, constraints and examples.
+- Authentication and authorization requirements.
+- Success and error status codes.
+- Pagination, filtering and sorting behaviour.
+- Rate limits, idempotency and concurrency rules.
+- Compatibility and versioning expectations.
 
-Load balancing distributes incoming requests across multiple server instances, preventing any single server from becoming overwhelmed. Implement health checks so load balancers automatically remove unhealthy instances from rotation. Use connection draining to gracefully handle server shutdowns—when taking a server offline, stop sending new requests but allow in-flight requests to complete. Consider geographic load balancing to route requests to the nearest data center, reducing latency. Implement auto-scaling to automatically add servers during traffic spikes and remove them when demand subsides, optimizing costs while maintaining performance.
+Review the contract with the teams or developers who will consume it. A short design review can reveal confusing field names, missing operations and security assumptions before they become expensive implementation changes.
 
-Monitoring and observability are essential for maintaining high-performance APIs at scale. Implement comprehensive logging that captures request details, response times, error rates, and business metrics. Use structured logging (JSON format) to make logs easily searchable and analyzable. Implement distributed tracing to follow requests across multiple microservices, identifying bottlenecks in complex workflows. Set up dashboards showing key performance indicators: request rate, average response time, error rate, and resource utilization. Configure alerts for anomalies like sudden traffic spikes, elevated error rates, or slow response times. These systems help you identify and resolve issues before they impact users significantly, and provide data for capacity planning decisions.`,
+OpenAPI is a common machine-readable format for describing HTTP API contracts. It can support documentation, mock servers, generated clients and automated contract checks. The guide to [Swagger and OpenAPI documentation standards](https://desire-djh.pages.dev/blog/swagger-and-openapi-documentation-standards) explores that ecosystem in more detail.
+
+## Resource-Oriented URL and Endpoint Design
+
+For many web services, resource-oriented design provides a straightforward foundation. A resource represents a concept that clients can identify and interact with through a URI. HTTP methods describe the operation being requested.
+
+A consistent resource model makes endpoints easier to learn and reduces the need for arbitrary action names.
+
+### Use nouns for resources
+
+Prefer collection and resource paths such as:
+
+~~~http
+GET    /api/v1/products
+GET    /api/v1/products/42
+POST   /api/v1/products
+PATCH  /api/v1/products/42
+DELETE /api/v1/products/42
+~~~
+
+The collection path represents products, while the identifier selects one product. The method communicates the intended operation.
+
+Avoid creating separate paths such as /getProducts, /createProduct and /deleteProduct when standard HTTP methods can express the operations more clearly. Action-oriented endpoints can still be appropriate when an operation represents a domain command rather than ordinary resource creation, retrieval, replacement or deletion. Examples include approving an application, cancelling a shipment or initiating a password reset. Use such actions deliberately and document their effects.
+
+### Choose meaningful identifiers
+
+A resource identifier should be stable for the lifetime of the resource and should not reveal information unnecessarily. Sequential numeric identifiers are simple, but they may make enumeration easier and expose rough record counts. Random identifiers or UUIDs can make guessing harder, but they are not a substitute for authorization.
+
+Never assume that a difficult-to-guess identifier makes a resource private. Every request must still check whether the caller is allowed to access that specific object.
+
+Avoid changing identifiers when a resource is renamed. A product's display name may change while its stable ID remains the same. This helps clients retain references and reduces accidental breakage.
+
+### Model relationships carefully
+
+Nested paths can express a meaningful relationship:
+
+~~~http
+GET /api/v1/customers/18/orders
+GET /api/v1/orders/845/items
+~~~
+
+Nesting is useful when the parent-child relationship is important to the operation. However, deeply nested paths can become difficult to maintain and may duplicate information already available from the child resource.
+
+For example, an order can usually be retrieved through /orders/845 without requiring the client to know the customer ID first. Choose paths that communicate the resource relationship without making clients traverse unnecessary hierarchies.
+
+### Keep URL conventions consistent
+
+Choose a consistent convention for pluralisation, casing, separators and path structure. Lowercase paths with hyphens are common and readable. Avoid mixing conventions such as /userProfiles, /products-list and /OrderItems unless there is a compelling compatibility reason.
+
+Do not encode filters, sorting rules or arbitrary query expressions into path segments. Query parameters are generally better suited to optional collection behaviour.
+
+## HTTP Methods, Safety and Idempotency
+
+HTTP methods are not interchangeable labels. They communicate the semantics of an operation to clients and intermediaries. Correct method selection improves consistency, caching and retry behaviour.
+
+| Method | Intended use | Important design consideration |
+| --- | --- | --- |
+| GET | Retrieve a representation | Safe and idempotent; should not change application state |
+| HEAD | Retrieve response metadata | Similar to GET but without response content |
+| POST | Submit data for processing or create a subordinate resource | Not inherently idempotent |
+| PUT | Create or replace the state of the target resource | Idempotent when designed according to HTTP semantics |
+| PATCH | Apply a partial modification | Define the patch format and field behaviour |
+| DELETE | Remove a resource or its association | Idempotent in intended effect |
+| OPTIONS | Discover communication options | Often used for capability discovery and browser preflight |
+| QUERY | Submit a safe, idempotent query representation | Newer method; verify support across clients and infrastructure |
+
+### Safe methods
+
+A safe method is intended to be read-only from the client's perspective. GET, HEAD and OPTIONS are safe. A safe request can still cause incidental effects such as logging, metrics collection or cache updates, but it should not ask the server to change the business state of a resource.
+
+For example, GET /orders/845 should retrieve the order. It should not mark the order as paid or send a shipment. Operations that change business state should use an appropriate method and explicit authorization.
+
+### Idempotent methods
+
+An operation is idempotent when repeating the same request has the same intended effect as performing it once. GET, HEAD, OPTIONS, PUT and DELETE are defined as idempotent by HTTP semantics.
+
+Suppose a client sends a PUT request to replace a user's notification settings but loses its network connection before receiving the response. It can retry the same request without creating an additional notification-settings resource or applying an additional business transaction.
+
+POST is not inherently idempotent. Repeating a request to create an order could create multiple orders. For operations where a client may need to retry after an uncertain network outcome, consider an idempotency-key design. The client supplies a unique key for one logical operation; the server records the outcome and returns the same result when it receives a duplicate request with that key. Define the key's scope, retention period, request fingerprinting and behaviour when the same key is reused with different content.
+
+An idempotency key does not make every operation automatically safe. It must be implemented atomically and consistently across the systems that perform the side effect.
+
+### PUT and PATCH are not the same
+
+PUT is generally used to create or replace the state of the target resource with the representation supplied by the client. PATCH applies partial modifications according to a defined patch document format.
+
+A PATCH endpoint should document whether omitted fields remain unchanged, whether null clears a value, how nested objects are treated and what happens when validation fails. Ambiguity in partial-update behaviour can cause accidental data loss.
+
+For important updates, use validation and concurrency controls so that one client does not silently overwrite another client's newer changes.
+
+### Understand the HTTP standard, not just framework defaults
+
+The IETF's [RFC 9110: HTTP Semantics](https://www.rfc-editor.org/rfc/rfc9110.html) defines the meaning of HTTP methods, status codes and fields. Framework helpers can make an endpoint easy to implement, but they do not replace understanding the protocol contract.
+
+The HTTP QUERY method was standardised in [RFC 10008](https://www.rfc-editor.org/rfc/rfc10008.html) in June 2026. It supports safe, idempotent queries whose input is carried in request content rather than the URI, which can be useful when query input is too large or complex for a URL. Because support across gateways, clients, proxies and frameworks may vary, treat it as an option for suitable environments rather than assuming universal compatibility.
+
+## Request and Response Schema Design
+
+A good API schema is understandable, explicit and stable. It should expose the concepts clients need without leaking unnecessary internal implementation details.
+
+### Choose clear field names and data types
+
+Use names that communicate meaning. Prefer createdAt to created, currencyCode to curr and isActive to a vague status when the field is genuinely boolean. Apply a consistent naming convention across the API.
+
+Use types carefully:
+
+- Strings for text and identifiers whose format is not intended for arithmetic.
+- Integers for whole-number quantities.
+- Decimal representations for monetary values where exact decimal arithmetic matters.
+- Booleans for true-or-false values.
+- Arrays for ordered collections.
+- Objects for structured related fields.
+- Explicit date-time formats for timestamps.
+
+Do not represent a monetary amount as a floating-point number without considering rounding behaviour. A safer API contract can represent an amount as a decimal string or as an integer in the currency's minor unit, with the currency code provided separately. The right representation should be consistent and documented.
+
+### Define nullability and optional fields
+
+An omitted field and a field explicitly set to null can mean different things. For example, an omitted phoneNumber in a PATCH request might mean “leave the existing value unchanged,” while null might mean “remove the phone number.” Document these semantics.
+
+Avoid returning fields that randomly disappear between responses without a clear reason. If a field is optional, explain when it is omitted and whether clients should expect null, an empty string or an empty array.
+
+### Separate public models from database records
+
+Do not return raw database objects simply because they are convenient. Database records may include password hashes, internal flags, audit columns, tenant IDs or operational metadata that clients should not see.
+
+Define response schemas that expose only intended information. This also gives the service freedom to change its internal database structure without requiring every client to change.
+
+### Design for partial success deliberately
+
+Some batch operations can partially succeed. For example, a request that imports 100 contacts may contain 94 valid records and six invalid ones. Decide whether the endpoint should reject the entire batch or process valid entries and report individual failures. Neither behaviour is universally correct; the important thing is to document the transaction boundary and response format.
+
+For financial or inventory operations, partial success can have serious consequences. Prefer clear transactional semantics over surprising mixtures of completed and incomplete work.
+
+## Filtering, Sorting, Search and Pagination
+
+Collection endpoints need a predictable way to handle large datasets. Returning every record in a single response can increase latency, consume memory and expose more information than a client needs.
+
+### Filtering
+
+Use query parameters to select a subset of resources:
+
+~~~http
+GET /api/v1/products?category=books&available=true
+~~~
+
+Support filters that correspond to real use cases. Avoid exposing arbitrary database column names or raw query fragments. Validate each filter, define how multiple filters combine and document whether matching is exact, partial or case-insensitive.
+
+For date ranges, specify timezone expectations and whether the start and end values are inclusive. For numeric ranges, define how minimum and maximum boundaries work. Consistency is more important than offering every imaginable filter.
+
+### Sorting
+
+Allow clients to request supported sort fields and directions:
+
+~~~http
+GET /api/v1/orders?sort=createdAt&direction=desc
+~~~
+
+Use an allowlist of sortable fields. Never insert an arbitrary client-provided field name directly into a database query. Define a deterministic secondary sort, such as an ID, when multiple records have the same primary sort value. Without a stable ordering, records can move unpredictably between pages.
+
+### Offset pagination
+
+Offset pagination is straightforward:
+
+~~~http
+GET /api/v1/products?limit=20&offset=40
+~~~
+
+It is easy for clients to understand and works well for small or relatively stable collections. However, large offsets can be expensive for databases, and records inserted or deleted between requests can cause duplicates or gaps as the client moves through pages.
+
+Set a sensible default page size and enforce a maximum. Do not let a client request millions of records in one response.
+
+### Cursor and keyset pagination
+
+Cursor pagination uses a token representing a position in an ordered result set:
+
+~~~http
+GET /api/v1/orders?limit=20&cursor=eyJpZCI6...
+~~~
+
+The server returns the next cursor when more results are available. A cursor should be treated as an opaque value by clients; they should not need to understand or construct it.
+
+Keyset pagination can be more efficient for large datasets because the database continues from a known sort key instead of skipping a large number of rows. It is especially useful for feeds and records ordered by a stable timestamp or identifier.
+
+Document whether cursors expire, whether they are bound to the filters and sort order used to create them, and what happens if the underlying data changes.
+
+### Search is not always filtering
+
+Simple filters are appropriate for structured fields. Full-text search may require ranking, tokenisation, language handling, stemming and relevance rules. If search is a major capability, design it as a documented feature rather than quietly adding increasingly complex query parameters to a list endpoint.
+
+## Consistent Responses and Error Handling
+
+A predictable response format makes an API easier to integrate with. Decide whether successful responses return resources directly or use a consistent envelope. Either approach can work. Avoid wrapping every response in multiple layers without a practical reason.
+
+For example, a product response could be:
+
+~~~json
+{
+  "id": "prd_42",
+  "name": "Wireless Keyboard",
+  "price": {
+    "amount": "49.99",
+    "currency": "USD"
+  },
+  "availability": "in_stock"
+}
+~~~
+
+The representation gives clients a stable public model without exposing database-specific details.
+
+### Choose status codes deliberately
+
+Status codes should communicate the outcome at the HTTP level. Common examples include:
+
+| Code | Meaning | Typical API use |
+| --- | --- | --- |
+| 200 | OK | Successful retrieval or update with a response body |
+| 201 | Created | Resource successfully created |
+| 202 | Accepted | Work accepted for asynchronous processing |
+| 204 | No Content | Successful operation with no response body |
+| 304 | Not Modified | Conditional request can use a cached representation |
+| 400 | Bad Request | Malformed or invalid request syntax |
+| 401 | Unauthorized | Missing or unacceptable authentication credentials |
+| 403 | Forbidden | Authenticated caller is not permitted to perform the operation |
+| 404 | Not Found | Resource does not exist or is not available to the caller |
+| 409 | Conflict | Request conflicts with the current resource state |
+| 412 | Precondition Failed | A request precondition such as If-Match was not satisfied |
+| 422 | Unprocessable Content | Request content is understood but fails semantic validation |
+| 429 | Too Many Requests | Rate or quota limit has been exceeded |
+| 500 | Internal Server Error | Unexpected server-side failure |
+| 503 | Service Unavailable | Service is temporarily unable to handle the request |
+
+Do not return 200 for every outcome and expect clients to inspect a custom field to discover whether the operation failed. Use HTTP status codes and a consistent response body together.
+
+### Standardise error details
+
+An error response should help a client understand what happened and what it can do next, without disclosing sensitive internal details.
+
+The Problem Details format defined by [RFC 9457](https://www.rfc-editor.org/rfc/rfc9457.html) provides a standard structure for HTTP API errors. A response might look like:
+
+~~~json
+{
+  "type": "https://api.example.com/problems/validation-error",
+  "title": "Request validation failed",
+  "status": 422,
+  "detail": "One or more fields contain invalid values.",
+  "instance": "/api/v1/products",
+  "errors": [
+    {
+      "field": "price",
+      "code": "must_be_positive",
+      "message": "Price must be greater than zero."
+    }
+  ]
+}
+~~~
+
+The standard members describe the problem type, title, status, detail and instance. An API may define extension members such as errors when they are useful and documented.
+
+Do not include stack traces, SQL statements, internal hostnames, tokens or secrets in public errors. Log diagnostic details securely on the server and return a safe correlation identifier when it helps support teams investigate a problem.
+
+### Distinguish validation from authorization
+
+A malformed request and an unauthorised request are different problems. Validation should check whether the submitted values satisfy the schema and business rules. Authorization should check whether the caller is permitted to perform the operation on the relevant resource.
+
+Be careful not to reveal whether a sensitive resource exists when the caller is not allowed to know about it. In some systems, returning 404 rather than 403 for inaccessible resources is an intentional information-disclosure policy. Apply that policy consistently and document it where appropriate.
+
+## Authentication, Authorization and API Security by Design
+
+Security cannot be added only at the end of API development. It affects resource modelling, endpoint behaviour, token handling, data exposure and operational controls.
+
+### Separate authentication from authorization
+
+Authentication establishes the identity of a user, application or service. Authorization determines what that identity can access or change.
+
+A user who is signed in should not automatically be able to retrieve every order in the system. The server must verify that the authenticated user owns the order or has another explicit permission to access it.
+
+Role-Based Access Control assigns permissions to roles such as administrator, editor or viewer. Attribute-Based Access Control evaluates attributes of the user, resource and environment. Either approach can be useful, and some systems combine them. The design should make access decisions explicit and testable.
+
+### Use appropriate credential mechanisms
+
+API keys can identify applications or projects and are useful for some server-to-server integrations. They should be sent in an appropriate header rather than placed in URLs, where they can leak through logs, browser history, analytics and referrer data. Keys should be scoped, rotated and protected as secrets.
+
+OAuth 2.0 is an authorization framework, not a standalone user-authentication protocol. OpenID Connect adds an identity layer for authentication. For user-facing sign-in, use an appropriate OpenID Connect flow. For delegated access, use OAuth scopes and resource-specific permissions.
+
+The IETF's [RFC 9700: Best Current Practice for OAuth 2.0 Security](https://www.rfc-editor.org/rfc/rfc9700.html) updates earlier OAuth security guidance. Public clients should use Authorization Code with PKCE, redirect URIs should be validated exactly, and deprecated insecure flows should not be selected for new implementations. Follow the current recommendations of the identity provider and protocol specifications rather than copying an old tutorial.
+
+### Treat tokens as sensitive credentials
+
+Access tokens should be sent through the Authorization header over HTTPS. Do not put them in URLs or write them to application logs. Validate tokens using a trusted library and the expected issuer, audience, signature, expiry and permitted algorithms.
+
+A JSON Web Token is a token format, not an authorization policy. A valid signature does not mean that the token grants access to every resource. The API must still check scopes, roles, ownership and other relevant permissions.
+
+Refresh tokens require particularly careful storage and lifecycle management. Use rotation or sender-constraining mechanisms as recommended for the client type and deployment. Keep token lifetimes appropriate to the risk and provide a way to revoke or invalidate access when required.
+
+### Enforce object-level and property-level authorization
+
+Broken Object Level Authorization occurs when a caller can access an object simply by changing its identifier. Every endpoint that accepts a resource ID should check whether the caller is allowed to access that resource.
+
+Property-level authorization is equally important. A user may be allowed to update their display name but not their account role, billing status or ownership field. Avoid binding arbitrary request JSON directly to internal models. Define explicit input schemas and allow only intended fields to be modified.
+
+### Validate input and limit resource consumption
+
+Treat every client-supplied value as untrusted. Validate data types, lengths, formats, ranges, enumerations and relationships. Use parameterised database queries and safe libraries. Avoid constructing SQL, shell commands or file paths by concatenating untrusted input.
+
+Set maximum request body sizes, upload limits, pagination limits, execution timeouts and query complexity limits. Rate limiting helps protect shared resources from accidental overuse and abuse. Apply limits based on appropriate dimensions such as account, API key, user or network source, while considering how proxies and shared networks affect client identity.
+
+Return 429 when a request exceeds the applicable limit. A Retry-After header can communicate when a client may retry. Provider-specific rate-limit headers should be documented and should not be assumed to have universal semantics.
+
+### Configure CORS and browser controls correctly
+
+Cross-Origin Resource Sharing controls whether browser scripts from one origin may read responses from another origin. It is not authentication and does not stop command-line clients or backend services from making requests.
+
+Configure allowed origins, methods, headers and credential behaviour deliberately. Avoid combining credentialed requests with an unrestricted wildcard origin. Do not rely on CORS to protect private endpoints.
+
+Content Security Policy, X-Content-Type-Options and frame-related security headers are primarily browser-facing controls. They may be relevant when an API also serves browser documents or interactive documentation, but they do not replace API authorization, input validation or transport security.
+
+### Use recognised security guidance
+
+The [OWASP API Security Top 10](https://owasp.org/API-Security/editions/2023/en/0x11-t10/) highlights risks including broken object-level authorization, broken authentication, unrestricted resource consumption, security misconfiguration and unsafe consumption of APIs. Use it to guide threat modelling and reviews, while also assessing the risks specific to your application.
+
+Security should be tested continuously. Include negative tests for unauthorised access, cross-tenant access, mass assignment, injection, excessive request sizes, rate-limit bypass and token misuse. A secure API is one whose controls are enforced consistently, not merely described in its documentation.
+
+## Concurrency, Consistency and Safe Updates
+
+When several clients modify the same resource, a design must prevent silent overwrites and confusing state changes. This is especially important for collaborative applications, inventory, bookings, financial records and administrative systems.
+
+### Use conditional requests
+
+HTTP entity tags (ETags) can identify a particular representation of a resource. A client can retrieve a resource with GET, receive an ETag, and send that value in an If-Match header when updating the resource.
+
+For example:
+
+~~~http
+GET /api/v1/products/42 HTTP/1.1
+Host: api.example.com
+~~~
+
+The server responds with an ETag:
+
+~~~http
+HTTP/1.1 200 OK
+ETag: "product-42-v7"
+Content-Type: application/json
+~~~
+
+The client then submits an update with the version it previously received:
+
+~~~http
+PATCH /api/v1/products/42 HTTP/1.1
+Host: api.example.com
+If-Match: "product-42-v7"
+Content-Type: application/merge-patch+json
+
+{
+  "name": "Wireless Keyboard Pro"
+}
+~~~
+
+If another client has changed the resource, the ETag no longer matches. The server can reject the update with 412 Precondition Failed rather than silently overwriting the newer state.
+
+Conditional requests are useful for optimistic concurrency control. They allow clients to work without holding long-lived locks while still detecting conflicting updates.
+
+### Define transaction boundaries
+
+A multi-step operation may involve several database changes. Decide whether those changes must succeed or fail together. For example, creating an order may require reserving inventory and recording an order record. If only one step succeeds, the system may be left in an inconsistent state.
+
+Use database transactions where the operations share a transactional database. For distributed workflows, consider explicit state transitions, durable events, compensating actions or saga patterns. Do not promise atomic behaviour across independent services unless the architecture actually provides it.
+
+### Make asynchronous operations explicit
+
+Some operations take too long for a normal request-response cycle. Report generation, media processing, bulk imports and external partner workflows may need background execution.
+
+A common pattern is to accept the request, create a job resource and return 202 Accepted with a status location or job identifier. The client can retrieve the job state until the operation completes. Define how long job status is retained, what happens after failure and whether clients can cancel work.
+
+Webhooks can notify clients when an asynchronous operation completes, but webhook delivery should be treated as at-least-once in many real systems. Receivers should verify authenticity and handle duplicate events safely.
+
+## Versioning, Compatibility and API Evolution
+
+APIs evolve as products gain features, business rules change and security requirements improve. Versioning and compatibility policies help manage this evolution without surprising consumers.
+
+### Prefer backward-compatible changes
+
+Many changes can be introduced without breaking existing clients:
+
+- Add a new optional response field.
+- Add a new endpoint.
+- Add a new optional query parameter with a safe default.
+- Add a new resource representation that existing clients do not need to use.
+- Improve documentation without changing behaviour.
+
+Other changes are likely to be breaking:
+
+- Remove or rename a field.
+- Change a field's type or meaning.
+- Make an optional request field required.
+- Change authentication requirements.
+- Alter pagination or sorting defaults in a way that changes results.
+- Remove an endpoint or change its status-code behaviour.
+
+Even adding a field can break poorly written clients that reject unknown properties. Understand the ecosystem and use contract tests where possible.
+
+### Choose a versioning strategy
+
+Common approaches include:
+
+**URL versioning** places the major version in the path, such as /api/v1/products. It is visible and easy to test, but creates separate versioned paths.
+
+**Header versioning** communicates the version through a request header or media type. It keeps paths stable but is less visible when inspecting a URL.
+
+**Query parameter versioning** uses a parameter such as version=2. It is easy to try manually but can make caching and documentation more complicated if used inconsistently.
+
+No approach is automatically the most RESTful or the most scalable. Choose one that suits the API's consumers, infrastructure and release process. Be consistent and document exactly what a version represents.
+
+### Establish a deprecation policy
+
+Deprecation is a communication process, not simply deleting an endpoint. Identify affected consumers, explain why the change is necessary, publish a replacement and provide a realistic migration timeline.
+
+RFC 9745 defines the HTTP Deprecation response header field. Its value is a structured date, not a boolean string. A Sunset header can communicate when a deprecated resource is expected to become unavailable. For example:
+
+~~~http
+Deprecation: @1798761600
+Sunset: Tue, 31 Dec 2027 00:00:00 GMT
+Link: <https://api.example.com/docs/migrations/v2>; rel="deprecation"
+~~~
+
+Use actual dates and migration URLs appropriate to your API; the example is illustrative. The [RFC 9745 specification](https://www.rfc-editor.org/rfc/rfc9745.html) explains the Deprecation field and its relationship with Sunset. Do not announce a removal date unless the organisation can support that lifecycle commitment.
+
+### Keep a changelog and migration guide
+
+Document changes in a changelog that identifies the affected version, date, compatibility impact and recommended action. For breaking changes, provide examples showing how a request or response should be updated.
+
+Where possible, monitor usage of deprecated operations so that teams know whether consumers have migrated. Coordinate removal with the consumers rather than assuming that publishing a new version means everyone has switched.
+
+## Documentation and Developer Experience
+
+Documentation is part of the API product. An accurate interface with confusing documentation is difficult to adopt, while clear documentation can make a complex service easier to integrate.
+
+### Provide reference documentation
+
+Reference documentation should describe every operation, parameter, schema, status code and authentication requirement. Include realistic request and response examples. Explain which fields are required, which are optional and what happens when values are invalid.
+
+OpenAPI provides a standard way to describe HTTP APIs. An OpenAPI document can define paths, methods, parameters, request bodies, response schemas, security schemes and reusable components. It can be used to generate interactive documentation and support tooling.
+
+The [OpenAPI Specification 3.2.1](https://spec.openapis.org/oas/v3.2.1.html) is the current specification referenced in this guide. Confirm that your documentation, validation and code-generation tools support the version and features you choose.
+
+### Write tutorials and quickstarts
+
+Reference pages answer detailed questions, but tutorials help developers complete a task. A good quickstart should show how to obtain credentials, make a first request, handle a response and understand a common error.
+
+Provide examples in the languages your consumers use most. Keep examples short enough to understand but complete enough to run. Do not include real API keys, passwords or personal data in documentation.
+
+### Improve the first successful request
+
+The time it takes a developer to make a first successful API call is a useful measure of developer experience. Reduce unnecessary setup, explain authentication clearly and provide a sandbox or test environment when feasible.
+
+Error messages should point developers towards the correct next step. If a request is rejected because a required field is missing, identify the field. If the client has exceeded a rate limit, explain the retry behaviour. If a token is invalid, provide a safe authentication-related explanation without revealing sensitive validation details.
+
+### Treat examples as tested assets
+
+Code samples can become outdated when an API changes. Store examples in version control and test them where practical. Ensure that example payloads match the documented schema and that URLs, scopes and authentication flows are still valid.
+
+For practical implementation patterns, the related guide to [API design principles with FastAPI](https://desire-djh.pages.dev/blog/api-design-principles-with-fastapi) shows how design decisions can be applied in a Python backend.
+
+## Performance, Scalability and Resilience
+
+An API should be designed to handle expected traffic and recover sensibly when components fail. Performance is not only about making individual endpoints fast; it is about controlling resource use and preserving service behaviour under load.
+
+### Measure before optimising
+
+Track latency distributions, request volume, error rates, database query time, dependency latency and resource utilisation. Average response time can hide slow experiences for a smaller group of users, so examine percentiles such as p50, p95 and p99.
+
+Use traces to understand where a request spends time across multiple services. A slow endpoint may be waiting on a database, an external provider, a queue or an overloaded application worker. Optimise the actual bottleneck rather than guessing.
+
+### Use caching with clear rules
+
+HTTP caching can reduce repeated requests and improve response times. Cache-Control defines caching behaviour, while ETag and Last-Modified can support conditional requests. A client can send If-None-Match or If-Modified-Since, allowing the server to return 304 Not Modified when the representation has not changed.
+
+Cache public, relatively stable resources when the freshness requirements permit it. Be cautious with private or user-specific data. A shared cache must not return one user's response to another user. Use appropriate cache directives and ensure cache keys account for the representation and relevant request dimensions.
+
+Server-side caches can store frequently used data or expensive computations. Define invalidation behaviour and understand the trade-off between freshness and performance. Caching should not conceal incorrect data ownership or authorization.
+
+### Optimise database access
+
+Use indexes that support actual query patterns. Inspect query plans and slow-query logs. Avoid N+1 queries, where an application retrieves a list and then performs an additional database query for every item. Batch related reads or use appropriate joins and loading strategies.
+
+Select only the fields required for the response. Apply pagination in the database query rather than retrieving a large dataset and slicing it in application memory. Use connection pools with limits that match database capacity.
+
+### Set timeouts and bounded retries
+
+Every network dependency can become slow or unavailable. Set connection and response timeouts so requests do not wait indefinitely. Use bounded retries with exponential backoff and jitter for transient failures where retrying is safe.
+
+Do not automatically retry every POST request. If the server completed the operation but the response was lost, a repeated request may create a duplicate side effect. Use idempotency keys or another explicit deduplication strategy for operations that require safe retries.
+
+### Apply back-pressure and resource limits
+
+Protect the service from requests that are too large, too expensive or too frequent. Set limits for payload size, upload size, pagination, concurrent work and query complexity. Use queues for work that should not run synchronously, but define queue capacity and overload behaviour.
+
+Rate limits should reflect the service's capacity and business model. A limit per API key may be appropriate for developer platforms; a per-user or per-tenant limit may be more appropriate for a multi-tenant product. Document how limits are applied and how clients should respond to 429 and Retry-After.
+
+### Design for dependency failure
+
+A service that depends on several external systems should not assume they will all be available. Use timeouts, circuit breakers where appropriate, fallback behaviour for non-critical features and clear error mapping. Avoid retry storms that increase load on an already failing dependency.
+
+For a deeper discussion of these techniques, see [high-performance APIs](https://desire-djh.pages.dev/blog/high-performance-apis) and [API design to maximise performance](https://desire-djh.pages.dev/blog/api-design-to-maximize-performance).
+
+## Testing API Design Before and After Release
+
+Testing should verify the contract as well as the implementation. A service can return a 200 response and still be incorrect if it exposes private data, ignores pagination or returns an undocumented schema.
+
+### Unit and integration tests
+
+Unit tests validate business rules and individual components. Integration tests verify how routes, persistence, authentication and dependencies work together. Include tests for invalid input, missing resources, conflicting updates and dependency failures.
+
+### Contract testing
+
+Contract tests check whether the provider and consumer agree on request and response behaviour. They are useful when multiple teams deploy independently. An OpenAPI schema can support request validation, response validation and generated test cases.
+
+Test both expected and unexpected values. A schema that only tests a happy-path example does not prove that the API handles nulls, empty collections, invalid identifiers or boundary values correctly.
+
+### Security and authorization tests
+
+Test that users cannot access another tenant's records, modify protected properties or invoke administrative operations without permission. Include negative cases in the normal automated suite, not only in a one-time penetration test.
+
+Review authentication flows, token validation, CORS configuration, input handling, file uploads and error messages. Use the [OWASP API Security Top 10](https://owasp.org/API-Security/editions/2023/en/0x11-t10/) as one input to a broader security test plan.
+
+### Load and resilience tests
+
+Load tests help determine whether the API can handle expected traffic. Stress tests explore behaviour beyond normal capacity, while soak tests look for resource leaks or performance degradation over time.
+
+Test slow dependencies, database unavailability, queue saturation and timeout behaviour. A robust API should fail in a controlled way and provide enough telemetry to diagnose the problem.
+
+## Common API Design Mistakes to Avoid
+
+Some design mistakes appear small at first but create substantial maintenance costs as more consumers depend on the service.
+
+**Exposing database structure directly.** Returning raw records couples clients to internal implementation details and may expose fields that should remain private. Use explicit public request and response schemas.
+
+**Using inconsistent naming and response formats.** Different conventions across endpoints make integrations harder to learn and increase client-side special cases. Establish shared standards and enforce them through review and automated checks.
+
+**Treating authentication as authorization.** A valid token does not automatically grant access to every resource. Enforce object-level, property-level and function-level permissions on the server.
+
+**Using HTTP methods incorrectly.** Making GET requests change business state or using POST for every operation undermines protocol semantics and makes caching and retry behaviour less predictable.
+
+**Ignoring pagination and resource limits.** Unbounded collection endpoints can become performance and availability risks. Define page sizes, maximum limits, timeouts and request-size constraints from the beginning.
+
+**Returning vague errors.** Generic errors make integrations harder to debug, while overly detailed errors can leak internal information. Use standard status codes and structured, safe problem details.
+
+**Changing fields without a compatibility plan.** Renaming a field or changing its type can break consumers even if the change looks harmless inside the provider's codebase. Review changes from the consumer's perspective.
+
+**Overengineering the architecture.** Not every application needs microservices, multiple gateways, event streaming and several caching layers. Start with the simplest architecture that meets the requirements, then introduce complexity when measured needs justify it.
+
+**Treating documentation as an afterthought.** Documentation that does not match the running API creates confusion and reduces trust. Keep the contract, implementation, examples and release notes aligned.
+
+## A Practical API Design Workflow
+
+A repeatable workflow helps teams make design decisions consistently and catch problems before they reach production.
+
+1. **Understand the consumers and use cases.** Identify who will call the API and which tasks they need to complete.
+2. **Define resources and ownership.** Model business concepts and determine which service owns each resource.
+3. **Agree on the contract.** Specify paths, methods, schemas, status codes, authentication and error behaviour.
+4. **Review security and privacy.** Define access rules, data exposure, validation and resource limits before implementation.
+5. **Model failure and concurrency.** Decide how retries, duplicate requests, conflicting updates and dependency failures should behave.
+6. **Document the interface.** Create an OpenAPI description, examples, tutorials and migration guidance.
+7. **Implement incrementally.** Build a small vertical slice and validate it with real consumers before expanding the interface.
+8. **Automate quality checks.** Add unit, integration, contract, security and performance tests appropriate to the service.
+9. **Release with observability.** Monitor latency, traffic, errors, dependency health and consumer behaviour.
+10. **Evolve deliberately.** Use compatibility reviews, deprecation communication and a documented release process.
+
+### API design review checklist
+
+Before releasing an API or a significant change, review the following questions:
+
+- Are resource names and endpoint paths clear and consistent?
+- Do HTTP methods match the intended operation semantics?
+- Are request and response schemas explicit and stable?
+- Are null, omitted and default values clearly defined?
+- Are collection endpoints paginated and bounded?
+- Are filtering and sorting parameters validated?
+- Are errors consistent and safe to expose?
+- Are authentication and authorization enforced on the server?
+- Are object-level and property-level permissions tested?
+- Are retries and duplicate operations handled safely?
+- Are concurrent updates protected where necessary?
+- Are rate limits, payload limits and timeouts documented?
+- Is the API contract available and accurate?
+- Are compatibility and deprecation policies clear?
+- Are monitoring and alerting in place?
+- Have consumers reviewed the interface before release?
+
+## Conclusion
+
+Effective API design is about creating an interface that people and systems can depend on. Clear resource models, consistent HTTP semantics, thoughtful schemas, useful errors, secure access controls and predictable pagination make an API easier to integrate with. Compatibility policies, documentation, testing and observability help it remain dependable as the product evolves.
+
+The most important design decisions are often made before the first endpoint is implemented. Understand the consumers, agree on the contract, model permissions and failure cases, and choose patterns that solve the real requirements without unnecessary complexity.
+
+Start with a small, well-defined interface and improve it through feedback, tests and measurement. A robust API is not simply one that works today; it is one that remains understandable, secure and maintainable as more developers and applications come to rely on it.`,
     featured: true,
   },
   {
