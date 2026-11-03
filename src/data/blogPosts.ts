@@ -6104,100 +6104,865 @@ Good software is not defined by how many patterns it contains. It is defined by 
   },
   {
     id: '08',
-    title: 'FastAPI Authentication Tutorial Using JWT And OAuth2',
+    title: 'FastAPI Authentication with JWT and OAuth2: Secure API Guide',
     slug: 'fastapi-authentication-tutorial-using-jwt-and-oauth2',
     category: 'Backend',
     publishDate: '2026-08-20',
+    updatedDate: '2026-11-03',
     author: 'Desire E',
+    readingTime: '33 min read',
     excerpt:
-      'Master secure API development by implementing industry-standard JWT tokens and OAuth2 protocols in your FastAPI applications with this comprehensive hands-on guide.',
+      'Learn how to secure FastAPI APIs with JWT bearer tokens, OAuth2 and OpenID Connect, trusted JWKS validation, password hashing, scopes, authorization and current security practices.',
     featuredImage:
       'https://res.cloudinary.com/f7ko7ayw/image/upload/v1785605597/FastAPI_Authentocation_wpdbxx.png',
-    imageAlt: 'FastAPI authentication using JWT and OAuth2',
-    metaTitle: 'FastAPI authentication using JWT and OAuth2',
+    imageAlt: 'FastAPI authentication architecture using JWT access tokens and OAuth2 authorization',
+    metaTitle: 'FastAPI Authentication with JWT and OAuth2 Guide',
     metaDescription:
-      'Master secure API development by implementing industry-standard JWT tokens and OAuth2 protocols in your FastAPI applications with this comprehensive hands-on guide.',
+      'Build secure FastAPI authentication with JWT validation, OAuth2 and OIDC flows, PKCE, password hashing, JWKS, scopes, authorization and testing.',
     targetKeywords: [
-      'JWT authentication',
-      'OAuth2',
-      'API security',
       'FastAPI authentication',
+      'FastAPI JWT authentication',
+      'FastAPI OAuth2',
+      'JWT bearer tokens',
+      'OAuth2 Authorization Code PKCE',
+      'OpenID Connect FastAPI',
+      'PyJWT FastAPI',
+      'FastAPI API security',
+      'JWT token validation',
+      'FastAPI password hashing',
     ],
     tags: [
+      'FastAPI',
       'JWT authentication',
       'OAuth2',
+      'OpenID Connect',
       'API security',
-      'FastAPI authentication',
+      'Python',
+      'Backend Development',
+      'Authentication',
     ],
-    content: `## Why Authentication Matters in Modern API Development
+    content: `## Why Authentication Matters in FastAPI Applications
 
-Authentication stands as the cornerstone of secure API development in today's interconnected digital landscape. Every day, millions of API requests flow across the internet, carrying sensitive user data, financial transactions, and confidential business information. Without robust authentication mechanisms, your FastAPI application becomes vulnerable to unauthorized access, data breaches, and potential exploitation by malicious actors. Understanding and implementing proper FastAPI authentication isn't just a best practice—it's an absolute necessity for protecting your users and maintaining the integrity of your applications.
+APIs often expose customer records, business operations, private documents and other resources that should not be available to every caller. Authentication establishes who or what is making a request. Authorization determines what that authenticated identity is allowed to do. A secure FastAPI application needs both: confirming a user's identity is only the first step, and every protected operation must still enforce the correct permissions.
 
-The consequences of inadequate API security extend far beyond technical concerns. Data breaches can result in severe financial penalties under regulations like GDPR and CCPA, with fines reaching millions of dollars. Beyond monetary costs, companies face reputational damage that can take years to repair. When users trust your API with their data, they're placing confidence in your ability to safeguard their information. Implementing secure FastAPI API authentication demonstrates your commitment to user privacy and security, building trust that translates into user retention and business growth.
+FastAPI provides a flexible foundation for implementing authentication. Its dependency injection system allows security checks to be shared across routes, its type hints and Pydantic models validate incoming data, and its OpenAPI integration documents supported authentication schemes. FastAPI does not, however, automatically create a complete identity provider, user database, password policy, token revocation service or authorization model. Those responsibilities must be designed deliberately or delegated to a trusted identity platform.
 
-Modern API development demands a sophisticated approach to authentication that balances security with user experience. Traditional username-password combinations, while familiar, present numerous vulnerabilities when used in isolation. Passwords can be intercepted, stolen through phishing attacks, or compromised in database breaches. This is where FastAPI JWT (JSON Web Tokens) and FastAPI OAuth2 protocols come into play, offering stateless, scalable authentication solutions that align perfectly with the architecture of modern web applications. These technologies enable secure token-based authentication that maintains session information without requiring server-side storage, making them ideal for distributed systems and microservices architectures.
+This guide explains how JWTs work, how OAuth 2.0 and OpenID Connect fit together, and how to protect FastAPI endpoints using current security practices. It includes Python examples for password hashing, bearer-token validation, trusted JSON Web Key Sets, authorization scopes, error handling and testing. It also explains why some older tutorials use an OAuth2 password grant that should not be selected for new applications.
 
-FastAPI, built on Python's modern async capabilities and leveraging the power of Pydantic for data validation, provides an exceptional framework for implementing authentication. Its automatic API documentation, type hints, and dependency injection system make it particularly well-suited for building secure, maintainable authentication systems. When you combine FastAPI's architectural advantages with industry-standard protocols like JWT and OAuth2, you create a powerful foundation for Python API authentication that can scale from prototype to production with confidence. The framework's performance rivals Node.js and Go, ensuring that security doesn't come at the cost of speed.
+The examples focus on the API's role as a resource server: a client obtains an access token through a trusted identity provider and presents that token to FastAPI. This is a common architecture for production systems because the identity provider manages sign-in, account recovery, multi-factor authentication and delegated authorization, while the API concentrates on its own resources and permissions.
 
-## Understanding JWT Tokens and OAuth2 Fundamentals
+## Authentication, Authorization, OAuth2 and OpenID Connect
 
-JSON Web Tokens (JWT) represent a compact, URL-safe means of representing claims to be transferred between two parties. In the context of FastAPI authentication, JWTs serve as digital signatures that verify a user's identity without requiring constant database lookups. A JWT consists of three distinct parts separated by dots: the header, payload, and signature. The header typically contains the token type (JWT) and the hashing algorithm being used, such as HMAC SHA256 or RSA. The payload carries the claims—statements about the user and additional metadata like expiration time, issuer, and custom claims specific to your application. The signature ensures that the token hasn't been tampered with during transmission, combining the encoded header, encoded payload, and a secret key.
+These terms are related, but they describe different parts of an identity system.
 
-The beauty of FastAPI JWT implementation lies in its stateless nature. Unlike traditional session-based authentication where servers must maintain session data in memory or a database, JWT tokens are self-contained. Once issued, they carry all the information needed to validate a user's identity and permissions. When a client makes a request to a protected endpoint, they include the JWT in the Authorization header. Your FastAPI application can then verify the token's signature, check its expiration, and extract user information—all without touching the database. This approach dramatically reduces server load and enables horizontal scaling, as any server in your cluster can validate any token without sharing session state.
+### Authentication: who is making the request?
 
-OAuth2, on the other hand, is an authorization framework that provides a standardized way for applications to obtain limited access to user accounts. While often confused with authentication (proving who you are), OAuth2 primarily handles authorization (what you're allowed to do). However, OAuth2 flows are commonly used in conjunction with authentication systems. The framework defines several grant types or flows, with the Password Flow and Authorization Code Flow being the most relevant for FastAPI OAuth2 implementations. The Password Flow, also known as Resource Owner Password Credentials, allows clients to exchange username and password directly for access tokens—ideal for first-party applications where you control both the client and server.
+Authentication verifies an identity. A user might prove control of an account through a password, passkey, authenticator application, hardware security key or an identity provider. A service might authenticate with a client credential or workload identity.
 
-In FastAPI OAuth2 implementations, the framework provides built-in security utilities that dramatically simplify OAuth2 integration. The OAuth2PasswordBearer class, for instance, creates a dependency that extracts tokens from request headers automatically. This integrates seamlessly with FastAPI's dependency injection system, allowing you to protect routes simply by declaring a dependency. The framework handles the HTTP 401 responses, WWW-Authenticate headers, and other protocol requirements automatically, letting you focus on business logic rather than protocol minutiae.
+After authentication, the system needs a trustworthy representation of the identity. This may be a user ID, subject identifier, service account or another stable principal. Do not use an email address as the only permanent identifier if users can change it.
 
-Understanding the distinction between access tokens and refresh tokens is crucial for secure FastAPI API implementations. Access tokens are short-lived credentials (typically 15-30 minutes) that grant access to protected resources. Their brief lifespan limits the damage if a token is compromised. Refresh tokens, conversely, are long-lived credentials (days or weeks) used exclusively to obtain new access tokens. This two-token approach balances security with user experience—users don't need to re-authenticate constantly, but stolen access tokens become useless quickly. Implementing this pattern in FastAPI requires careful consideration of token storage, rotation policies, and revocation mechanisms.
+### Authorization: what is the identity allowed to do?
 
-The cryptographic foundation of JWT security rests on choosing appropriate signing algorithms. Symmetric algorithms like HS256 use a single secret key for both signing and verification—simple and fast, but requiring careful key management since any service that validates tokens must possess the secret. Asymmetric algorithms like RS256 use a private key for signing and a public key for verification, enabling token validation without exposing signing capabilities. For most FastAPI authentication scenarios, HS256 provides adequate security with simpler implementation, though microservices architectures often benefit from RS256's ability to distribute public keys safely.
+Authorization evaluates permissions. A signed-in user may be allowed to read their own profile but not another user's profile. A support agent may view selected customer records but not change billing settings. An administrator may manage users but still be restricted from accessing unrelated tenants.
 
-## Setting Up Your FastAPI Project for Secure Authentication
+Authentication should not be treated as proof of authorization. Every sensitive operation needs server-side permission checks, including checks that the requested record belongs to the current user or tenant.
 
-Beginning your FastAPI authentication journey requires establishing a solid project foundation with the right dependencies and structure. Start by creating a new Python virtual environment to isolate your project dependencies. Using Python 3.8 or higher ensures compatibility with FastAPI's modern async features and type hinting capabilities. Install FastAPI itself along with uvicorn as your ASGI server: 'pip install fastapi uvicorn[standard]'. For Python API authentication, you'll need several additional packages: 'python-jose[cryptography]' for JWT token creation and validation, 'passlib[bcrypt]' for secure password hashing, 'python-multipart' for form data processing, and 'sqlalchemy' for database operations. Consider adding 'pydantic[email]' for email validation if your user model includes email addresses.
+### OAuth 2.0: delegated authorization
 
-Structuring your FastAPI project for authentication requires thoughtful organization that separates concerns and promotes maintainability. Create a directory structure that distinguishes between authentication logic, database models, API routes, and configuration. A typical layout includes an 'app' directory containing 'models' for database schemas, 'schemas' for Pydantic models, 'routers' for endpoint definitions, 'core' for configuration and security utilities, and 'crud' for database operations. This modular approach, following FastAPI's recommended patterns, ensures your authentication system remains manageable as your application grows. Place your main application file at the root level, importing and including routers from your organized modules.
+OAuth 2.0 is an authorization framework. It allows a client application to obtain limited access to a protected resource, often on behalf of a user. It defines roles such as resource owner, client, authorization server and resource server, along with flows for obtaining access tokens.
 
-Database selection and configuration form critical decisions in your secure FastAPI API setup. For development, SQLite offers simplicity and zero configuration, allowing you to focus on authentication logic. Production environments typically demand PostgreSQL for its robustness, advanced features, and superior concurrent connection handling. Regardless of choice, SQLAlchemy provides a consistent ORM interface. Configure your database connection in a dedicated module, using environment variables to manage connection strings across different environments. Implement SQLAlchemy's async capabilities if your FastAPI endpoints use async functions, ensuring consistency throughout your stack and maximizing performance.
+OAuth 2.0 does not, by itself, define a universal user identity or sign-in protocol. A successful OAuth authorization does not automatically tell an API everything it needs to know about the user's identity.
 
-Creating your User model requires careful consideration of security requirements and data structures. Your database model should include fields for user identification (typically a unique username or email), a hashed password field (never store plain text passwords), timestamps for account creation and last modification, and an active/disabled flag for account management. Consider adding fields for email verification status, password reset tokens with expiration times, and failed login attempt counters for brute force protection. Define appropriate indexes on frequently queried fields like username and email to maintain query performance as your user base grows.
+### OpenID Connect: an identity layer
 
-Pydantic schemas complement your database models by defining the shape of data entering and leaving your API. Create separate schemas for user creation (UserCreate), user responses (UserResponse), token responses (Token), and token data (TokenData). The UserCreate schema should include password validation requirements—minimum length, complexity requirements, and confirmation matching. The UserResponse schema should explicitly exclude the password hash field, preventing accidental exposure through API responses. These schemas integrate with FastAPI's automatic validation and documentation generation, ensuring your API accepts only properly formatted data while clearly documenting expected request and response structures.
+OpenID Connect (OIDC) builds an authentication layer on top of OAuth 2.0. It defines the ID token and standardized identity claims, allowing a client to verify information about the authenticated end user. An ID token is intended for the client application; an access token is intended for a resource server.
 
-Configuration management through environment variables prevents hardcoding sensitive values like secret keys and database credentials into your source code. Create a settings module using Pydantic's BaseSettings class, which automatically loads values from environment variables. Define settings for your JWT secret key (generate a secure random string using 'openssl rand -hex 32'), algorithm specification (typically 'HS256'), access token expiration (30 minutes recommended), refresh token expiration (7 days suggested), and database URLs for different environments. This approach enables seamless transitions between development, staging, and production while maintaining security best practices.
+Do not send an ID token to an API as though it were an access token. The API must validate the correct token type, audience, issuer, signature, expiry and permissions for its own resource.
 
-## Implementing JWT Token Generation and Validation
+### JWT: a token format
 
-JWT token generation in FastAPI begins with creating a utility function that encodes user information into a signed token. Import the jwt module from python-jose and define a function that accepts user data (typically user ID or username) along with an optional expiration time. The function should create a dictionary containing the subject claim ('sub') with the user identifier, an expiration claim ('exp') set to current UTC time plus your configured token lifetime, and an issued-at claim ('iat') for audit trails. Additional custom claims can include user roles, permissions, or other application-specific data. Use the jwt.encode() function to create the token, passing your payload dictionary, secret key from configuration, and specified algorithm. This function returns a string token ready for transmission to clients.
+JSON Web Token (JWT) is a compact format for representing claims. JWTs are commonly used as access tokens, but OAuth 2.0 does not require access tokens to be JWTs. Some providers issue opaque tokens that the resource server must validate through introspection.
 
-The token creation process for FastAPI JWT implementation should differentiate between access and refresh tokens through their payloads and expiration times. While both follow the same encoding process, access tokens should include comprehensive user information and permissions needed for authorization decisions, with short expiration times (15-30 minutes). Refresh tokens can be more minimal, containing only the user identifier with significantly longer expiration times (7-30 days). Consider adding a token type claim ('token_type') to distinguish between access and refresh tokens during validation, preventing refresh tokens from being used to access protected resources directly.
+A JWT is not automatically encrypted. A signed token's header and payload are normally readable by anyone who obtains it. Do not put passwords, private keys, recovery codes or sensitive personal information in a JWT payload. Signing protects integrity; it does not make the claims confidential.
 
-Token validation forms the security backbone of your FastAPI authentication system, ensuring that incoming requests carry valid, untampered credentials. Create a dependency function that FastAPI will inject into protected routes. This function should extract the token from the Authorization header (FastAPI's OAuth2PasswordBearer handles this automatically), attempt to decode it using jwt.decode() with your secret key and algorithm, and validate the claims. Wrap the decoding in try-except blocks to catch JWTError exceptions for invalid signatures, expired tokens, or malformed tokens. If validation succeeds, extract the user identifier from the token's 'sub' claim and optionally verify the user still exists in your database with an active account status.
+## How JWT Authentication Works
 
-Implementing proper error handling during token validation ensures your secure FastAPI API provides clear, actionable feedback without exposing security vulnerabilities. When token validation fails, raise HTTPException with status code 401 (Unauthorized) and an appropriate error message. Include WWW-Authenticate headers as required by OAuth2 specifications—FastAPI's OAuth2PasswordBearer handles much of this automatically. Be cautious about error message specificity; avoid revealing whether a username exists in your system or whether tokens failed due to expiration versus signature mismatch, as this information aids attackers. Generic messages like 'Could not validate credentials' strike the right balance between user experience and security.
+A JWT commonly contains three Base64URL-encoded sections separated by periods:
 
-Creating a current user dependency function elegantly integrates token validation with FastAPI's dependency injection system. This function depends on your token validation dependency, receives the decoded token data, queries your database for the complete user object, and returns it to your route handler. By declaring this dependency in route definitions, you automatically protect endpoints while making user information available to your handler logic. The dependency can also check for specific user attributes like active status or email verification, raising exceptions for users who shouldn't access particular resources. This pattern keeps route handlers clean and focused on business logic rather than authentication concerns.
+1. **Header:** identifies the token type and signing algorithm.
+2. **Payload:** contains claims such as the subject, issuer, audience and expiration.
+3. **Signature:** allows a verifier to check that the signed content has not been altered.
 
-Token refresh mechanisms require a dedicated endpoint that accepts refresh tokens and issues new access tokens, extending user sessions without requiring re-authentication. Implement a '/token/refresh' endpoint that validates incoming refresh tokens, verifies they're actually refresh tokens (not access tokens being misused), confirms the user still exists and is active, and issues a new access token. Consider rotating refresh tokens—issuing a new refresh token along with each access token—to detect token theft. When a refresh token is used, invalidate the old one and issue a new pair. This approach limits the window of opportunity if refresh tokens are compromised, though it requires maintaining a database of valid refresh tokens.
+A typical request flow looks like this:
 
-## Building Protected Endpoints with OAuth2 Password Flow
+~~~text
+User
+  |
+  v
+Client Application
+  |
+  | 1. Sign in through an identity provider
+  v
+Authorization Server / OpenID Provider
+  |
+  | 2. Issues an access token
+  v
+Client Application
+  |
+  | 3. Authorization: Bearer <access-token>
+  v
+FastAPI Resource Server
+  |
+  | 4. Verify signature, issuer, audience, expiry and claims
+  | 5. Check user, tenant and permission rules
+  v
+Protected API Resource
+~~~
 
-The OAuth2 Password Flow implementation in FastAPI begins with creating a token endpoint that accepts username and password credentials and returns access tokens. Define a '/token' route that accepts POST requests with form data (OAuth2 requires form encoding, not JSON). The endpoint should receive OAuth2PasswordRequestForm as a dependency, which FastAPI provides to parse the standard username and password fields. Query your database for a user matching the provided username, verify the account is active, and use your password hashing utility to compare the provided password against the stored hash. If credentials are valid, generate access and refresh tokens using your token creation functions, and return them in a response matching the OAuth2 specification format with 'access_token', 'token_type', and optionally 'refresh_token' fields.
+The API should reject a token if its signature is invalid, its lifetime has ended, its issuer is unexpected, its audience does not identify the API, or required claims are missing. Even a cryptographically valid token can be inappropriate for a particular endpoint if it lacks the required scope or the user no longer has access to the requested resource.
 
-Password hashing deserves special attention in any Python API authentication system, as it represents your last line of defense if your database is compromised. Use passlib's CryptContext with bcrypt to hash passwords before storing them. Create a context instance configured with 'bcrypt' as the scheme and 'auto' deprecation. Implement two utility functions: one for hashing plain passwords during registration and password changes, and another for verifying plain passwords against hashed versions during login. Bcrypt's adaptive nature automatically includes salt and allows configuring computational cost, making it resistant to rainbow table attacks and GPU-based cracking. Never compare password hashes using simple equality; always use your verification function to handle timing attacks properly.
+### Important JWT claims
 
-User registration endpoints must balance security with user experience, validating input thoroughly while providing clear feedback. Create a '/register' endpoint that accepts user creation data through your Pydantic schema, validates the password meets complexity requirements, checks that the username or email isn't already registered, hashes the password, creates the database record, and returns the new user information (excluding the password hash). Consider implementing email verification workflows that set accounts to inactive until users confirm their email addresses. This prevents spam registrations and ensures you can contact users for password resets or security notifications. Generate verification tokens similar to JWT tokens but with longer expiration times and single-use restrictions.
+| Claim | Purpose | Security consideration |
+| --- | --- | --- |
+| sub | Subject represented by the token | Use a stable, unique identifier |
+| iss | Issuer that created the token | Compare against a trusted issuer exactly |
+| aud | Intended recipient or resource | Reject tokens issued for a different API |
+| exp | Expiration time | Enforce a short access-token lifetime |
+| nbf | Time before which the token is not valid | Reject tokens used too early |
+| iat | Time the token was issued | Useful for policy and audit checks |
+| jti | Unique token identifier | Can support revocation or replay controls |
+| scope | Granted permissions | Enforce the permissions required by each route |
 
-Protected endpoints demonstrate the power of FastAPI OAuth2 integration through dependency injection. Create a route like '/users/me' that depends on your current user dependency. FastAPI automatically handles token extraction, validation, user retrieval, and error responses—your route handler simply receives an authenticated user object and returns the desired information. This pattern extends to all protected resources: declare the current_user dependency, and FastAPI ensures only authenticated requests reach your handler. The automatic OpenAPI documentation includes authentication requirements, showing the lock icon beside protected endpoints and providing an authorization interface for testing.
+A JWT's claims are statements made by its issuer. The API must trust the issuer and validate the claims before using them. Never treat an arbitrary decoded payload as proof of identity.
 
-Role-based access control (RBAC) extends basic authentication to authorization, controlling what authenticated users can do. Add a role or permissions field to your User model, storing user roles as strings or more complex permission structures. Create a dependency factory that accepts required roles or permissions and returns a dependency function. This function depends on your current user dependency, checks if the user possesses the required roles, and raises HTTPException with status 403 (Forbidden) if authorization fails. Apply these role-checking dependencies to routes requiring specific privileges, stacking them with your authentication dependencies. This approach keeps authorization logic centralized and routes declarative.
+## Choosing the Right OAuth2 Flow
 
-Implementing logout functionality in stateless JWT-based systems presents unique challenges since tokens can't be invalidated server-side by default. Consider maintaining a token blacklist in a fast datastore like Redis, storing invalidated token IDs until their expiration time. When users log out, add their current access and refresh tokens to the blacklist. Modify your token validation dependency to check the blacklist before accepting tokens. For better performance, only blacklist refresh tokens and rely on short access token lifetimes for security. Alternatively, implement token versioning where users have a token version number in the database; increment it on logout, and include it in tokens, rejecting tokens with outdated versions.
+Selecting the correct flow is one of the most important design decisions in an authentication system. The flow must match the type of client, the trust boundaries and the identity provider.
 
-Production security considerations transform your FastAPI authentication from functional to truly secure. Always use HTTPS in production to prevent token interception during transmission. Implement rate limiting on authentication endpoints to prevent brute force attacks using libraries like slowapi. Add CORS middleware with restrictive origin policies, allowing only your frontend domains. Enable security headers using middleware to prevent XSS, clickjacking, and other browser-based attacks. Implement comprehensive logging for authentication events—successful and failed logins, token generation, and suspicious patterns—without logging sensitive information like passwords or full tokens. Regular security audits, dependency updates, and penetration testing should be part of your ongoing maintenance schedule.
+### Authorization Code Flow with PKCE
 
-Testing your authentication system thoroughly ensures reliability and security. Write unit tests for password hashing verification, token generation and validation, and user creation logic. Integration tests should cover the entire authentication flow: registration, login, accessing protected endpoints with valid tokens, handling invalid tokens, and token refresh. Use FastAPI's TestClient for straightforward testing, creating test users, obtaining tokens, and making authenticated requests. Test edge cases like expired tokens, malformed tokens, disabled user accounts, and invalid credentials. Mock external dependencies like database connections and email services to keep tests fast and reliable. Continuous integration should run these tests on every commit, ensuring authentication remains solid as your application evolves.`,
+For modern user-facing applications, Authorization Code with Proof Key for Code Exchange (PKCE) is the preferred starting point. It is suitable for browser-based applications, native applications and other clients that need a user to sign in through an authorization server.
+
+The client creates a one-time verifier and derives a challenge from it. It sends the challenge during the authorization request. After the user authenticates, the authorization server returns a short-lived authorization code. The client exchanges that code using the original verifier. The authorization server checks the verifier before issuing tokens.
+
+PKCE reduces the risk that an intercepted authorization code can be redeemed by an attacker. Use the S256 challenge method, exact registered redirect URIs, transaction-specific state and the provider's supported protections. In OpenID Connect flows, validate the nonce in the ID token as required by the provider's implementation.
+
+In this architecture, FastAPI is normally the resource server. The client or an identity-provider SDK performs the interactive sign-in flow, and FastAPI validates the access token presented to its endpoints.
+
+### Client Credentials Flow
+
+The Client Credentials flow is intended for machine-to-machine communication when a service acts on its own behalf rather than on behalf of an end user. A backend worker might use a client credential to call an internal API.
+
+Treat client secrets as high-value credentials. Store them in a secrets manager, rotate them, use the narrowest scopes available and avoid embedding them in browser or mobile application code. Where supported and appropriate, prefer stronger client authentication methods such as private-key JWT or mutual TLS.
+
+### Resource Owner Password Credentials grant
+
+Older FastAPI tutorials often demonstrate the OAuth2 password grant, sometimes called Resource Owner Password Credentials (ROPC). In this flow, a client collects the user's username and password and sends them directly to the authorization server to obtain a token.
+
+This approach is no longer recommended for new applications. The OAuth 2.0 Security Best Current Practice, RFC 9700, says the password grant MUST NOT be used. It exposes user credentials to the client and does not support many modern authentication approaches, including multi-step sign-in and federated identity flows.
+
+FastAPI still documents utilities that can demonstrate this older flow and can be useful when maintaining a legacy first-party application. Their presence in the framework does not make the grant suitable for a new public application. If you control the client and API and simply need a local login endpoint, be clear that you are implementing your own first-party authentication system rather than claiming to provide a complete OAuth2 authorization server.
+
+For new applications, use an established OpenID Connect provider with Authorization Code and PKCE. Avoid building an authorization server from scratch unless you have a strong reason and the expertise to operate one securely.
+
+## Project Setup and Dependencies
+
+Create a virtual environment and install the packages needed by the examples:
+
+~~~bash
+python -m venv .venv
+
+# Linux or macOS
+source .venv/bin/activate
+
+# Windows PowerShell
+# .venv\Scripts\Activate.ps1
+
+python -m pip install --upgrade pip
+pip install fastapi "uvicorn[standard]" "pyjwt[crypto]" "pwdlib[argon2]" pydantic-settings
+~~~
+
+The examples use:
+
+- **FastAPI** for routing, dependency injection and API documentation.
+- **Uvicorn** as the ASGI server.
+- **PyJWT** for signing and verifying JWTs when the application is responsible for that operation.
+- **pwdlib with Argon2** for password hashing in a first-party credential store.
+- **Pydantic Settings** for typed configuration loaded from environment variables.
+
+The authorization-code flow itself is normally handled by an identity provider and its supported client library. A FastAPI resource server does not need to collect the user's password or implement the provider's token endpoint.
+
+Use maintained dependency versions and commit a lock file so that the same tested dependencies can be installed in development and deployment. PyJWT's 2.14.0 release includes important key-validation hardening, and later 2.15.x releases add further fixes. Use a current patched release rather than copying old version pins from an outdated tutorial. If you use RSA or ECDSA keys, install the cryptography extra as shown above.
+
+## Configure Authentication Settings Safely
+
+Authentication configuration includes secrets and trust relationships. Keep private keys, client secrets, database credentials and signing secrets out of source code. Use environment variables or a dedicated secrets manager, and provide different credentials for development, staging and production.
+
+A simple settings module can look like this:
+
+~~~python
+from pydantic_settings import BaseSettings, SettingsConfigDict
+
+
+class Settings(BaseSettings):
+    model_config = SettingsConfigDict(
+        env_file=".env",
+        env_file_encoding="utf-8",
+        extra="ignore",
+    )
+
+    jwt_issuer: str
+    api_audience: str
+    jwks_url: str
+
+
+settings = Settings()
+~~~
+
+Example environment configuration:
+
+~~~text
+JWT_ISSUER=https://identity.example.com/
+API_AUDIENCE=https://api.example.com/
+JWKS_URL=https://identity.example.com/.well-known/jwks.json
+~~~
+
+The issuer, audience, JWKS endpoint and allowed algorithms must come from trusted configuration. Do not accept a JWKS URL, issuer or algorithm from an incoming request or from an unverified JWT header. Otherwise, an attacker may influence where the API retrieves keys or how it attempts to validate a token.
+
+For a production deployment, inject these settings through the platform's environment or secret-management interface. A local .env file should be excluded from version control. Do not print settings objects or environment dumps in logs because they may contain sensitive values.
+
+## Understand the API's Role as a Resource Server
+
+A resource server receives access tokens and decides whether to serve protected resources. It does not necessarily issue tokens.
+
+This separation is useful because authentication is a specialist security function. An identity provider can manage password resets, passkeys, multi-factor authentication, suspicious sign-in detection, account recovery, consent and federated identity. FastAPI can focus on API-specific authorization, data access and business rules.
+
+A typical production arrangement includes:
+
+- A web, mobile or server-side client that starts the sign-in flow.
+- An OpenID Connect provider or authorization server that authenticates users and issues tokens.
+- A FastAPI resource server that verifies access tokens.
+- A database that stores application-specific user, tenant and permission information.
+- Monitoring and audit systems that record security-relevant events without storing bearer credentials.
+
+If the API accepts opaque access tokens, it may need to call the provider's token-introspection endpoint. If the provider issues JWT access tokens, the API can validate their signature and claims using the provider's published signing keys. Follow the provider's exact access-token validation instructions; different providers use different claims, formats and key-rotation policies.
+
+## Validate JWT Access Tokens with a Trusted JWKS
+
+Many identity providers publish public signing keys through a JSON Web Key Set (JWKS) endpoint. The provider signs tokens using a private key, while resource servers retrieve the corresponding public key to verify signatures. This avoids distributing the signing private key to every API.
+
+The following example uses PyJWT's PyJWKClient to retrieve the public key selected by the token's key identifier. The JWKS URL is configured by the application, not read from the token.
+
+~~~python
+import jwt
+from jwt import InvalidTokenError, PyJWKClient
+
+from app.config import settings
+
+
+jwks_client = PyJWKClient(settings.jwks_url)
+
+
+def verify_access_token(token: str) -> dict:
+    signing_key = jwks_client.get_signing_key_from_jwt(token).key
+
+    claims = jwt.decode(
+        token,
+        signing_key,
+        algorithms=["RS256"],
+        issuer=settings.jwt_issuer,
+        audience=settings.api_audience,
+        options={
+            "require": ["exp", "iss", "aud", "sub"],
+        },
+        leeway=30,
+    )
+
+    if not isinstance(claims.get("sub"), str) or not claims["sub"]:
+        raise InvalidTokenError("Token subject is missing")
+
+    token_use = claims.get("token_use")
+    if token_use is not None and token_use != "access":
+        raise InvalidTokenError("Unexpected token type")
+
+    return claims
+~~~
+
+This is an illustrative integration pattern, not a universal drop-in verifier. Confirm the provider's token profile before enforcing or omitting provider-specific claims such as token_use. Some providers use a different claim name or token format. If the provider uses a different signing algorithm, configure only the exact algorithms that it documents and that your application has deliberately approved.
+
+Important validation rules include:
+
+- **Fix the algorithm allow-list in server configuration.** Never trust the token's alg header to choose the verification algorithm.
+- **Verify the signature.** Decoding a JWT without signature verification is not authentication.
+- **Verify issuer and audience.** A token for another application or API must not be accepted.
+- **Require and validate expiration.** Reject expired tokens and define a small, deliberate clock-skew allowance.
+- **Check token purpose.** Do not accept an ID token, refresh token or other token type as an API access token.
+- **Validate the subject.** Resolve the subject to a known local identity or service principal.
+- **Check authorization separately.** Valid signature and claims do not automatically grant access to every endpoint.
+
+PyJWT's PyJWKClient can cache retrieved signing keys, but your application must still handle key rotation and JWKS endpoint failures. Keep the endpoint fixed to the trusted provider, use HTTPS, set sensible network timeouts at the infrastructure layer and monitor key-fetch failures. Never allow an arbitrary user-controlled URL to be passed to the JWKS client.
+
+## Add a FastAPI Authentication Dependency
+
+FastAPI dependencies make it possible to validate a bearer token once and reuse the result across protected routes. For an API using an external OAuth2 authorization-code provider, OAuth2AuthorizationCodeBearer can describe the authorization-code flow in the OpenAPI document and extract the bearer token from the Authorization header.
+
+~~~python
+from fastapi import Depends, HTTPException, status
+from fastapi.security import OAuth2AuthorizationCodeBearer
+from jwt import InvalidTokenError
+
+
+oauth2_scheme = OAuth2AuthorizationCodeBearer(
+    authorizationUrl="https://identity.example.com/authorize",
+    tokenUrl="https://identity.example.com/oauth/token",
+    scopes={
+        "profile:read": "Read the signed-in user's profile",
+        "orders:read": "Read permitted orders",
+        "orders:write": "Create or update permitted orders",
+    },
+)
+
+
+def get_token_claims(token: str = Depends(oauth2_scheme)) -> dict:
+    try:
+        return verify_access_token(token)
+    except InvalidTokenError as exc:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Could not validate credentials",
+            headers={"WWW-Authenticate": "Bearer"},
+        ) from exc
+    except PyJWKClientConnectionError as exc:
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail="Authentication provider temporarily unavailable",
+        ) from exc
+    except PyJWKClientError as exc:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Could not validate credentials",
+            headers={"WWW-Authenticate": "Bearer"},
+        ) from exc
+~~~
+
+In a real implementation, catch the specific token and key-retrieval exceptions expected from the selected library and map them to safe HTTP responses. Avoid a broad exception handler that hides programming errors or makes an identity-provider outage indistinguishable from an invalid token. Log operational failures with a correlation ID, but never log the bearer token itself.
+
+The authorizationUrl and tokenUrl values in this example describe the provider's authorization-code flow for OpenAPI documentation. They do not make FastAPI an authorization server and do not implement the interactive sign-in process. The client application must use the provider's supported Authorization Code with PKCE integration.
+
+### Resolve the authenticated user
+
+After verifying the token, use the subject claim to load the application user or service account. This allows the API to enforce account status, tenant membership and current application permissions.
+
+~~~python
+from dataclasses import dataclass
+from fastapi import Depends, HTTPException, status
+
+
+@dataclass
+class CurrentUser:
+    user_id: str
+    tenant_id: str
+    is_active: bool
+
+
+def load_user_by_subject(subject: str) -> CurrentUser | None:
+    # Replace this placeholder with a database repository lookup.
+    # Match the stable identity-provider subject, not an unverified email.
+    raise NotImplementedError
+
+
+def get_current_user(
+    claims: dict = Depends(get_token_claims),
+) -> CurrentUser:
+    user = load_user_by_subject(claims["sub"])
+
+    if user is None or not user.is_active:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid authentication credentials",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+
+    return user
+~~~
+
+The repository function is deliberately left as an application-specific boundary. A production implementation should query a persistent database and handle missing users, disabled accounts and tenant membership consistently. Do not trust a role or tenant identifier from a request body when the authenticated identity and server-side records can determine it.
+
+### Protect a route
+
+A route can now require an authenticated user by declaring the dependency:
+
+~~~python
+from fastapi import APIRouter, Depends
+
+router = APIRouter()
+
+
+@router.get("/users/me")
+def read_my_profile(
+    current_user: CurrentUser = Depends(get_current_user),
+):
+    return {
+        "user_id": current_user.user_id,
+        "tenant_id": current_user.tenant_id,
+    }
+~~~
+
+Requests without a valid bearer token receive a 401 Unauthorized response. A valid token allows the dependency to resolve the principal, but the route must still enforce any resource-specific permission rules.
+
+## Add Scope-Based Authorization
+
+OAuth2 scopes represent permissions granted to a client or token. They are useful for expressing what an application may do, but they do not replace domain-level authorization.
+
+For example, an access token may contain profile:read and orders:read scopes. The API can require the relevant scope before running an operation. FastAPI provides SecurityScopes for this purpose.
+
+~~~python
+from fastapi import Depends, HTTPException, Security, status
+from fastapi.security import SecurityScopes
+
+
+def get_current_user_with_scopes(
+    security_scopes: SecurityScopes,
+    claims: dict = Depends(get_token_claims),
+) -> CurrentUser:
+    granted = set(str(claims.get("scope", "")).split())
+    required = set(security_scopes.scopes)
+
+    if not required.issubset(granted):
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Not enough permissions",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+
+    user = load_user_by_subject(claims["sub"])
+    if user is None or not user.is_active:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid authentication credentials",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+
+    return user
+
+
+@router.get("/orders")
+def list_orders(
+    current_user: CurrentUser = Security(
+        get_current_user_with_scopes,
+        scopes=["orders:read"],
+    ),
+):
+    # Also filter the query by current_user.tenant_id and ownership rules.
+    return {"message": "Return only orders this user may access"}
+~~~
+
+The example assumes the provider puts space-delimited scopes in the scope claim. Some providers use a different claim shape. Adapt the extraction logic to the provider's documented access-token format and reject unexpected types rather than silently treating malformed data as an empty permission set.
+
+Scopes are often coarse-grained. A token with orders:read does not mean a user can read every order in the system. The API must still check record ownership, tenant boundaries and business rules. For more detailed API boundary guidance, see [API design fundamentals](https://desire-djh.pages.dev/blog/api-design-fundamentals) and [API design principles with FastAPI](https://desire-djh.pages.dev/blog/api-design-principles-with-fastapi).
+
+## Password Hashing for Applications That Manage Their Own Credentials
+
+Some applications maintain a first-party username-and-password database instead of delegating sign-in to an external identity provider. In that case, password storage must be designed carefully. Never store plaintext passwords, reversible password encryption or fast general-purpose hashes such as plain SHA-256.
+
+Password hashing functions are deliberately expensive and use unique salts. Argon2id is a strong modern choice for many applications. The pwdlib package provides a convenient interface for recommended password-hashing configurations.
+
+~~~python
+from pwdlib import PasswordHash
+
+password_hash = PasswordHash.recommended()
+
+
+def hash_password(plain_password: str) -> str:
+    return password_hash.hash(plain_password)
+
+
+def verify_password(
+    plain_password: str,
+    stored_hash: str,
+) -> bool:
+    return password_hash.verify(plain_password, stored_hash)
+~~~
+
+Store only the resulting password hash in the user table. When a user signs in, retrieve the stored hash and use the library's verification method. Do not compare password hashes manually or create your own salt and hashing algorithm.
+
+A production password policy should consider minimum length, breached-password screening, secure password reset, multi-factor authentication and rate limiting. Avoid arbitrary complexity rules that encourage predictable substitutions. Password reset tokens should be random, short-lived, single-use and stored securely. Password changes should invalidate or revoke sessions according to the application's risk model.
+
+If an application delegates authentication to an identity provider, do not duplicate the provider's password database. Store only the application-specific identity mapping and profile data that the API actually needs.
+
+## If You Must Maintain a Legacy OAuth2 Password Flow
+
+FastAPI's OAuth2PasswordBearer and OAuth2PasswordRequestForm utilities are often shown together in tutorials. They can be useful when maintaining an existing first-party application that already uses the password grant, but RFC 9700 explicitly says the Resource Owner Password Credentials grant must not be used for new OAuth2 deployments.
+
+The form endpoint accepts username and password as form fields, not JSON. The API verifies the submitted password against the stored password hash and returns a token. The following shortened example illustrates the credential check only; it is not a complete authorization server and should not be used as a template for a new third-party sign-in system.
+
+~~~python
+from fastapi import Depends, HTTPException, status
+from fastapi.security import OAuth2PasswordRequestForm
+
+
+@app.post("/legacy/token")
+def legacy_token(
+    form_data: OAuth2PasswordRequestForm = Depends(),
+):
+    user = find_user_by_username(form_data.username)
+
+    if user is None or not verify_password(
+        form_data.password,
+        user.hashed_password,
+    ):
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Incorrect username or password",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+
+    # Issue only a short-lived access token using a reviewed
+    # token-creation function and the application's key policy.
+    return create_legacy_access_token(user)
+~~~
+
+Do not expose this endpoint as a general-purpose third-party OAuth2 login service. Do not let an untrusted client collect credentials for another identity provider. Plan a migration to Authorization Code with PKCE or a suitable OIDC provider when modernizing an existing system.
+
+## Creating JWTs When Your Application Is the Trusted Issuer
+
+Some internal systems legitimately issue their own JWTs. In that case, the API or a dedicated authentication service must protect the signing key and define a strict token profile. The example below demonstrates the essential claims for an access token signed with HS256. It assumes a strong secret supplied through a secrets manager and a single trusted service responsible for both signing and verification.
+
+~~~python
+from datetime import datetime, timedelta, timezone
+import jwt
+
+
+def create_access_token(
+    subject: str,
+    secret_key: str,
+    issuer: str,
+    audience: str,
+) -> str:
+    now = datetime.now(timezone.utc)
+
+    payload = {
+        "sub": subject,
+        "iss": issuer,
+        "aud": audience,
+        "iat": now,
+        "nbf": now,
+        "exp": now + timedelta(minutes=10),
+        "jti": create_unique_token_id(),
+        "token_use": "access",
+    }
+
+    return jwt.encode(
+        payload,
+        secret_key,
+        algorithm="HS256",
+    )
+~~~
+
+The helper create_unique_token_id represents a cryptographically random unique identifier generated by the application. It is not a fixed value or a user-controlled string. In a real system, implement it using a secure random UUID or token identifier.
+
+For a small single-service application, a high-entropy symmetric key may be operationally simple. In a multi-service architecture, asymmetric signing can be preferable: the issuer holds the private key and resource servers receive only public keys. This reduces the number of components that can mint tokens. Protect private keys, rotate keys using a planned key identifier strategy, and keep the algorithm allow-list fixed in verifier configuration.
+
+JWTs are normally difficult to revoke before their expiration unless the system adds state. Keep access tokens short-lived and choose a revocation strategy based on the application's risk. A token version, denylist keyed by jti, introspection endpoint or centralized session service may be appropriate in different systems. Each approach has operational and consistency trade-offs.
+
+## Access Tokens, Refresh Tokens and Logout
+
+Access tokens should generally be short-lived and limited to the intended API and permissions. A stolen access token can be replayed by whoever possesses it until it expires or is otherwise rejected. Avoid unnecessarily long token lifetimes.
+
+Refresh tokens are higher-value credentials because they can obtain new access tokens. If your identity provider issues refresh tokens, follow its storage, rotation and revocation guidance. For public clients, RFC 9700 requires refresh-token replay protection through sender-constrained refresh tokens or refresh-token rotation.
+
+For a first-party application that manages its own refresh tokens, consider storing only a cryptographic hash of each opaque refresh token in the database. Associate it with a user, client, session, scope and expiry. When a refresh token is used, invalidate it and issue a replacement in the same transaction. If an already-used token appears again, treat it as a possible replay event and revoke the related token family or session according to the policy.
+
+Logout is not automatically achieved by deleting a JWT from the browser. If the token remains valid, a copied version may still be accepted. A client should discard its local credential, and the server or identity provider should revoke refresh tokens or sessions where supported. Short access-token lifetimes reduce the residual window. For high-risk applications, use server-side session state or a token revocation mechanism.
+
+Do not store bearer tokens in URLs. URLs can be recorded in browser history, server logs, analytics and referrer headers. Browser applications should follow the identity provider's recommended storage model, protect against cross-site scripting and use secure cookie attributes when cookies are part of the design. Mobile and desktop clients should use platform-provided secure storage.
+
+## Role-Based Access Control and Object-Level Permissions
+
+Role-Based Access Control (RBAC) assigns permissions through roles such as member, editor, support agent and administrator. It can simplify broad access policies, but role checks alone are not enough for many APIs.
+
+A route might require an administrator role, while a separate rule ensures that the administrator belongs to the same tenant as the requested record. A customer may read an order only if the order belongs to that customer. A support agent may access a record only when a valid support workflow permits it.
+
+A robust authorization decision may combine:
+
+- The authenticated principal and its current account status.
+- The scopes granted to the access token.
+- Application roles and permissions stored in the database.
+- Tenant, organization or project membership.
+- Ownership of the specific resource.
+- Contextual rules such as workflow state or time-limited approval.
+
+Avoid trusting role names supplied in request bodies or query parameters. If roles are included in a token, consider how quickly changes must take effect. A user whose privileges were revoked may retain an old role claim until the token expires. High-risk permission changes may require short token lifetimes, a current database check or centralized policy evaluation.
+
+For a practical example of role-based access control in a larger FastAPI application, see the [hospital management system API project](https://desire-djh.pages.dev/blog/hospital-management-system-api).
+
+## Common Authentication Vulnerabilities and How to Prevent Them
+
+Authentication code is security-sensitive. A small configuration mistake can undermine the entire system.
+
+### Accepting tokens without verifying signatures
+
+A JWT decoder may expose a payload without proving that the token was signed by a trusted issuer. Never treat an unverified decode as authentication. Use a maintained JWT library and verify the signature with the correct key and fixed algorithm policy.
+
+### Allowing algorithm confusion
+
+Do not build the allowed algorithm list from the incoming token header. Configure the exact algorithms expected from the issuer. Do not mix symmetric and asymmetric algorithms casually or reuse public-key material as an HMAC secret. Keep PyJWT current and review its security advisories.
+
+### Skipping issuer or audience validation
+
+A valid token issued for another service should not be accepted by your API. Validate both issuer and audience against trusted configuration. This helps prevent token substitution across applications and environments.
+
+### Using ID tokens as API access tokens
+
+ID tokens communicate authentication information to the client. Access tokens authorize access to a resource server. Validate the token type and audience expected by your API. Do not assume that any JWT from the same identity provider is valid for every purpose.
+
+### Storing passwords in plaintext or using weak hashes
+
+A database breach should not reveal usable passwords. Use a modern password-hashing algorithm such as Argon2id with unique salts and appropriate parameters. Keep the hashing library maintained and use its verification method.
+
+### Making tokens long-lived
+
+Long-lived bearer tokens increase the time available for an attacker to replay a stolen credential. Prefer short-lived access tokens and a carefully designed refresh-token process. Do not issue refresh tokens to clients that do not need them.
+
+### Forgetting object-level authorization
+
+A user who is authenticated and has a broad read scope may still not be allowed to access a specific record. Check ownership and tenant boundaries on the server for every relevant operation. This is a major API security concern.
+
+### Exposing secrets in code, logs or error messages
+
+Never commit signing keys, client secrets or database passwords. Do not log Authorization headers or raw tokens. Return generic authentication errors to clients while keeping structured, redacted diagnostic information in protected logs.
+
+### Treating CORS as an authentication control
+
+Cross-Origin Resource Sharing controls whether browser scripts from one origin can read responses from another origin. It does not stop curl, mobile clients or malicious non-browser requests from calling an API. CORS is not a substitute for authentication, authorization or CSRF protection.
+
+### Ignoring rate limits and account abuse
+
+Login, password reset, verification and token endpoints are attractive targets for brute-force attempts and automated abuse. Apply rate limits, monitor repeated failures, use progressive controls where appropriate and avoid revealing whether a username or email exists.
+
+### Failing to validate redirect destinations
+
+OAuth redirect URIs must be registered and compared exactly, subject only to the narrowly defined exceptions for native applications. Do not redirect users to arbitrary URLs supplied in query parameters. Open redirects can expose authorization codes or tokens.
+
+The [OWASP API Security Top 10](https://owasp.org/API-Security/editions/2023/en/0x11-t10/) is a useful starting point for reviewing API risks. The [OAuth 2.0 Security Best Current Practice, RFC 9700](https://www.rfc-editor.org/rfc/rfc9700.html) provides current guidance for OAuth clients and authorization servers.
+
+## Testing FastAPI Authentication
+
+Authentication should be tested as a security boundary, not only as a happy-path feature. Tests should verify that protected endpoints reject missing, malformed, expired, incorrectly signed and incorrectly scoped credentials.
+
+FastAPI's TestClient can exercise routes without starting a production server. A simplified test for an endpoint that requires authentication might look like this:
+
+~~~python
+from fastapi.testclient import TestClient
+
+from app.main import app
+
+
+client = TestClient(app)
+
+
+def test_profile_requires_authentication():
+    response = client.get("/users/me")
+
+    assert response.status_code == 401
+
+
+def test_profile_accepts_valid_access_token():
+    token = create_test_access_token_for_user("user-123")
+
+    response = client.get(
+        "/users/me",
+        headers={"Authorization": f"Bearer {token}"},
+    )
+
+    assert response.status_code == 200
+~~~
+
+The helper create_test_access_token_for_user should use a test-only signing key and the same issuer, audience and required claims as the application verifier. Do not use production signing keys in tests. If the application validates tokens through an external JWKS endpoint, mock the trusted key client or use a local test identity provider so tests remain deterministic.
+
+A useful authentication test matrix includes:
+
+| Scenario | Expected result |
+| --- | --- |
+| No Authorization header | 401 Unauthorized |
+| Malformed bearer token | 401 Unauthorized |
+| Invalid signature | 401 Unauthorized |
+| Expired token | 401 Unauthorized |
+| Wrong issuer | 401 Unauthorized |
+| Wrong audience | 401 Unauthorized |
+| Missing required claim | 401 Unauthorized |
+| Disabled or unknown user | 401 or the documented account policy |
+| Valid token without required scope | 403 Forbidden |
+| Valid token accessing another tenant's record | 403 or 404 according to the disclosure policy |
+| Valid token with required permission and ownership | Successful response |
+
+Also test password hashing and verification, account lockout or rate-limiting behaviour, refresh-token rotation, logout, key rotation and the handling of identity-provider outages. Integration tests should verify the actual database and security dependencies. Contract tests can verify that the identity provider's access-token format still matches the API's assumptions.
+
+Do not write tests that only assert that a token can be decoded. Test that the API rejects a token when any required trust condition is violated.
+
+## Running and Documenting the FastAPI Application
+
+Start the development server with Uvicorn:
+
+~~~bash
+uvicorn app.main:app --reload
+~~~
+
+The interactive API documentation is normally available at /docs, and the generated OpenAPI document is available at /openapi.json. When an OAuth2 security scheme is configured correctly, the documentation can display the authorization flow and scopes.
+
+Interactive documentation is useful for development and testing, but production documentation should not expose internal implementation details or sensitive endpoints unnecessarily. If the API is public, describe authentication requirements, scopes, error responses and token expectations clearly. If the API is private, restrict documentation access according to the deployment's security policy.
+
+For guidance on documenting API contracts, see [Swagger and OpenAPI documentation standards](https://desire-djh.pages.dev/blog/swagger-and-openapi-documentation-standards). For deployment and runtime packaging, see [Dockerizing a FastAPI application](https://desire-djh.pages.dev/blog/dockerizing-a-fastapi-application).
+
+## Deploying Authentication Securely
+
+A local authentication example is not production-ready until its deployment environment is configured safely.
+
+### Use HTTPS everywhere
+
+Credentials and bearer tokens must be protected in transit. Terminate TLS at a trusted load balancer or platform edge, and ensure internal service communication follows the deployment's security requirements. Do not send tokens over plain HTTP outside local development.
+
+### Protect secrets and signing keys
+
+Use the hosting platform's environment variables or a secrets manager. Restrict access to production secrets, rotate them deliberately and avoid printing them in build logs. If using asymmetric signing, keep private keys only in the issuer's protected environment and distribute public keys through a trusted JWKS endpoint.
+
+### Configure CORS narrowly
+
+List only the browser origins that should be permitted. Specify the required methods and headers. If cookies are used, configure credentials deliberately and do not combine credentialed requests with a wildcard origin. Remember that CORS is not an access-control mechanism for the API itself.
+
+### Apply rate limits and abuse controls
+
+Protect login, registration, password reset, verification, refresh and other sensitive routes. Use limits that account for the application architecture and avoid relying exclusively on in-memory counters when the API runs across multiple instances.
+
+### Monitor security events
+
+Record authentication successes and failures, token-validation errors, permission denials, unusual refresh activity and administrative changes. Do not record passwords, raw tokens, authorization headers or private keys. Use request identifiers to connect events without exposing credentials.
+
+### Plan for key rotation and provider outages
+
+The API must handle signing-key changes without accepting untrusted keys. Use the provider's documented JWKS rotation process and keep key retrieval bounded and observable. Decide how the application behaves when the identity provider or JWKS endpoint is temporarily unavailable. For protected resources, failing closed is generally safer than accepting unverifiable tokens.
+
+### Keep dependencies updated
+
+Authentication packages are part of the application's security perimeter. Pin tested versions, review release notes and security advisories, run dependency scanning and update promptly when a security fix applies. Do not assume that a package is safe simply because it is widely used or because an old tutorial recommended it.
+
+For broader API threat assessment, read the [complete guide to API vulnerability assessment](https://desire-djh.pages.dev/blog/complete-guide-to-api-vulnerability).
+
+## JWT Authentication Versus Server-Side Sessions
+
+JWTs are not automatically better than sessions. They solve different operational problems, and either can be appropriate depending on the application.
+
+| Consideration | JWT access tokens | Server-side sessions |
+| --- | --- | --- |
+| State | Claims are carried in the token | Session state is stored server-side |
+| Revocation | Requires expiry, denylist, introspection or related controls | Often straightforward by deleting or invalidating the session |
+| Scaling | Verification can be local when keys and claims are available | Requires shared session storage or routing strategy |
+| Payload | Claims may be readable by token holders | Session data remains on the server |
+| Best fit | Distributed APIs and delegated authorization | Traditional web apps and applications needing immediate session control |
+
+JWTs can reduce repeated session lookups, but they introduce key management, claim validation, token lifecycle and revocation considerations. A server-side session can be easier to revoke and may be a better choice for a browser application that does not need a stateless token architecture.
+
+Choose based on the threat model, client type, infrastructure and operational requirements. Avoid choosing JWT merely because it is popular.
+
+## A Practical FastAPI Authentication Checklist
+
+Before releasing an authenticated API, review the following:
+
+- Use a trusted identity provider for modern user sign-in, with Authorization Code and PKCE where appropriate.
+- Do not use the OAuth2 Resource Owner Password Credentials grant for new applications.
+- Distinguish authentication from authorization and OAuth2 from OpenID Connect.
+- Validate token signature, algorithm, issuer, audience, expiry and required claims.
+- Accept only the access-token type intended for this API.
+- Use a trusted, fixed JWKS endpoint and support key rotation safely.
+- Resolve the token subject to a known, active user or service identity.
+- Enforce scopes, roles, tenant membership and object ownership on the server.
+- Hash first-party passwords with a modern password-hashing algorithm such as Argon2id.
+- Keep access tokens short-lived and protect refresh tokens with rotation or sender constraint.
+- Store secrets outside source control and never log bearer credentials.
+- Use HTTPS, narrow CORS configuration, rate limiting and abuse monitoring.
+- Test invalid, expired, wrong-issuer, wrong-audience and insufficient-scope tokens.
+- Review dependency updates and security advisories before deployment.
+- Document the authentication contract and operational recovery process.
+
+## Further Reading and Official References
+
+The following documentation and standards provide the authoritative details behind the implementation choices in this guide:
+
+- [FastAPI security utilities](https://fastapi.tiangolo.com/reference/security/) — reference for bearer-token dependencies and OAuth2 security schemes.
+- [FastAPI OAuth2 with JWT tokens](https://fastapi.tiangolo.com/tutorial/security/oauth2-jwt/) — official framework tutorial, including password hashing and JWT integration. Read it alongside the current OAuth2 security guidance below.
+- [RFC 9700: Best Current Practice for OAuth 2.0 Security](https://www.rfc-editor.org/rfc/rfc9700.html) — current OAuth2 security recommendations, including the prohibition on the Resource Owner Password Credentials grant.
+- [RFC 8725: JSON Web Token Best Current Practices](https://www.rfc-editor.org/rfc/rfc8725.html) — guidance on algorithm verification, issuer and audience validation, token typing and avoiding cross-JWT confusion.
+- [PyJWT changelog](https://github.com/jpadilla/pyjwt/blob/master/CHANGELOG.rst) — release notes and security hardening for the Python JWT library.
+- [OWASP Password Storage Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html) — password hashing recommendations, including Argon2id.
+- [OWASP API Security Top 10](https://owasp.org/API-Security/editions/2023/en/0x11-t10/) — common API security risks and defensive practices.
+- [Pydantic Settings](https://docs.pydantic.dev/latest/concepts/pydantic_settings/) — configuration management using environment variables and settings models.
+
+## Frequently Asked Questions About FastAPI Authentication, JWT and OAuth2
+
+### What is the difference between JWT and OAuth2?
+
+JWT is a token format for representing claims. OAuth2 is an authorization framework that defines how clients obtain access to protected resources. OAuth2 access tokens may be JWTs or opaque strings. They solve related but different problems.
+
+### Does FastAPI support JWT authentication?
+
+FastAPI provides the dependency injection, security utilities and OpenAPI integration needed to implement JWT bearer authentication. It does not automatically issue tokens or create a complete identity provider. Developers must integrate a trusted identity provider or implement and operate the required token-issuing system themselves.
+
+### Is JWT encrypted?
+
+Not necessarily. A typical signed JWT has a readable header and payload. Its signature protects integrity and authenticity, not confidentiality. Avoid placing secrets or sensitive personal information in ordinary JWT claims.
+
+### What is OAuth2PasswordBearer in FastAPI?
+
+OAuth2PasswordBearer is a FastAPI security dependency that extracts a bearer token from the Authorization header and describes an OAuth2 password flow in the generated OpenAPI schema. It does not validate the JWT by itself, create an authorization server or make an application compliant with every OAuth2 security requirement.
+
+### Should new FastAPI applications use the OAuth2 password flow?
+
+No. RFC 9700 says the Resource Owner Password Credentials grant must not be used. New applications should normally use an established OpenID Connect provider and Authorization Code with PKCE. Older password-flow examples may still be relevant when maintaining a legacy first-party application.
+
+### What is the difference between an access token and an ID token?
+
+An access token is presented to a resource server to obtain access to an API. An ID token is an OpenID Connect credential intended for the client application and contains authentication information about the user. Do not substitute one for the other.
+
+### How long should a JWT access token last?
+
+There is no universal lifetime. Many applications use a short access-token lifetime, often around five to fifteen minutes, and rely on a carefully protected refresh-token or session mechanism for continuity. The correct duration depends on the sensitivity of the API, client type and revocation requirements.
+
+### Where should a JWT be stored?
+
+Storage depends on the client architecture. Browser applications must consider cross-site scripting, cross-site request forgery and cookie protections. Native applications should use platform secure storage. Never place tokens in URLs or commit them to source control. Follow the identity provider's recommended architecture rather than copying a storage pattern without understanding its risks.
+
+### How does FastAPI validate a JWT?
+
+A FastAPI dependency can extract the bearer token, use a trusted JWT library to verify the signature and required claims, resolve the subject to a current user and then enforce authorization rules. Signature verification alone is not enough: issuer, audience, expiry, token purpose and permissions must also be checked.
+
+### What happens when a JWT expires?
+
+The API should reject an expired access token, normally with 401 Unauthorized. The client may obtain a new access token through the identity provider's supported session or refresh process. It should not keep using an expired token or extend its expiry locally.
+
+### Can a JWT be revoked before it expires?
+
+A self-contained JWT does not automatically know that it has been revoked. Systems can use short lifetimes, token deny-lists, token-version checks, introspection or session state to support earlier revocation. Refresh-token revocation should also be considered.
+
+### What is the difference between 401 and 403?
+
+401 Unauthorized means the request lacks valid authentication credentials or the credentials cannot be accepted. 403 Forbidden means the request is understood but the authenticated principal is not permitted to perform the operation. Some applications return 404 instead of 403 for resources whose existence should not be disclosed.
+
+### Is CORS enough to secure a FastAPI API?
+
+No. CORS controls browser access to cross-origin responses. It does not authenticate callers or prevent requests from non-browser clients. Every protected API operation still needs server-side authentication and authorization.
+
+### Should FastAPI issue its own JWTs or use an identity provider?
+
+For most applications that need user sign-in, an established OpenID Connect provider is safer and more maintainable. It can handle identity lifecycle, multi-factor authentication, recovery and protocol details. A service may issue its own tokens for a well-defined internal use case, but then it owns key management, token validation, revocation and security operations.
+
+## Conclusion
+
+Secure FastAPI authentication requires more than generating a JWT and checking its signature. A reliable system distinguishes authentication from authorization, uses the correct OAuth2 or OpenID Connect flow, validates tokens against a trusted issuer and enforces application-specific permissions on every protected resource.
+
+For modern user-facing applications, Authorization Code with PKCE through a trusted identity provider is the recommended approach. FastAPI can act as a resource server by validating access tokens, resolving users and applying scopes, roles, tenant boundaries and ownership rules. If an application manages its own passwords, it must also use modern password hashing, secure recovery workflows and appropriate abuse controls.
+
+JWTs can be useful, but they are not a universal replacement for server-side sessions. Choose the approach that fits the application and threat model, keep access tokens short-lived, protect refresh credentials, test failure cases and keep dependencies patched. The objective is not simply to make an endpoint require a token; it is to ensure that every request is authenticated, authorized and handled safely throughout the application's lifecycle.`,
     featured: true,
   },
   {
