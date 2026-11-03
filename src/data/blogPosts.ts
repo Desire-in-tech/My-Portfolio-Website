@@ -3810,7 +3810,7 @@ Start with a small, well-defined interface and improve it through feedback, test
       'API design',
       'API testing',
     ],
-    content: ``## Understanding the Evolution from Swagger to OpenAPI Specification
+    content: `## Understanding the Evolution from Swagger to OpenAPI Specification
 
 The journey of API documentation standards represents one of the most significant transformations in modern software development. Swagger, originally created by Tony Tam in 2011, emerged as a response to a critical problem facing developers: the lack of a standardized way to document REST APIs. At that time, API documentation was fragmented, often consisting of manually written markdown files, wikis, or PDF documents that quickly became outdated. Swagger introduced a revolutionary concept—a machine-readable specification format that could describe an API's structure, endpoints, parameters, and responses in a consistent, standardized way.
 
@@ -4261,7 +4261,7 @@ Before publishing or updating an OpenAPI description, verify that it is accurate
 - Security checks prevent accidental publication of private details.
 - Ownership and update responsibilities are clear.
 - CI/CD checks detect drift and potentially breaking changes.
-``,
+`,
     featured: true,
   },
   {
