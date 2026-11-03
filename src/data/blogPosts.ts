@@ -1475,7 +1475,7 @@ Some tasks therefore benefit from specialised libraries, native extensions or a 
 
 ### Which Python version should you learn?
 
-Python continues to evolve through regular feature releases and maintenance updates. At the time of writing, Python 3.15 is still listed as a pre-release, while Python 3.14 is in the bug-fix release stage. Treat the [Python 3.15 development notes](https://docs.python.org/3.15/whatsnew/3.15.html) as information about an upcoming version: the documentation itself notes that it is a draft and may change before the final release.
+As of November 2026, Python 3.15.2 is the latest stable release of Python, while Python 3.14.10 also remains in active bug-fix support. If you are learning Python or starting a new project, consider using the latest stable version that is compatible with your chosen libraries, frameworks and deployment environment. Before upgrading an existing application, check its dependencies and test compatibility carefully. You can review the [Python 3.15 release notes](https://docs.python.org/3.15/whatsnew/3.15.html) and the [official Python version status](https://www.python.org/downloads/) for current information.
 
 For beginners, the most important consideration is choosing a supported stable version that works with the libraries and tools required for their projects. A pre-release or newly released version may not yet be supported by every third-party package. Check the official downloads page and project requirements before choosing a version for a new environment.
 
