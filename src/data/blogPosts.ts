@@ -6302,7 +6302,6 @@ Authentication configuration includes secrets and trust relationships. Keep priv
 A simple settings module can look like this:
 
 ~~~python
-from pydantic import SecretStr
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -6428,11 +6427,16 @@ oauth2_scheme = OAuth2AuthorizationCodeBearer(
 def get_token_claims(token: str = Depends(oauth2_scheme)) -> dict:
     try:
         return verify_access_token(token)
-    except (InvalidTokenError, Exception) as exc:
+    except InvalidTokenError as exc:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Could not validate credentials",
             headers={"WWW-Authenticate": "Bearer"},
+        ) from exc
+    except PyJWKClientError as exc:
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail="Authentication provider temporarily unavailable",
         ) from exc
 ~~~
 
@@ -6874,6 +6878,19 @@ Before releasing an authenticated API, review the following:
 - Test invalid, expired, wrong-issuer, wrong-audience and insufficient-scope tokens.
 - Review dependency updates and security advisories before deployment.
 - Document the authentication contract and operational recovery process.
+
+## Further Reading and Official References
+
+The following documentation and standards provide the authoritative details behind the implementation choices in this guide:
+
+- [FastAPI security utilities](https://fastapi.tiangolo.com/reference/security/) — reference for bearer-token dependencies and OAuth2 security schemes.
+- [FastAPI OAuth2 with JWT tokens](https://fastapi.tiangolo.com/tutorial/security/oauth2-jwt/) — official framework tutorial, including password hashing and JWT integration. Read it alongside the current OAuth2 security guidance below.
+- [RFC 9700: Best Current Practice for OAuth 2.0 Security](https://www.rfc-editor.org/rfc/rfc9700.html) — current OAuth2 security recommendations, including the prohibition on the Resource Owner Password Credentials grant.
+- [RFC 8725: JSON Web Token Best Current Practices](https://www.rfc-editor.org/rfc/rfc8725.html) — guidance on algorithm verification, issuer and audience validation, token typing and avoiding cross-JWT confusion.
+- [PyJWT changelog](https://github.com/jpadilla/pyjwt/blob/master/CHANGELOG.rst) — release notes and security hardening for the Python JWT library.
+- [OWASP Password Storage Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html) — password hashing recommendations, including Argon2id.
+- [OWASP API Security Top 10](https://owasp.org/API-Security/editions/2023/en/0x11-t10/) — common API security risks and defensive practices.
+- [Pydantic Settings](https://docs.pydantic.dev/latest/concepts/pydantic_settings/) — configuration management using environment variables and settings models.
 
 ## Frequently Asked Questions About FastAPI Authentication, JWT and OAuth2
 
