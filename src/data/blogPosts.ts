@@ -7242,9 +7242,9 @@ def predict(customer: CustomerFeatures):
     return {"churn_prediction": int(prediction)}
 ~~~
 
-This simplified example assumes the saved model accepts the same feature structure. A real service must ensure that preprocessing, feature ordering, dependency versions, and model loading are consistent with training. It also needs appropriate access controls, request limits, structured logging, timeouts, and tests. See the [FastAPI documentation](https://fastapi.tiangolo.com/) for production application patterns.
+This simplified example assumes the saved model accepts the same feature structure. A real service must ensure that preprocessing, feature ordering, dependency versions, and model loading are consistent with training. It also needs appropriate access controls, request limits, structured logging, timeouts, and tests. See the [FastAPI documentation](https://fastapi.tiangolo.com/) for production application patterns. For a broader look at API contracts and resource design, see our guides to [API design fundamentals](https://desire-djh.pages.dev/blog/api-design-fundamentals) and [Swagger and OpenAPI documentation standards](https://desire-djh.pages.dev/blog/swagger-and-openapi-documentation-standards). If your service needs protected prediction endpoints, the [FastAPI JWT and OAuth2 authentication tutorial](https://desire-djh.pages.dev/blog/fastapi-authentication-tutorial-using-jwt-and-oauth2) covers authentication patterns.
 
-Containerization with Docker can package the service and its runtime dependencies. Containers help make development, testing, and deployment environments more consistent. Kubernetes may be useful when a team needs orchestration across many services or machines, but it is not a mandatory starting point for every ML application.
+Containerization with Docker can package the service and its runtime dependencies. Containers help make development, testing, and deployment environments more consistent. Our practical guide to [Dockerizing a FastAPI application](https://desire-djh.pages.dev/blog/dockerizing-a-fastapi-application) explores that workflow in more detail. Kubernetes may be useful when a team needs orchestration across many services or machines, but it is not a mandatory starting point for every ML application.
 
 ## MLOps: Operating Machine Learning Reliably
 
