@@ -4266,13 +4266,13 @@ Before publishing or updating an OpenAPI description, verify that it is accurate
   },
   {
     id: '05',
-    title: 'How to Clear Cache in Redis for Better Application Optimization',
+    title: 'How to Clear Cache in Redis Safely: Commands and Best Practices',
     slug: 'how-to-clear-cache-in-redis',
     category: 'Backend',
     publishDate: '2026-08-11',
     updatedDate: '2026-11-03',
     author: 'Desire E',
-    readingTime: '19 min read',
+    readingTime: '28 min read',
     excerpt:
       'Learn how to clear Redis cache safely using DEL, UNLINK, SCAN, FLUSHDB and FLUSHALL, with practical examples, TTL strategies and production best practices.',
     featuredImage:
@@ -4302,7 +4302,7 @@ Before publishing or updating an OpenAPI description, verify that it is accurate
     ],
     content: `## Understanding Redis Cache and Why Cache Invalidation Matters
 
-Redis is an in-memory data store commonly used to cache database results, API responses, computed values, sessions and other data that an application needs to retrieve quickly. A cache can reduce repeated work: instead of querying a slower primary database for every request, an application first checks Redis and returns a cached value when one is available.
+Redis is an in-memory data store commonly used to cache database results, API responses, computed values, sessions and other data that an application needs to retrieve quickly. A cache can reduce repeated work: instead of querying a slower primary database for every request, an application first checks Redis and returns a cached value when one is available. For a broader introduction to Redis in server-side systems, see [how Redis accelerates backend performance](https://desire-djh.pages.dev/blog/how-redis-accelerates-backend-performance).
 
 A typical cache-aside request follows three steps. The application looks up a key in Redis. If the key exists, the application returns the cached value. If the key is missing, the application reads the source of truth, stores a copy in Redis and returns the result. This pattern is straightforward, but it introduces a responsibility: the application must decide how long cached values remain useful and how to invalidate them when the underlying data changes.
 
@@ -4474,7 +4474,7 @@ redis-cli --scan --pattern 'cache:product:*' |
   xargs -r redis-cli UNLINK
 ~~~
 
-This example assumes the redis-cli connection options and credentials are configured correctly for the same target instance in both commands. For a remote or TLS-enabled service, pass the appropriate connection options to each redis-cli invocation, or use a script with a configured client. Review the command carefully before running it; the pattern must identify only the intended keys.
+This example assumes the redis-cli connection options and credentials are configured correctly for the same target instance in both commands. It also assumes key names do not contain whitespace or newline characters, because a simple xargs pipeline splits its input on whitespace. For arbitrary key names, use a Redis client script that passes each key as a distinct argument. For a remote or TLS-enabled service, pass the appropriate connection options to each redis-cli invocation, or use a script with a configured client. Review the command carefully before running it; the pattern must identify only the intended keys.
 
 For more control, use a loop that reads scan results and deletes them in manageable batches. A simplified interactive sequence looks like this:
 
@@ -4868,7 +4868,7 @@ Clearing Redis cache is simple at the command level, but choosing the correct sc
 
 For reliable applications, make cache invalidation part of the data-update workflow. Use predictable key namespaces, choose TTLs according to freshness requirements, handle invalidation failures and monitor cache behaviour. In production, verify the environment, understand the Redis topology, plan for cache repopulation and restrict access to destructive commands.
 
-The goal is not to clear Redis as often as possible. It is to keep cached data accurate, memory use predictable and application performance stable while removing only the data that genuinely needs to go.`,
+The goal is not to clear Redis as often as possible. It is to keep cached data accurate, memory use predictable and application performance stable while removing only the data that genuinely needs to go. Developers building the surrounding service can also consult this [step-by-step guide to backend development](https://desire-djh.pages.dev/blog/guide-to-backend-development).`,
     featured: true,
   },
   {
