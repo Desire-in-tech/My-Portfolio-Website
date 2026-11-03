@@ -2479,7 +2479,7 @@ The most effective way to learn Python is to write code, encounter problems, inv
     publishDate: '2026-08-09',
     updatedDate: '2026-11-03',
     author: 'Desire E',
-    readingTime: '20 min read',
+    readingTime: '34 min read',
     excerpt:
       'Learn what APIs are, how web APIs work, and how to design, secure, document, test and build reliable APIs with practical examples.',
     featuredImage:
