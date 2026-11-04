@@ -8997,7 +8997,7 @@ For more complex systems, a feature store can help standardize feature definitio
 
 Some Python serialization formats, including pickle and joblib, can execute code during loading. Only load artifacts from trusted, access-controlled sources. Verify artifact provenance and integrity, restrict who can publish model files, and avoid downloading and loading arbitrary models from untrusted locations.
 
-Where practical, consider safer or more portable formats supported by the model framework and serving runtime, such as ONNX for compatible models. Format conversion is not a universal solution: check operator support, runtime compatibility, numerical differences, and performance before using a converted artifact in production.
+Where practical, consider safer or more portable formats supported by the model framework and serving runtime, such as ONNX or skops.io for compatible scikit-learn workflows. Format conversion is not a universal solution: check operator support, runtime compatibility, numerical differences, and performance before using a converted artifact in production. The [scikit-learn model persistence guide](https://scikit-learn.org/stable/model_persistence.html) compares persistence options and explains why pickle-based files must only be loaded from trusted sources. It also notes that loading persisted estimators across different scikit-learn versions is unsupported, so record and pin the training environment rather than assuming an artifact will remain compatible indefinitely.
 
 ## Containerize the Inference Environment
 
