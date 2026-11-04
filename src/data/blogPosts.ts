@@ -9287,7 +9287,7 @@ Its extension ecosystem is a major advantage. A web developer can add support fo
 
 VS Code is free for private and commercial use. It is important, however, to distinguish the editor from optional services and extensions. Some extensions have their own licensing terms, and AI coding assistance may have separate plans, usage allowances, or provider requirements. You can use the editor without subscribing to an AI coding service.
 
-Official details are available in the [Visual Studio Code FAQ](https://code.visualstudio.com/docs/supporting/faq).
+Official product documentation explains its licensing and optional AI-service distinctions.
 
 ### IntelliJ IDEA and Eclipse
 
@@ -9334,7 +9334,7 @@ A typical sequence is:
 - Review the diff before committing.
 - Push the branch and open a pull request when collaboration or review is required.
 
-Learning Git is more valuable than memorizing a large collection of GUI shortcuts. A graphical client can make history and branch management easier, but understanding commits, remotes, merges, rebases, and conflict resolution helps you diagnose problems.
+Learning Git is more valuable than memorizing a large collection of GUI shortcuts. A graphical client can make history and branch management easier, but understanding commits, remotes, merges, rebases, and conflict resolution helps you diagnose problems. For a practical command reference, see [our guide to essential Git commands](/blog/guide-to-git-commands-for-version-control).
 
 ### GitHub
 
@@ -9382,7 +9382,7 @@ Python developers can use pytest to write readable unit and integration tests. I
 
 Java developers commonly use JUnit for unit testing. JavaScript and TypeScript projects can use tools such as Vitest or Jest, depending on the framework and project configuration. .NET developers can choose from established testing frameworks such as xUnit and NUnit.
 
-Choose a framework that fits the language and application rather than adopting multiple frameworks without a clear reason. A small, reliable test suite is more valuable than a large collection of tests that are difficult to maintain.
+Choose a framework that fits the language and application rather than adopting multiple frameworks without a clear reason. A small, reliable test suite is more valuable than a large collection of tests that are difficult to maintain. Python developers can follow [our practical Python testing guide](/blog/python-testing-guide) for a deeper walkthrough.
 
 ### Linters and formatters
 
@@ -9422,7 +9422,7 @@ The OpenAPI Specification provides a machine-readable way to describe HTTP APIs.
 
 Swagger UI can render an OpenAPI document as interactive API documentation. Swagger Editor helps author and validate specifications. These tools are useful for design-first API development because frontend developers, backend developers, testers, and API consumers can work from a shared contract.
 
-Keep the specification synchronized with the implementation. Documentation that describes endpoints that no longer exist can be more harmful than having no documentation at all.
+Keep the specification synchronized with the implementation. Documentation that describes endpoints that no longer exist can be more harmful than having no documentation at all. For a broader API design workflow, read [our API design fundamentals guide](/blog/api-design-fundamentals) and [Swagger and OpenAPI documentation standards](/blog/swagger-and-openapi-documentation-standards).
 
 ### Practical API testing checklist
 
@@ -9487,7 +9487,7 @@ Docker Engine and Docker Desktop are not the same licensing question. Docker Des
 
 Podman is an open-source container engine that can run containers and pods without requiring a persistent central daemon in the same way as traditional Docker Engine workflows. It can be useful for Linux environments and teams that value daemonless operation or rootless containers.
 
-Compatibility is not identical in every environment. Test your compose files, networking, volumes, and developer workflow before switching tools across a team.
+Compatibility is not identical in every environment. Test your compose files, networking, volumes, and developer workflow before switching tools across a team. Our guide to [Docker containers and containerization](/blog/docker-containers-and-containerization) explores the concepts in more detail.
 
 ### Dev containers
 
@@ -9527,7 +9527,7 @@ Managed services can accelerate development, but they introduce provider-specifi
 
 Application platforms such as Render can host web services, APIs, background workers, and databases. Free compute options may sleep, have limited runtime, or be intended for evaluation and prototypes rather than always-on production systems.
 
-Before deploying, check cold-start behavior, persistent storage, outbound network access, build minutes, database retention, and the provider's current free-plan rules. A free service that sleeps may be perfectly acceptable for a portfolio demonstration but unsuitable for an application that requires immediate responses.
+Before deploying, check cold-start behavior, persistent storage, outbound network access, build minutes, database retention, and the provider's current free-plan rules. A free service that sleeps may be perfectly acceptable for a portfolio demonstration but unsuitable for an application that requires immediate responses. For a concrete backend example, see [our FastAPI deployment guide](/blog/deploy-fastapi-applications).
 
 ### Choosing a deployment platform
 
@@ -9684,37 +9684,37 @@ The most important part is agreeing on conventions: branch names, pull-request r
 
 A machine learning workflow can combine Python, Jupyter, scikit-learn or another model library, Git, pytest, experiment tracking where needed, and a reproducible environment. DBeaver or a database-specific client can help inspect structured data, while containers can make deployment environments more consistent.
 
-Do not assume that every cloud notebook or GPU service has unlimited free compute. Check runtime limits, accelerator availability, storage persistence, idle shutdown, and data privacy before moving a project into a hosted environment.
+Do not assume that every cloud notebook or GPU service has unlimited free compute. Check runtime limits, accelerator availability, storage persistence, idle shutdown, and data privacy before moving a project into a hosted environment. Our guide to [machine learning model deployment](/blog/machine-learning-models-deployment) covers production considerations.
 
 ## How to Evaluate a Free Developer Tool Before Adopting It
 
 A free plan is only useful if it supports the work you actually need to do. Before standardizing on a tool, evaluate the following areas.
 
-### 1. Identify the exact job
+### Identify the exact job
 
 Write down the problem the tool is supposed to solve. If you need to send HTTP requests, an API client may be appropriate. If you need to automate browser workflows, choose a browser-testing framework. Avoid adopting a complex platform when a small utility already solves the problem.
 
-### 2. Read the license and usage terms
+### Read the license and usage terms
 
 Determine whether the tool is open source, free for personal use, or available through a limited hosted plan. Check commercial-use restrictions, team-size rules, redistribution conditions, and any requirements that apply to your organization.
 
-### 3. Find the limits that affect your workflow
+### Find the limits that affect your workflow
 
 Look beyond the word free. Check storage, requests, build minutes, compute time, bandwidth, project count, seats, retention, and automation limits. Also find out whether the service pauses, sleeps, deletes inactive resources, or requires a payment method.
 
-### 4. Check data ownership and portability
+### Check data ownership and portability
 
 Consider whether you can export repositories, collections, database backups, logs, and project configuration. A tool that stores everything in a proprietary format may create migration work later.
 
-### 5. Review privacy and security
+### Review privacy and security
 
 Understand what data leaves your machine, how credentials are stored, who can access shared workspaces, and whether telemetry can be controlled. Check the permissions requested by extensions and integrations before installing them.
 
-### 6. Evaluate maintenance and community health
+### Evaluate maintenance and community health
 
 For open-source software, look at recent releases, issue activity, documentation quality, supported versions, and security advisories. A popular tool that is no longer maintained can create more risk than a smaller, actively maintained alternative.
 
-### 7. Test the exit path
+### Test the exit path
 
 Before a tool becomes central to a project, try exporting its data or reproducing its configuration elsewhere. A realistic exit plan reduces the risk of vendor lock-in and makes it easier to change tools when your needs evolve.
 
