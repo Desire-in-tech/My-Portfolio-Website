@@ -1,0 +1,7 @@
+# Preserve permanent redirects for legacy blog URLs on Cloudflare Pages.
+/blog/machine-learning-pipline /blog/machine-learning-pipeline 301
+/blog/alemic-migrations /blog/alembic-migrations 301
+/blog/dockering-a-fastapi-application /blog/dockerizing-a-fastapi-application 301
+/blog/engineering-software-with-postgreSQL /blog/engineering-software-with-postgresql 301
+/blog/fastapi-authentication-tutorial-using-jwt-and-Oauth2 /blog/fastapi-authentication-tutorial-using-jwt-and-oauth2 301
+/blog/architecture-with-SQL-Alchemy /blog/architecture-with-sql-alchemy 301

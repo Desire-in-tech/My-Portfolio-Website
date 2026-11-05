@@ -1,0 +1,69 @@
+import { Link } from 'react-router-dom';
+import * as m from 'framer-motion/m';
+import { Calendar, Clock, ArrowRight } from 'lucide-react';
+import { formatDate } from '../lib/blog';
+import CloudinaryImage from './CloudinaryImage';
+
+interface BlogCardPost {
+  slug: string;
+  title: string;
+  category: string;
+  publishDate: string;
+  readingTime: string;
+  excerpt?: string;
+  displayExcerpt: string;
+  featuredImage: string;
+  imageAlt: string;
+}
+
+interface BlogCardProps {
+  post: BlogCardPost;
+  index?: number;
+}
+
+export default function BlogCard({ post, index = 0 }: BlogCardProps) {
+  return (
+    <m.article
+      initial={false}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.5, delay: index * 0.08 }}
+      className="group bg-card rounded-xl overflow-hidden hover:ring-1 hover:ring-primary-accent/50 transition-all duration-300 flex flex-col"
+    >
+      <Link to={`/blog/${post.slug}`} className="block aspect-video overflow-hidden">
+        <CloudinaryImage
+          src={post.featuredImage}
+          alt={post.imageAlt}
+          aspectClass="w-full h-full"
+          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+          sizes="(max-width: 767px) 100vw, (max-width: 1023px) 50vw, 33vw"
+        />
+      </Link>
+      <div className="min-w-0 p-4 sm:p-6 flex flex-col flex-1">
+        <div className="flex flex-wrap items-center gap-x-3 gap-y-2 mb-3 text-xs text-muted">
+          <span className="px-2 py-1 bg-primary-accent/10 text-primary-accent rounded font-medium">
+            {post.category}
+          </span>
+          <span className="flex items-center gap-1">
+            <Calendar size={12} />
+            {formatDate(post.publishDate)}
+          </span>
+          <span className="flex items-center gap-1">
+            <Clock size={12} />
+            {post.readingTime}
+          </span>
+        </div>
+        <h3 className="break-words text-lg font-semibold text-white mb-2 group-hover:text-primary-accent transition-colors">
+          <Link to={`/blog/${post.slug}`}>{post.title}</Link>
+        </h3>
+        <p className="text-muted text-sm mb-4 line-clamp-3 flex-1">{post.displayExcerpt}</p>
+        <Link
+          to={`/blog/${post.slug}`}
+          className="inline-flex items-center gap-1 text-primary-accent text-sm font-medium hover:gap-2 transition-all"
+        >
+          Read More <ArrowRight size={14} />
+        </Link>
+      </div>
+    </m.article>
+  );
+}
