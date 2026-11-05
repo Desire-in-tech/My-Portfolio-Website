@@ -15823,7 +15823,7 @@ The following resources provide authoritative documentation and practical guidan
 
 GitHub Actions is most valuable when automation improves the reliability and consistency of software delivery. Start with a small workflow that runs meaningful checks, then add reusable components, deployment controls, and security measures as the project grows. Treat workflow files as production code: review them, test them, limit their permissions, and keep their dependencies maintained. A well-designed pipeline does more than save time; it gives developers faster feedback and a more dependable path from a code change to a verified release.`,
     featured: false,
-  }
+  },
   {
     id: '35',
     title: 'Explaining RAG Systems: A Comprehensive Guide To Retrieval Augmented Generation',
