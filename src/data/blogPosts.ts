@@ -15039,7 +15039,7 @@ GitHub Actions uses a set of related concepts to describe and execute automation
 
 ### Workflows
 
-A workflow is an automated process defined in a YAML file. Workflow files are stored in the repository's `.github/workflows/` directory and use either the `.yml` or `.yaml` extension.
+A workflow is an automated process defined in a YAML file. Workflow files are stored in the repository's \`.github/workflows/\` directory and use either the \`.yml\` or \`.yaml\` extension.
 
 A repository can contain multiple workflows. For example, one workflow can validate pull requests, another can publish a release, and a third can perform scheduled dependency maintenance. Keeping separate workflows for distinct responsibilities can make automation easier to maintain.
 
@@ -15057,7 +15057,7 @@ For example, a CI workflow may run linting and unit tests in parallel, then exec
 
 ### Steps and Actions
 
-A step is an individual task inside a job. A step can execute a shell command using `run` or invoke an action using `uses`.
+A step is an individual task inside a job. A step can execute a shell command using \`run\` or invoke an action using \`uses\`.
 
 An action is a reusable unit of automation. It may be maintained by GitHub, a third-party developer, or the repository's own team. Actions can check out source code, configure a programming language, upload build artifacts, create releases, or perform specialized tasks.
 
@@ -15067,7 +15067,7 @@ An action is not the same thing as a workflow. A workflow coordinates jobs and s
 
 A runner is the machine or execution environment that processes a job. GitHub-hosted runners provide managed environments with supported operating systems and preinstalled tools. Self-hosted runners are machines that an organization manages and connects to GitHub Actions.
 
-A job specifies its runner environment with `runs-on`. The selected environment affects available tools, operating-system behavior, performance, network access, and cost.
+A job specifies its runner environment with \`runs-on\`. The selected environment affects available tools, operating-system behavior, performance, network access, and cost.
 
 ### Artifacts and Caches
 
@@ -15081,11 +15081,11 @@ Together, these concepts create a flexible automation system. An event starts a 
 
 The easiest way to learn GitHub Actions is to build a small workflow that checks a project whenever a pull request is opened or updated.
 
-Start by opening a repository and creating the directory `.github/workflows/` if it does not already exist. Inside it, create a file such as `ci.yml`. The filename is your choice; the location and YAML extension are what matter.
+Start by opening a repository and creating the directory \`.github/workflows/\` if it does not already exist. Inside it, create a file such as \`ci.yml\`. The filename is your choice; the location and YAML extension are what matter.
 
 A simple Node.js continuous integration workflow can look like this:
 
-```yaml
+\`\`\`yaml
 name: Node.js CI
 
 on:
@@ -15117,11 +15117,11 @@ jobs:
 
       - name: Run tests
         run: npm test
-```
+\`\`\`
 
-This example demonstrates the main workflow structure. The `name` field gives the workflow a readable label. The `on` section defines the events that trigger it. The `permissions` section limits the workflow token to repository content read access. Under `jobs`, the `test` job selects an Ubuntu runner and defines its steps.
+This example demonstrates the main workflow structure. The \`name\` field gives the workflow a readable label. The \`on\` section defines the events that trigger it. The \`permissions\` section limits the workflow token to repository content read access. Under \`jobs\`, the \`test\` job selects an Ubuntu runner and defines its steps.
 
-The checkout action retrieves the repository's source code so later steps can work with it. The setup action installs and configures the specified Node.js version. The dependency installation step uses `npm ci`, which installs dependencies from the lockfile and is generally suitable for repeatable CI environments. The final step runs the project's test script.
+The checkout action retrieves the repository's source code so later steps can work with it. The setup action installs and configures the specified Node.js version. The dependency installation step uses \`npm ci\`, which installs dependencies from the lockfile and is generally suitable for repeatable CI environments. The final step runs the project's test script.
 
 The action references in this introductory example use version tags for readability. For production workflows, review and pin third-party actions to verified full commit SHAs, updating those pins through a controlled maintenance process. A tag can be moved; a verified commit SHA identifies the exact code being executed.
 
@@ -15135,28 +15135,28 @@ GitHub Actions workflow files use YAML, a human-readable data serialization form
 
 A workflow commonly includes these top-level keys:
 
-- `name`: a descriptive workflow name.
-- `run-name`: an optional name for an individual run.
-- `on`: the events that trigger the workflow.
-- `permissions`: the access granted to the workflow token.
-- `env`: environment variables available to workflows, jobs, or steps.
-- `defaults`: default settings such as shell behavior or working directories.
-- `concurrency`: rules for grouping and limiting overlapping runs.
-- `jobs`: the jobs that perform the work.
+- \`name\`: a descriptive workflow name.
+- \`run-name\`: an optional name for an individual run.
+- \`on\`: the events that trigger the workflow.
+- \`permissions\`: the access granted to the workflow token.
+- \`env\`: environment variables available to workflows, jobs, or steps.
+- \`defaults\`: default settings such as shell behavior or working directories.
+- \`concurrency\`: rules for grouping and limiting overlapping runs.
+- \`jobs\`: the jobs that perform the work.
 
-Inside a job, common keys include `runs-on`, `needs`, `if`, `strategy`, `steps`, `environment`, `timeout-minutes`, and job-level `permissions`.
+Inside a job, common keys include \`runs-on\`, \`needs\`, \`if\`, \`strategy\`, \`steps\`, \`environment\`, \`timeout-minutes\`, and job-level \`permissions\`.
 
 ### Expressions and Contexts
 
-GitHub Actions expressions allow workflow values to be evaluated dynamically. They use the expression syntax `${{ ... }}` and can reference contexts such as `github`, `env`, `vars`, `secrets`, `needs`, `steps`, `matrix`, and `inputs`, subject to where each context is available.
+GitHub Actions expressions allow workflow values to be evaluated dynamically. They use the expression syntax \`\${{ ... }}\` and can reference contexts such as \`github\`, \`env\`, \`vars\`, \`secrets\`, \`needs\`, \`steps\`, \`matrix\`, and \`inputs\`, subject to where each context is available.
 
 For example, a workflow can inspect the branch name, use an input from a manually triggered workflow, or pass an output from one job to another. Expressions are useful for conditional execution and configuration, but they should be used carefully when values originate from untrusted user input.
 
 A common conditional might be:
 
-```yaml
-if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
-```
+\`\`\`yaml
+if: \${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+\`\`\`
 
 This condition restricts a step or job to a push on the main branch. The exact context and syntax available depend on the location of the expression, so consult the workflow syntax reference when building more complex conditions.
 
@@ -15164,7 +15164,7 @@ This condition restricts a step or job to a push on the main branch. The exact c
 
 Environment variables provide configuration to commands and actions. They can be declared at workflow, job, or step level. A narrower declaration limits where a value is available and can reduce accidental exposure.
 
-Secrets are intended for sensitive values such as API credentials and deployment tokens. They can be stored at repository, organization, or environment scope, depending on the account and configuration. A workflow can reference an authorized secret using the `secrets` context.
+Secrets are intended for sensitive values such as API credentials and deployment tokens. They can be stored at repository, organization, or environment scope, depending on the account and configuration. A workflow can reference an authorized secret using the \`secrets\` context.
 
 Never place a secret directly in a YAML file, source-code comment, command-line argument that may be logged, or committed example configuration. Avoid printing secrets in debug output. GitHub attempts to redact registered secrets in logs, but redaction is not a substitute for preventing sensitive values from being exposed.
 
@@ -15182,19 +15182,19 @@ Events determine when automation begins. Selecting triggers carefully is one of 
 
 ### Push and Pull Request Events
 
-The `push` event runs when commits are pushed to a repository. It is commonly used for validation after changes reach a branch, for example when developers push to `main` or a release branch.
+The \`push\` event runs when commits are pushed to a repository. It is commonly used for validation after changes reach a branch, for example when developers push to \`main\` or a release branch.
 
-The `pull_request` event supports review-oriented CI. It can run when a pull request is opened, synchronized with new commits, reopened, or changed in other supported ways. This gives contributors feedback before code is merged.
+The \`pull_request\` event supports review-oriented CI. It can run when a pull request is opened, synchronized with new commits, reopened, or changed in other supported ways. This gives contributors feedback before code is merged.
 
 For many projects, a practical arrangement is to run checks on pull requests targeting the main development branch and again after changes are pushed or merged. Branch protection rules can then require selected checks to pass before a merge is allowed.
 
 ### Release, Schedule, and Manual Triggers
 
-The `release` event can run automation when a release is published or changed. It is useful for packaging, publishing release notes, or preparing deployment artifacts.
+The \`release\` event can run automation when a release is published or changed. It is useful for packaging, publishing release notes, or preparing deployment artifacts.
 
-The `schedule` event runs a workflow according to a cron expression. Scheduled workflows are useful for periodic maintenance, reporting, dependency checks, and other tasks that do not depend on an immediate code change. Scheduled workflows run in UTC, and their execution may be delayed during periods of high load.
+The \`schedule\` event runs a workflow according to a cron expression. Scheduled workflows are useful for periodic maintenance, reporting, dependency checks, and other tasks that do not depend on an immediate code change. Scheduled workflows run in UTC, and their execution may be delayed during periods of high load.
 
-The `workflow_dispatch` event enables manual execution from GitHub's interface or API. Inputs can allow a user to select a deployment target, environment, or other approved parameter. Manual inputs should be validated and must not be treated as trusted authorization on their own.
+The \`workflow_dispatch\` event enables manual execution from GitHub's interface or API. Inputs can allow a user to select a deployment target, environment, or other approved parameter. Manual inputs should be validated and must not be treated as trusted authorization on their own.
 
 ### Branch and Path Filters
 
@@ -15206,7 +15206,7 @@ Path filters should be designed carefully. If a required check does not run for 
 
 A workflow that listens to multiple overlapping events may run more often than expected. For example, a push to a branch and a pull request update can both trigger workflows. This may be intentional, but unnecessary duplication consumes runner time and creates noisy feedback.
 
-The `concurrency` feature can group related runs and optionally cancel older runs when a newer run supersedes them. This is particularly useful for pull request checks where only the latest commit needs a full validation run. Do not cancel a deployment or release operation indiscriminately; the correct policy depends on whether an in-progress operation is safe to interrupt.
+The \`concurrency\` feature can group related runs and optionally cancel older runs when a newer run supersedes them. This is particularly useful for pull request checks where only the latest commit needs a full validation run. Do not cancel a deployment or release operation indiscriminately; the correct policy depends on whether an in-progress operation is safe to interrupt.
 
 ## Jobs, Steps, Runners, and Dependencies
 
@@ -15218,26 +15218,26 @@ Steps within one job run sequentially on the same runner. They share the job's w
 
 A step can run a shell command:
 
-```yaml
+\`\`\`yaml
 - name: Check formatting
   run: npm run format:check
-```
+\`\`\`
 
 It can also use a published action:
 
-```yaml
+\`\`\`yaml
 - name: Upload test report
   uses: actions/upload-artifact@v4
   with:
     name: test-report
     path: reports/
-```
+\`\`\`
 
 A step can have an identifier, environment variables, a working directory, and conditional execution. Step identifiers are useful when later steps need to reference outputs.
 
 ### Parallel Jobs and Dependencies
 
-Jobs run in parallel unless a dependency is defined. The `needs` keyword establishes that a job must wait for another job to complete.
+Jobs run in parallel unless a dependency is defined. The \`needs\` keyword establishes that a job must wait for another job to complete.
 
 For example, linting and unit tests can run independently. A build job can depend on both so that packaging only begins after the required checks succeed. This structure can shorten pipeline time without compromising the logical order of work.
 
@@ -15253,7 +15253,7 @@ Never assume that a self-hosted runner is safe for arbitrary pull request code. 
 
 ### Conditions, Timeouts, and Failure Handling
 
-The `if` field can determine whether a job or step should run. Status functions such as `success()`, `failure()`, `cancelled()`, and `always()` help control follow-up actions.
+The \`if\` field can determine whether a job or step should run. Status functions such as \`success()\`, \`failure()\`, \`cancelled()\`, and \`always()\` help control follow-up actions.
 
 Use timeouts to prevent a job from consuming resources indefinitely. Cleanup and reporting steps may need to run after a failure, but an unconditional step should not accidentally conceal the failure of the main job. A workflow should finish with a truthful status that reflects whether required work succeeded.
 
@@ -15301,7 +15301,7 @@ A matrix strategy creates multiple job runs from a set of configuration values. 
 
 For example:
 
-```yaml
+\`\`\`yaml
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -15314,12 +15314,12 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: \${{ matrix.node-version }}
       - run: npm ci
       - run: npm test
-```
+\`\`\`
 
-This example creates a separate test job for each Node.js version. The matrix should reflect versions the project actually supports, rather than testing every possible combination. The `include` and `exclude` options can add special cases or remove combinations that are unnecessary or unsupported.
+This example creates a separate test job for each Node.js version. The matrix should reflect versions the project actually supports, rather than testing every possible combination. The \`include\` and \`exclude\` options can add special cases or remove combinations that are unnecessary or unsupported.
 
 Matrix builds increase coverage but also multiply job execution. Use them where compatibility is a real requirement and balance the number of combinations against available runner capacity.
 
@@ -15345,7 +15345,7 @@ As automation grows, teams often discover that the same setup, validation, or de
 
 ### Reusable Workflows
 
-A reusable workflow is a workflow that another workflow can call. It is defined with the `workflow_call` trigger and can accept declared inputs, secrets, and outputs.
+A reusable workflow is a workflow that another workflow can call. It is defined with the \`workflow_call\` trigger and can accept declared inputs, secrets, and outputs.
 
 Reusable workflows are useful when multiple repositories need the same build or deployment process. A platform team can maintain a shared workflow, while application repositories provide project-specific inputs such as runtime version or deployment environment.
 
@@ -15414,9 +15414,9 @@ Automation often has access to source code, package registries, deployment envir
 
 ### Apply Least-Privilege Permissions
 
-GitHub provides a `GITHUB_TOKEN` for workflow operations. The token's permissions can be controlled at the workflow or job level. Grant only the access needed for the task.
+GitHub provides a \`GITHUB_TOKEN\` for workflow operations. The token's permissions can be controlled at the workflow or job level. Grant only the access needed for the task.
 
-For a workflow that checks out code and runs tests, `contents: read` is often sufficient. A job that publishes a package may need additional package permissions. A deployment that requests an OIDC token needs `id-token: write`, but that permission does not itself grant access to a cloud account; the cloud trust configuration must also authorize the request.
+For a workflow that checks out code and runs tests, \`contents: read\` is often sufficient. A job that publishes a package may need additional package permissions. A deployment that requests an OIDC token needs \`id-token: write\`, but that permission does not itself grant access to a cloud account; the cloud trust configuration must also authorize the request.
 
 When a workflow declares explicit permissions, unspecified permissions are set to none. This makes it easier to reason about the access available to each job. Prefer job-level permissions when different jobs need different capabilities.
 
@@ -15430,9 +15430,9 @@ Rotate credentials when exposure is suspected, remove unused secrets, and prefer
 
 ### Understand Pull Request Event Risks
 
-The `pull_request` event is commonly used for CI because it supports validation of proposed changes. The `pull_request_target` event runs in the context of the base repository and can have elevated access. It must be handled with particular care.
+The \`pull_request\` event is commonly used for CI because it supports validation of proposed changes. The \`pull_request_target\` event runs in the context of the base repository and can have elevated access. It must be handled with particular care.
 
-Do not check out and execute untrusted pull request code in a privileged `pull_request_target` workflow. A malicious contributor could modify scripts or build configuration to steal credentials or misuse the workflow token. If privileged automation is required, separate trusted metadata operations from untrusted code execution and carefully validate every input.
+Do not check out and execute untrusted pull request code in a privileged \`pull_request_target\` workflow. A malicious contributor could modify scripts or build configuration to steal credentials or misuse the workflow token. If privileged automation is required, separate trusted metadata operations from untrusted code execution and carefully validate every input.
 
 ### Pin and Review Third-Party Actions
 
@@ -15446,7 +15446,7 @@ Use dependency update automation to keep action pins current. Pinning should not
 
 Expressions that insert untrusted event data directly into shell commands can create command injection vulnerabilities. Pull request titles, branch names, issue content, and commit messages should be treated as untrusted input.
 
-Avoid constructing shell scripts by interpolating user-controlled values directly into a `run` block. Prefer passing values through environment variables and handling them as data, with proper quoting and validation. Review workflow expressions and generated commands just as carefully as application code.
+Avoid constructing shell scripts by interpolating user-controlled values directly into a \`run\` block. Prefer passing values through environment variables and handling them as data, with proper quoting and validation. Review workflow expressions and generated commands just as carefully as application code.
 
 ### Secure Runners and Supply Chains
 
@@ -15464,7 +15464,7 @@ The following examples illustrate common automation tasks. They are starting poi
 
 A pull request workflow can run formatting checks, type checks, tests, and a production build. The following example shows a basic structure for a JavaScript project:
 
-```yaml
+\`\`\`yaml
 name: Pull Request Checks
 
 on:
@@ -15501,7 +15501,7 @@ jobs:
 
       - name: Build application
         run: npm run build
-```
+\`\`\`
 
 This workflow assumes the repository defines the referenced scripts. If a project does not use a formatter or type checker, remove or replace those steps rather than adding scripts that do not exist. For a monorepo, the commands may need an explicit working directory or a matrix that targets individual packages.
 
@@ -15509,7 +15509,7 @@ This workflow assumes the repository defines the referenced scripts. If a projec
 
 A scheduled workflow can check for outdated dependencies or run a periodic validation task. Dependency update pull requests are often better handled by a dedicated dependency automation tool, while GitHub Actions can run additional tests or reports on a schedule.
 
-```yaml
+\`\`\`yaml
 name: Weekly Dependency Check
 
 on:
@@ -15532,7 +15532,7 @@ jobs:
       - run: npm ci
       - name: Check dependency vulnerabilities
         run: npm audit
-```
+\`\`\`
 
 The exact audit command and failure policy depend on the package manager and project. Teams should review the findings and understand severity and exploitability instead of blindly suppressing or automatically accepting every reported issue.
 
@@ -15540,7 +15540,7 @@ The exact audit command and failure policy depend on the package manager and pro
 
 A delivery workflow can build and test an application first, then deploy it to a protected environment. This example illustrates job dependencies and environment boundaries. The deployment command is intentionally a placeholder because each hosting provider has its own supported deployment method.
 
-```yaml
+\`\`\`yaml
 name: Build and Deploy
 
 on:
@@ -15582,7 +15582,7 @@ jobs:
           path: dist/
       - name: Deploy to hosting provider
         run: echo "Configure the provider-specific deployment command here"
-```
+\`\`\`
 
 Before using this pattern, configure the production environment and its protection rules. Add only the deployment credentials and permissions required by the chosen hosting provider. In a real workflow, replace the placeholder with the provider's documented deployment action or CLI command, and ensure that the downloaded artifact is the one that passed validation.
 
@@ -15590,7 +15590,7 @@ Before using this pattern, configure the production environment and its protecti
 
 Manual workflows are useful for approved operational tasks. An input can identify a target environment, but the workflow must still enforce which values are permitted and who is allowed to deploy.
 
-```yaml
+\`\`\`yaml
 name: Manual Release
 
 on:
@@ -15610,12 +15610,12 @@ permissions:
 jobs:
   release:
     runs-on: ubuntu-latest
-    environment: ${{ inputs.target }}
+    environment: \${{ inputs.target }}
     steps:
       - uses: actions/checkout@v4
       - name: Show selected target
         run: echo "Release requested for the approved target"
-```
+\`\`\`
 
 A production environment should have appropriate protection rules, and deployment credentials should be scoped to the relevant environment. Never treat a manually selected input as proof that a user is authorized to perform a sensitive operation.
 
@@ -15657,7 +15657,7 @@ For complicated workflows, use small diagnostic steps that report safe facts suc
 
 Track workflow duration, success rate, failure patterns, and recurring bottlenecks. A workflow that frequently fails for transient reasons may need more resilient dependency handling or better test isolation. A workflow that takes too long may benefit from parallel jobs, caching, or a more focused test strategy.
 
-Avoid hiding failures with broad `continue-on-error` settings. Such settings can be appropriate for optional reporting or experimental checks, but required quality gates should communicate failures accurately.
+Avoid hiding failures with broad \`continue-on-error\` settings. Such settings can be appropriate for optional reporting or experimental checks, but required quality gates should communicate failures accurately.
 
 ## Cost, Performance, and Runner Choices
 
@@ -15762,7 +15762,7 @@ Yes. GitHub Actions is commonly used for continuous integration and continuous d
 
 ### Where should GitHub Actions workflow files be stored?
 
-Workflow files must be stored in the repository's `.github/workflows/` directory. They should use the `.yml` or `.yaml` extension and contain valid workflow YAML.
+Workflow files must be stored in the repository's \`.github/workflows/\` directory. They should use the \`.yml\` or \`.yaml\` extension and contain valid workflow YAML.
 
 ### What is the difference between a workflow, a job, a step, and an action?
 
@@ -15782,7 +15782,7 @@ An artifact preserves a workflow output, such as a build package or test report,
 
 ### What is a reusable workflow?
 
-A reusable workflow is a workflow that another workflow can call through the `workflow_call` event. It helps teams share complete job-level automation, such as a standard build or deployment process, across multiple repositories.
+A reusable workflow is a workflow that another workflow can call through the \`workflow_call\` event. It helps teams share complete job-level automation, such as a standard build or deployment process, across multiple repositories.
 
 ### What is the difference between a reusable workflow and a composite action?
 
@@ -15790,7 +15790,7 @@ A reusable workflow can coordinate multiple jobs and is called at the job level.
 
 ### How do GitHub Actions secrets work?
 
-Secrets are sensitive values stored in GitHub's secret management settings. Workflows can reference authorized secrets through the `secrets` context. Secrets should be scoped narrowly, never committed to source code, and never exposed to untrusted workflow execution.
+Secrets are sensitive values stored in GitHub's secret management settings. Workflows can reference authorized secrets through the \`secrets\` context. Secrets should be scoped narrowly, never committed to source code, and never exposed to untrusted workflow execution.
 
 ### How can GitHub Actions deploy to cloud providers securely?
 
@@ -15802,7 +15802,7 @@ Use least-privilege token permissions, pin third-party actions to verified commi
 
 ### Can GitHub Actions run on a schedule?
 
-Yes. The `schedule` event supports cron-based triggers for periodic tasks such as dependency checks, reporting, and maintenance. Scheduled workflows use UTC and may not start at the exact requested minute during periods of high platform load.
+Yes. The \`schedule\` event supports cron-based triggers for periodic tasks such as dependency checks, reporting, and maintenance. Scheduled workflows use UTC and may not start at the exact requested minute during periods of high platform load.
 
 ### What should developers learn before using GitHub Actions?
 
