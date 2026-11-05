@@ -13563,7 +13563,7 @@ Consider an online marketplace. A customer places an order, inventory changes, a
 
 Real-time processing also supports operational intelligence. A manufacturer can combine sensor readings with equipment history to identify abnormal behavior. A financial institution can compare a transaction with recent activity before approving it. A cloud operations team can correlate logs, metrics, and traces to detect a service incident while it is developing.
 
-The value is not speed for its own sake. It is the ability to make a better decision while that decision still matters. A sound architecture begins by defining what “real time” means to the business, then selects the simplest design that meets that requirement.
+The value is not speed for its own sake. It is the ability to make a better decision while that decision still matters. A sound architecture begins by defining what “real time” means to the business, then selects the simplest design that meets that requirement. The same discipline applies to broader [scalable server architecture](https://desire-djh.pages.dev/blog/scalable-server-architecture): capacity, reliability, and operational complexity should be designed together.
 
 ## What Real Time Actually Means
 
@@ -13697,7 +13697,7 @@ A Flink job can read events from Kafka, enrich them, maintain keyed state, calcu
 
 Spark Structured Streaming provides a DataFrame-oriented programming model for incremental stream processing. Its default micro-batch execution model processes data in small batches and supports a broad set of operations, including stateful aggregations and event-time windows.
 
-Spark's newer Real-time Mode, introduced in Spark 4.1, targets lower-latency operational workloads. The supported operation set depends on the Spark release: the official Spark 4.3 documentation describes support for stateless operations and a first set of stateful operations, including streaming deduplication, aggregation, and JVM transformWithState. It is not safe to assume every Structured Streaming query can run in Real-time Mode. Check the version-specific supported-query and sink documentation before selecting it.
+Spark's newer Real-time Mode, introduced in Spark 4.1, targets lower-latency operational workloads. When a streaming pipeline also serves model inference, its responsibilities should fit into a wider [machine learning pipeline](https://desire-djh.pages.dev/blog/machine-learning-pipeline) that covers training, validation, deployment, and monitoring. The supported operation set depends on the Spark release: the official Spark 4.3 documentation describes support for stateless operations and a first set of stateful operations, including streaming deduplication, aggregation, and JVM transformWithState. It is not safe to assume every Structured Streaming query can run in Real-time Mode. Check the version-specific supported-query and sink documentation before selecting it.
 
 Real-time Mode also has operational constraints. It uses long-running tasks, so available cluster cores and source partition counts matter. Stateful queries require sufficient resources for both source and stateful processing stages. Exactly-once processing semantics do not automatically guarantee that every external sink is duplicate-free after failures; sink behavior must be designed and tested separately.
 
@@ -13785,7 +13785,7 @@ No pattern is universally superior. Choose based on replay needs, historical cor
 
 ## Data Contracts, Schemas, and Change Data Capture
 
-A data contract defines what a producer promises to publish and what consumers can expect. It may describe field names, types, required values, event meaning, ownership, compatibility rules, and privacy classification.
+A data contract defines what a producer promises to publish and what consumers can expect. Clear service boundaries and contracts are also central to [mastering backend architecture](https://desire-djh.pages.dev/blog/mastering-backend-architecture), especially when multiple teams own connected systems. It may describe field names, types, required values, event meaning, ownership, compatibility rules, and privacy classification.
 
 Without contracts, a producer can rename a field or change its meaning and silently break downstream consumers. A schema registry can store versions and enforce compatibility policies. Common serialization formats include JSON, Avro, and Protocol Buffers. JSON is approachable and widely supported; Avro and Protocol Buffers can provide compact, schema-driven serialization with explicit evolution rules.
 
@@ -13938,13 +13938,13 @@ Consumers should use idempotency keys. If the inventory consumer receives the sa
 
 The system should define what happens when a dependency is unavailable. If the analytics consumer is delayed, order placement can continue while the event remains retained. If the risk service is unavailable, the business must decide whether to hold the order, apply a conservative fallback, or allow a limited workflow. That is a business risk decision, not simply a broker configuration.
 
-For historical analysis, raw events can be stored in object storage and transformed into curated tables. A separate analytical workload can calculate daily revenue and customer behavior without competing with the operational risk processor for the same resources.
+For historical analysis, raw events can be stored in object storage and transformed into curated tables. A separate analytical workload can calculate daily revenue and customer behavior without competing with the operational risk processor for the same resources. This also creates a foundation for [analytics, AI, and machine learning](https://desire-djh.pages.dev/blog/analytics-ai-machine-learning) workloads that need governed historical data alongside fresh events.
 
 This design is not the only valid solution. A smaller marketplace may begin with a database outbox and a simple worker queue. Kafka, Flink, and a lakehouse become appropriate when throughput, replay, multiple consumers, or processing complexity justify them. The architecture should evolve in response to evidence.
 
 ## Common Real-Time Pipeline Mistakes
 
-**Treating low latency as the only objective.** A pipeline that is fast but loses events or produces incorrect results is not successful. Define correctness, completeness, availability, and cost alongside latency.
+**Treating low latency as the only objective.** A pipeline that is fast but loses events or produces incorrect results is not successful. The same principle applies when packaging stream processors and their dependencies: [Docker containers and containerization](https://desire-djh.pages.dev/blog/docker-containers-and-containerization) can improve deployment consistency, but they do not replace sound recovery and data-integrity design. Define correctness, completeness, availability, and cost alongside latency.
 
 **Assuming the broker guarantees end-to-end exactly-once behavior.** Brokers and processing frameworks have specific guarantees. External sinks, APIs, and side effects need idempotency or transactional integration.
 
