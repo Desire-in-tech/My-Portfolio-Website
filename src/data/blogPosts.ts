@@ -13533,7 +13533,7 @@ Scalable server architecture is ultimately about making deliberate trade-offs. S
 
 1. [Why Real-Time Data Pipelines Matter](#why-real-time-data-pipelines-matter)
 2. [What Real Time Actually Means](#what-real-time-actually-means)
-3. [The Anatomy of a Streaming Data Pipeline](#anatomy-of-a-streaming-data-pipeline)
+3. [The Anatomy of a Streaming Data Pipeline](#the-anatomy-of-a-streaming-data-pipeline)
 4. [Data Sources, Events, and Ingestion](#data-sources-events-and-ingestion)
 5. [Messaging Systems and Event Brokers](#messaging-systems-and-event-brokers)
 6. [Stream Processing Engines and Execution Models](#stream-processing-engines-and-execution-models)
@@ -13549,7 +13549,7 @@ Scalable server architecture is ultimately about making deliberate trade-offs. S
 16. [Observability, Testing, and Operational Readiness](#observability-testing-and-operational-readiness)
 17. [A Practical End-to-End Pipeline Design](#a-practical-end-to-end-pipeline-design)
 18. [Common Real-Time Pipeline Mistakes](#common-real-time-pipeline-mistakes)
-19. [A Step-by-Step Implementation Roadmap](#step-by-step-implementation-roadmap)
+19. [A Step-by-Step Implementation Roadmap](#a-step-by-step-implementation-roadmap)
 20. [Frequently Asked Questions](#frequently-asked-questions)
 21. [Further Reading and Official Documentation](#further-reading-and-official-documentation)
 
