@@ -14983,7 +14983,7 @@ The following resources provide deeper explanations, catalogs, and practical gui
 
 Software design patterns are most effective when they help developers make a system easier to understand and change. Learn the intent behind each pattern, recognize the problem it addresses, and adapt the solution rather than copying a diagram. The strongest design is not the one with the most abstractions; it is the one that meets real requirements with a clear structure, controlled complexity, and room for sensible evolution.`,
     featured: false,
-  }
+  },
   {
     id: '34',
     title: 'Mastering Workflow Automation with GitHub Actions for Developers',
