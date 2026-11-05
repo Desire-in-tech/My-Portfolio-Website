@@ -10153,7 +10153,8 @@ The most important distinction is not that one role is more advanced or more val
 13. [Common Misconceptions About ML and AI Engineering](#common-misconceptions-about-ml-and-ai-engineering)
 14. [The Future of Both Engineering Specializations](#the-future-of-both-engineering-specializations)
 15. [Frequently Asked Questions](#frequently-asked-questions)
-16. [Conclusion](#conclusion)
+16. [Further Reading and Authoritative References](#further-reading-and-authoritative-references)
+17. [Conclusion](#conclusion)
 
 ## Understanding AI Engineering and Machine Learning Engineering
 
@@ -10428,6 +10429,23 @@ Not for every position. Advanced degrees can be useful for research-intensive or
 ### Which role is more future-proof?
 
 No job title is guaranteed to remain unchanged. Both roles are likely to evolve as tools and business needs change. Transferable skills—software engineering, data literacy, evaluation, security, system design, and continuous learning—are a more durable investment than specializing only in one current framework.
+
+## Further Reading and Authoritative References
+
+The following primary resources provide deeper technical guidance. Official documentation is particularly useful for checking current APIs, supported workflows, and implementation details as tools evolve.
+
+- [Scikit-learn User Guide](https://scikit-learn.org/stable/user_guide.html) — practical documentation for preprocessing, supervised and unsupervised learning, model selection, and evaluation.
+- [PyTorch Tutorials](https://pytorch.org/tutorials/) — hands-on material for building, training, and deploying deep learning models.
+- [TensorFlow Guide](https://www.tensorflow.org/guide) — concepts and implementation guidance for TensorFlow workflows and model development.
+- [Hugging Face Transformers Documentation](https://huggingface.co/docs/transformers/index) — documentation for using pretrained transformer models, pipelines, tokenizers, and related tooling.
+- [Google Cloud: MLOps Continuous Delivery and Automation Pipelines](https://cloud.google.com/architecture/mlops-continuous-delivery-and-automation-pipelines-in-machine-learning) — an architectural overview of automation across the machine learning lifecycle.
+- [NIST AI Risk Management Framework](https://www.nist.gov/itl/ai-risk-management-framework) — a framework for identifying, assessing, and managing risks associated with AI systems.
+- [OWASP Top 10 for Large Language Model Applications](https://genai.owasp.org/llm-top-10/) — security risks and mitigation guidance for applications built with large language models.
+- [FastAPI Documentation](https://fastapi.tiangolo.com/) — reference material for building Python APIs that can expose models and AI-powered application functionality.
+- [Docker Documentation](https://docs.docker.com/) — guides for packaging and running applications in containers.
+- [GitHub Actions Documentation](https://docs.github.com/en/actions) — documentation for automating tests, builds, and delivery workflows.
+
+Use these resources alongside practical implementation and evaluation. Documentation explains how a tool works; a well-designed project demonstrates that you can apply it responsibly to a real requirement.
 
 ## Conclusion
 
