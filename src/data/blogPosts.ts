@@ -17703,7 +17703,7 @@ Start with the questions your team needs to answer. Instrument the most importan
 - [NIST SP 800-92: Guide to Computer Security Log Management](https://csrc.nist.gov/pubs/sp/800/92/final) — broader guidance for enterprise log management.
 `,
     featured: false,
-  }
+  },
   {
     id: '39',
     title: 'How Companies Deploy Machine Learning Models: A Comprehensive Guide To MLOps',
