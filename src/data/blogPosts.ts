@@ -25121,7 +25121,7 @@ Git behaviour can vary with version and configuration, so use official documenta
 - [GitHub Docs: GitHub flow](https://docs.github.com/en/get-started/using-github/github-flow) — a practical branch and pull request workflow.
 - [GitHub Docs: Resolving merge conflicts](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/addressing-merge-conflicts) — guidance for resolving conflicts in pull requests.
 
-For related guidance, read the [Comprehensive GitHub Guide](/blog/comprehensive-github-guide), which explains repository management, collaboration, security, and GitHub Actions.,
+For related guidance, read the [Comprehensive GitHub Guide](/blog/comprehensive-github-guide), which explains repository management, collaboration, security, and GitHub Actions.`,
     featured: false,
   },
   {
