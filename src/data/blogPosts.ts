@@ -18200,7 +18200,7 @@ Start with one well-defined use case. Package the model and preprocessing logic,
 - [Google Cloud: Guidelines for Developing High-Quality ML Solutions](https://docs.cloud.google.com/architecture/guidelines-for-developing-high-quality-ml-solutions) — quality practices across the ML development and production lifecycle.
 `,
     featured: false,
-  }
+  },
   {
     id: '40',
     title: 'How to Build Production-Ready ML Systems for Enhanced Product Performance',
