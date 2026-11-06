@@ -12011,7 +12011,7 @@ Enterprise success with MLOps ultimately depends on cultivating the right cultur
       'A practical guide to production ML architecture, data and feature pipelines, model evaluation, deployment automation, monitoring, security, and MLOps maturity.',
     targetKeywords: ['production-ready machine learning systems', 'MLOps', 'ML system architecture', 'machine learning operations', 'model monitoring', 'ML deployment'],
     tags: ['Machine Learning', 'MLOps', 'Production ML', 'ML Engineering', 'Model Monitoring'],
-    content: \`Build production-ready machine learning systems by treating the model as one component in a dependable product, not as the finished product itself. A successful system connects trustworthy data, repeatable training, reliable serving, continuous evaluation, security, observability, and clear operational ownership. This guide explains how to design that complete lifecycle, choose an architecture that fits the use case, and introduce [MLOps practices](/blog/machine-learning-operations) without creating unnecessary platform complexity.
+    content: `Build production-ready machine learning systems by treating the model as one component in a dependable product, not as the finished product itself. A successful system connects trustworthy data, repeatable training, reliable serving, continuous evaluation, security, observability, and clear operational ownership. This guide explains how to design that complete lifecycle, choose an architecture that fits the use case, and introduce [MLOps practices](/blog/machine-learning-operations) without creating unnecessary platform complexity.
 
 ## Table of Contents
 
@@ -12305,7 +12305,7 @@ The following resources provide deeper implementation guidance for production ML
 - [NIST: Challenges to monitoring deployed AI systems](https://www.nist.gov/news-events/news/2026/03/new-report-challenges-monitoring-deployed-ai-systems)
 - [MLflow documentation](https://mlflow.org/docs/latest/)
 - [KServe documentation](https://kserve.github.io/website/)
-\`,
+`,
     featured: true,
   },
   {
