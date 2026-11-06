@@ -12297,14 +12297,14 @@ For related implementation topics, continue with the guides to [machine learning
 
 The following resources provide deeper implementation guidance for production ML architecture, MLOps automation, model lifecycle management, risk management, and monitoring:
 
-- [Google Cloud: MLOps continuous delivery and automation pipelines] (https://docs.cloud.google.com/architecture/mlops-continuous-delivery-and-automation-pipelines-in-machine-learning)
-- [Google for Developers: Productionization of machine learning projects] (https://developers.google.com/machine-learning/managing-ml-projects/production)
-- [Microsoft Learn: Machine learning lifecycle] (https://learn.microsoft.com/en-us/azure/databricks/machine-learning/concepts/ml-lifecycle)
-- [Microsoft: MLOps maturity model] (https://github.com/microsoftdocs/architecture-center/blob/main/docs/ai-ml/guide/mlops-maturity-model.md)
-- [NIST: AI Risk Management Framework] (https://www.nist.gov/itl/ai-risk-management-framework)
-- [NIST: Challenges to monitoring deployed AI systems] (https://www.nist.gov/news-events/news/2026/03/new-report-challenges-monitoring-deployed-ai-systems)
-- [MLflow documentation] (https://mlflow.org/docs/latest/)
-- [KServe documentation] (https://kserve.github.io/website/)
+- [Google Cloud: MLOps continuous delivery and automation pipelines](https://docs.cloud.google.com/architecture/mlops-continuous-delivery-and-automation-pipelines-in-machine-learning)
+- [Google for Developers: Productionization of machine learning projects](https://developers.google.com/machine-learning/managing-ml-projects/production)
+- [Microsoft Learn: Machine learning lifecycle](https://learn.microsoft.com/en-us/azure/databricks/machine-learning/concepts/ml-lifecycle)
+- [Microsoft: MLOps maturity model](https://github.com/microsoftdocs/architecture-center/blob/main/docs/ai-ml/guide/mlops-maturity-model.md)
+- [NIST: AI Risk Management Framework](https://www.nist.gov/itl/ai-risk-management-framework)
+- [NIST: Challenges to monitoring deployed AI systems](https://www.nist.gov/news-events/news/2026/03/new-report-challenges-monitoring-deployed-ai-systems)
+- [MLflow documentation](https://mlflow.org/docs/latest/)
+- [KServe documentation](https://kserve.github.io/website/)
 \`,
     featured: true,
   },
