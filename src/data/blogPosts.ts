@@ -25541,7 +25541,7 @@ For related topics, explore [scalable server architecture](/blog/scalable-server
 ## Table of Contents
 
 1. [What AI Engineering Means](#what-ai-engineering-means)
-2. [AI Engineering, Data Science, and Machine Learning Engineering](#ai-engineering-data-science-machine-learning-engineering)
+2. [AI Engineering, Data Science, and Machine Learning Engineering](#ai-engineering-data-science-and-machine-learning-engineering)
 3. [Where AI Fits in the Software Development Lifecycle](#where-ai-fits-in-the-software-development-lifecycle)
 4. [Common Types of AI-Powered Software](#common-types-of-ai-powered-software)
 5. [Choosing the Right Problem Before Choosing a Model](#choosing-the-right-problem-before-choosing-a-model)
@@ -25857,7 +25857,7 @@ Build a focused, working application with a clear problem statement, reproducibl
 - [Google Rules of Machine Learning](https://developers.google.com/machine-learning/guides/rules-of-ml) presents practical lessons for building machine learning systems.
 - [The Twelve-Factor App](https://12factor.net/) describes practices for building maintainable and deployable software services.
 
-For related topics, explore [machine learning fundamentals](/blog/machine-learning), [large language models](/blog/large-language-models), [AI tools for business](/blog/ai-tools-for-business), [REST API fundamentals](/blog/rest-apis), and [software architecture styles](/blog/architectural-styles-in-modern-system-design). These guides provide complementary foundations in model concepts, AI applications, service integration, and system design.`,
+For related topics, explore [machine learning fundamentals](/blog/ultimate-guide-to-machine-learning), [large language models](/blog/large-language-models), [AI tools for business](/blog/production-ready-ai-applications), [REST API fundamentals](/blog/apis-explained), and [software architecture styles](/blog/architectural-styles-in-modern-system-design). These guides provide complementary foundations in model concepts, AI applications, service integration, and system design.`,
     featured: false,
   },
   {
