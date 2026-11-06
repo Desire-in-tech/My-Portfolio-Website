@@ -24403,7 +24403,6 @@ The following primary sources provide the authoritative details for Kubernetes A
 - [Azure Kubernetes Service Best Practices](https://learn.microsoft.com/azure/aks/best-practices) — cluster and developer guidance.
 - [Google Kubernetes Engine Documentation](https://cloud.google.com/kubernetes-engine/docs) — cluster setup, operations, and workload management.`,
     featured: false,
-  }
   },
   {
     id: '45',
