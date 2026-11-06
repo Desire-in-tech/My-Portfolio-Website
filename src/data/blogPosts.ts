@@ -12293,6 +12293,8 @@ Adopt MLOps incrementally. A small system with clear ownership, strong contracts
 
 ## Further Reading and Official Resources
 
+For related implementation topics, continue with the guides to [machine learning operations](/blog/machine-learning-operations), [machine learning pipelines](/blog/machine-learning-pipeline), [deploying machine learning models](/blog/deploy-machine-learning-models), [real-time data pipelines](/blog/real-time-data-pipeline), [scalable server architecture](/blog/scalable-server-architecture), [software architecture and system design](/blog/software-architecture-system-design), [CI/CD with GitHub Actions](/blog/github-actions-for-developers), [Kubernetes](/blog/kubernetes-guide), [Azure cloud architecture](/blog/azure-cloud-architecture), and [SQL query optimization](/blog/guide-to-sql-query-optimization).
+
 The following resources provide deeper implementation guidance for production ML architecture, MLOps automation, model lifecycle management, risk management, and monitoring:
 
 - [Google Cloud: MLOps continuous delivery and automation pipelines] (https://docs.cloud.google.com/architecture/mlops-continuous-delivery-and-automation-pipelines-in-machine-learning)
