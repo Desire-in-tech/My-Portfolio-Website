@@ -15847,30 +15847,30 @@ This guide explains how RAG systems work, how their components fit together, whi
 
 ## Table of Contents
 
-1. [1. What Is Retrieval-Augmented Generation?](#1-what-is-retrieval-augmented-generation)
-2. [2. Why RAG Systems Matter](#2-why-rag-systems-matter)
-3. [3. The Main Components of a RAG Architecture](#3-the-main-components-of-a-rag-architecture)
-4. [4. Document Ingestion and Data Preparation](#4-document-ingestion-and-data-preparation)
-5. [5. Chunking: Dividing Documents into Useful Passages](#5-chunking-dividing-documents-into-useful-passages)
-6. [6. Embeddings and Semantic Representation](#6-embeddings-and-semantic-representation)
-7. [7. Vector Databases and Search Indexes](#7-vector-databases-and-search-indexes)
-8. [8. Retrieval Methods: Vector, Keyword, and Hybrid Search](#8-retrieval-methods-vector-keyword-and-hybrid-search)
-9. [9. Query Understanding and Query Transformation](#9-query-understanding-and-query-transformation)
-10. [10. Reranking and Selecting the Best Evidence](#10-reranking-and-selecting-the-best-evidence)
-11. [11. Context Construction and Grounded Generation](#11-context-construction-and-grounded-generation)
-12. [12. Advanced RAG Patterns](#12-advanced-rag-patterns)
-13. [13. Evaluating RAG Quality](#13-evaluating-rag-quality)
-14. [14. Security, Privacy, and Access Control](#14-security-privacy-and-access-control)
-15. [15. Reliability, Monitoring, and Maintenance](#15-reliability-monitoring-and-maintenance)
-16. [16. Performance and Cost Optimization](#16-performance-and-cost-optimization)
-17. [17. A Practical Example: Building an Internal Knowledge Assistant](#17-a-practical-example-building-an-internal-knowledge-assistant)
-18. [18. RAG Compared With Fine-Tuning and Long-Context Prompting](#18-rag-compared-with-fine-tuning-and-long-context-prompting)
-19. [19. Common RAG Implementation Mistakes](#19-common-rag-implementation-mistakes)
-20. [20. A Step-by-Step Roadmap for Implementing RAG](#20-a-step-by-step-roadmap-for-implementing-rag)
-21. [21. The Future of RAG Systems](#21-the-future-of-rag-systems)
-22. [22. Conclusion: Building RAG Systems That Users Can Trust](#22-conclusion-building-rag-systems-that-users-can-trust)
+1. [What Is Retrieval-Augmented Generation?](#what-is-retrieval-augmented-generation)
+2. [Why RAG Systems Matter](#why-rag-systems-matter)
+3. [The Main Components of a RAG Architecture](#the-main-components-of-a-rag-architecture)
+4. [Document Ingestion and Data Preparation](#document-ingestion-and-data-preparation)
+5. [Chunking: Dividing Documents into Useful Passages](#chunking-dividing-documents-into-useful-passages)
+6. [Embeddings and Semantic Representation](#embeddings-and-semantic-representation)
+7. [Vector Databases and Search Indexes](#vector-databases-and-search-indexes)
+8. [Retrieval Methods: Vector, Keyword, and Hybrid Search](#retrieval-methods-vector-keyword-and-hybrid-search)
+9. [Query Understanding and Query Transformation](#query-understanding-and-query-transformation)
+10. [Reranking and Selecting the Best Evidence](#reranking-and-selecting-the-best-evidence)
+11. [Context Construction and Grounded Generation](#context-construction-and-grounded-generation)
+12. [Advanced RAG Patterns](#advanced-rag-patterns)
+13. [Evaluating RAG Quality](#evaluating-rag-quality)
+14. [Security, Privacy, and Access Control](#security-privacy-and-access-control)
+15. [Reliability, Monitoring, and Maintenance](#reliability-monitoring-and-maintenance)
+16. [Performance and Cost Optimization](#performance-and-cost-optimization)
+17. [A Practical Example: Building an Internal Knowledge Assistant](#a-practical-example-building-an-internal-knowledge-assistant)
+18. [RAG Compared With Fine-Tuning and Long-Context Prompting](#rag-compared-with-fine-tuning-and-long-context-prompting)
+19. [Common RAG Implementation Mistakes](#common-rag-implementation-mistakes)
+20. [A Step-by-Step Roadmap for Implementing RAG](#a-step-by-step-roadmap-for-implementing-rag)
+21. [The Future of RAG Systems](#the-future-of-rag-systems)
+22. [Conclusion: Building RAG Systems That Users Can Trust](#conclusion-building-rag-systems-that-users-can-trust)
 
-## 1. What Is Retrieval-Augmented Generation?
+## What Is Retrieval-Augmented Generation?
 
 Retrieval-Augmented Generation is an architecture that combines information retrieval with language-model generation. When a user asks a question, the application searches a collection of external sources for relevant passages. It then provides those passages, together with the question and clear instructions, to a language model. The model uses the supplied material to formulate a response.
 
@@ -15883,7 +15883,7 @@ A conventional language model generates from patterns and knowledge encoded duri
 
 RAG does not guarantee that an answer is correct, and it does not eliminate hallucinations. Retrieval can return irrelevant, incomplete, outdated, or misleading material. A model can also misinterpret accurate passages or make claims that the passages do not support. The objective is to improve grounding, freshness, traceability, and control—not to promise perfect accuracy.
 
-## 2. Why RAG Systems Matter
+## Why RAG Systems Matter
 
 Organizations often want to use language models with information that is too specific, sensitive, or changeable to be reliably contained in a model's general training data. Examples include product documentation, support procedures, engineering runbooks, legal research collections, research papers, policy manuals, and internal project records.
 
@@ -15893,7 +15893,7 @@ RAG can also improve the transparency of an AI application. If the retrieval lay
 
 The architecture is not automatically cheaper than every alternative. Parsing, embedding, indexing, search infrastructure, reranking, model calls, and evaluation all have costs. RAG is most valuable when access to external knowledge, source traceability, or frequent content updates justify those additional components.
 
-## 3. The Main Components of a RAG Architecture
+## The Main Components of a RAG Architecture
 
 A typical RAG application has an offline or asynchronous preparation path and an online question-answering path. Separating these paths avoids repeatedly processing an entire document collection whenever someone asks a question.
 
@@ -15917,7 +15917,7 @@ The online path usually includes:
 
 A production design also needs monitoring, access control, data-retention policies, error handling, and an evaluation process. These are core system components rather than optional finishing touches.
 
-## 4. Document Ingestion and Data Preparation
+## Document Ingestion and Data Preparation
 
 Retrieval quality starts with the source data. A sophisticated embedding model cannot recover information that was never extracted correctly, and a search engine cannot distinguish a current policy from an obsolete copy unless the application supplies useful metadata.
 
@@ -15929,7 +15929,7 @@ Ingestion should be repeatable and idempotent. Processing the same unchanged sou
 
 Validate the pipeline with representative documents before processing a large collection. Inspect extracted text, tables, headings, page references, and metadata. A small set of carefully reviewed examples often reveals parsing problems that would otherwise become retrieval problems later.
 
-## 5. Chunking: Dividing Documents into Useful Passages
+## Chunking: Dividing Documents into Useful Passages
 
 Chunking breaks long source documents into smaller units that can be searched and placed in a model's context window. If a whole book or policy manual is stored as one record, a query may retrieve too much unrelated material. If the text is divided into fragments that are too small, the meaning of a passage may depend on context that has been separated from it.
 
@@ -15948,7 +15948,7 @@ Store enough information to reconstruct context. A chunk should normally carry a
 
 Evaluate chunking with actual queries. Check whether the retrieved passage contains the answer, whether necessary qualifications are nearby, and whether the same information appears in many near-duplicate chunks. Do not optimize chunk size using storage efficiency alone.
 
-## 6. Embeddings and Semantic Representation
+## Embeddings and Semantic Representation
 
 An embedding model converts text into a numerical vector. The vector represents aspects of the text's meaning in a form that makes similarity calculations possible. A document passage and a query with related meanings may have vectors that are close under a selected distance or similarity measure, even when they use different words.
 
@@ -15960,7 +15960,7 @@ Use compatible embedding configurations for indexed documents and query vectors.
 
 Embeddings are not a complete representation of truth or relevance. Similarity indicates that two pieces of text are related according to the model; it does not prove that one passage answers the question. Exact identifiers, product codes, dates, names, and technical terms may require lexical search or structured filters in addition to semantic matching.
 
-## 7. Vector Databases and Search Indexes
+## Vector Databases and Search Indexes
 
 A vector database or search engine stores embeddings and supports nearest-neighbor queries. Many systems also store the original text, document identifiers, metadata, and ordinary searchable fields. The application can then retrieve passages by semantic similarity and filter them using structured conditions.
 
@@ -15979,7 +15979,7 @@ Before choosing a database, test the requirements that affect the whole applicat
 
 The vector store is only one part of the retrieval system. A strong database cannot compensate for poor parsing, weak metadata, incorrect permissions, or an unsuitable retrieval strategy.
 
-## 8. Retrieval Methods: Vector, Keyword, and Hybrid Search
+## Retrieval Methods: Vector, Keyword, and Hybrid Search
 
 Vector search retrieves passages by semantic similarity. It is useful when a question and its answer use different wording or when the user describes a concept rather than repeating the exact terms in a document.
 
@@ -15991,7 +15991,7 @@ Hybrid retrieval is often a strong baseline for business and technical collectio
 
 Retrieval should also apply filters before or during search. Examples include restricting results to the current user's tenant, an approved document classification, a language, or a valid document version. Applying permissions only after the model has seen the retrieved content is too late.
 
-## 9. Query Understanding and Query Transformation
+## Query Understanding and Query Transformation
 
 Users rarely phrase questions in the same way as the documents they need. They may use abbreviations, omit context, ask a multi-part question, or refer to something mentioned earlier in a conversation. Query processing helps translate that request into a form the retrieval system can handle.
 
@@ -16008,7 +16008,7 @@ Hypothetical Document Embeddings (HyDE) is a technique in which a model drafts a
 
 Query transformation can increase recall, but it can also introduce assumptions or drift away from the user's intent. Preserve the original question, log transformations, and evaluate whether the extra retrieval step improves end-to-end results. For straightforward questions, a direct search may be faster, cheaper, and easier to debug.
 
-## 10. Reranking and Selecting the Best Evidence
+## Reranking and Selecting the Best Evidence
 
 Initial retrieval is usually designed to find a broad set of potentially relevant candidates. The top results are not necessarily the best passages to send to the language model. A reranker evaluates each candidate in relation to the actual query and produces a more useful ordering.
 
@@ -16025,7 +16025,7 @@ Reranking can improve precision, but it adds processing time and another model o
 
 Do not select passages based only on their score. Check source quality, freshness, duplicate content, document authority, and permissions. A slightly lower-scoring current policy may be more appropriate than a highly similar obsolete draft.
 
-## 11. Context Construction and Grounded Generation
+## Context Construction and Grounded Generation
 
 After retrieval and reranking, the application constructs the context sent to the language model. This step is sometimes called prompt assembly or context packing. It should include the original question, relevant passages, source identifiers, and explicit instructions describing how the model should use the evidence.
 
@@ -16044,7 +16044,7 @@ Keep citation metadata separate from the text where possible. Each passage can c
 
 Grounded generation should not silently turn missing evidence into a confident answer. If the user asks for a fact that the collection does not contain, a useful system may say that it could not find supporting information and suggest an approved next step.
 
-## 12. Advanced RAG Patterns
+## Advanced RAG Patterns
 
 A simple retrieve-then-generate pipeline is often the best place to start. More advanced patterns can help when evaluation reveals specific limitations.
 
@@ -16062,7 +16062,7 @@ A simple retrieve-then-generate pipeline is often the best place to start. More 
 
 These approaches are not mutually exclusive. A system may combine hybrid search, contextual chunks, reranking, and a limited retrieval loop. Add one capability at a time and retain it only when measured results justify the added complexity.
 
-## 13. Evaluating RAG Quality
+## Evaluating RAG Quality
 
 A RAG system should be evaluated as separate stages and as a complete user experience. If an answer is poor, the cause may be parsing, chunking, embedding, retrieval, ranking, prompt construction, generation, or citation handling. A single overall score will not identify which component needs attention.
 
@@ -16081,7 +16081,7 @@ Evaluate changes independently where possible. Compare chunk sizes, embedding mo
 
 For production, combine offline regression tests with carefully monitored user feedback. Review failure examples, update the evaluation set, and rerun it when documents, models, parsers, prompts, or retrieval configuration change.
 
-## 14. Security, Privacy, and Access Control
+## Security, Privacy, and Access Control
 
 RAG creates a data access path between source systems and a language model. The fact that a document is stored in a vector index does not make it safe to expose to every user. Permissions must be enforced throughout ingestion, retrieval, generation, caching, and citation display.
 
@@ -16101,7 +16101,7 @@ Additional safeguards include:
 
 RAG security is broader than prompt injection. It includes document poisoning, data leakage, insecure connectors, index tampering, cache isolation, stale permissions, and unsafe downstream tool use. The [OWASP RAG Security Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/RAG_Security_Cheat_Sheet.html) provides a practical checklist for securing the full pipeline.
 
-## 15. Reliability, Monitoring, and Maintenance
+## Reliability, Monitoring, and Maintenance
 
 A RAG application depends on several services that can fail independently: source connectors, parsers, embedding endpoints, databases, search indexes, rerankers, and language-model APIs. Design for partial failure rather than assuming every stage will always respond.
 
@@ -16113,7 +16113,7 @@ Caching can reduce repeated work, but cache keys must include the relevant ident
 
 Provide a fallback behavior for unavailable services. Depending on the application, that may mean retrying, returning a clear temporary error, switching to a permitted search path, or declining to answer. Do not silently present an answer from stale or unauthorized data as current.
 
-## 16. Performance and Cost Optimization
+## Performance and Cost Optimization
 
 The total cost of a RAG request includes more than the language-model response. It may include query embeddings, vector and keyword searches, reranking, query rewriting, prompt tokens, generation tokens, document parsing, storage, index maintenance, and observability.
 
@@ -16133,7 +16133,7 @@ Practical techniques include:
 
 Do not optimize for the cheapest individual request at the expense of poor answers or unsafe retrieval. The useful objective is an acceptable balance among quality, latency, reliability, privacy, and total operating cost.
 
-## 17. A Practical Example: Building an Internal Knowledge Assistant
+## A Practical Example: Building an Internal Knowledge Assistant
 
 Imagine a company wants an assistant that answers employee questions using approved HR policies and IT support documentation. A basic design could work as follows.
 
@@ -16147,7 +16147,7 @@ The language model receives the question, the retrieved sections, their source I
 
 Finally, the team evaluates the system using approved test questions, including questions about outdated policies, restricted documents, ambiguous requests, and topics not covered by the collection. It monitors retrieval failures, answer quality, access-control events, and latency. This makes the assistant a maintained knowledge service rather than a one-off chatbot demo.
 
-## 18. RAG Compared With Fine-Tuning and Long-Context Prompting
+## RAG Compared With Fine-Tuning and Long-Context Prompting
 
 RAG, fine-tuning, and long-context prompting solve different problems. They can be combined, but they should not be treated as interchangeable techniques.
 
@@ -16161,7 +16161,7 @@ Use RAG when the application needs to search a changing or sizable knowledge col
 
 A hybrid design may use fine-tuning for behavior and RAG for external knowledge. The correct choice should come from the task's requirements and evaluation results.
 
-## 19. Common RAG Implementation Mistakes
+## Common RAG Implementation Mistakes
 
 Many disappointing RAG applications are not caused by a weak language model. They result from problems in the surrounding data and retrieval pipeline.
 
@@ -16183,7 +16183,7 @@ Many disappointing RAG applications are not caused by a weak language model. The
 
 **Deploying without regression tests:** A new parser, model, prompt, or index setting can make previously correct answers worse. Maintain a stable evaluation set and rerun it after meaningful changes.
 
-## 20. A Step-by-Step Roadmap for Implementing RAG
+## A Step-by-Step Roadmap for Implementing RAG
 
 A measured implementation is easier to debug than a large system built all at once.
 
@@ -16201,7 +16201,7 @@ A measured implementation is easier to debug than a large system built all at on
 
 For a practical architecture overview, Microsoft's [RAG solution design and evaluation guide](https://learn.microsoft.com/en-us/azure/architecture/ai-ml/guide/rag/rag-solution-design-and-evaluation-guide) and [information retrieval guidance](https://learn.microsoft.com/en-us/azure/architecture/ai-ml/guide/rag/rag-information-retrieval) explain the decisions involved in preparing, searching, and evaluating a knowledge collection. The [Azure AI Search RAG overview](https://learn.microsoft.com/en-us/azure/search/retrieval-augmented-generation-overview) also compares classic and more dynamic retrieval approaches.
 
-## 21. The Future of RAG Systems
+## The Future of RAG Systems
 
 RAG continues to evolve as models, search systems, and data platforms improve. Current design directions include more capable hybrid retrieval, contextualized chunks, graph-based knowledge representations, multimodal indexing, adaptive retrieval, and agent-directed search. These techniques aim to improve how systems interpret complex questions and find evidence across different types of data.
 
@@ -16211,7 +16211,7 @@ Agentic retrieval can dynamically select data sources or break a question into m
 
 The most important direction is not simply adding more complex components. It is making retrieval systems measurable, secure, and maintainable. Better evaluation, clear source provenance, reliable updates, and permission-aware retrieval are foundational whether the application uses a simple pipeline or an advanced agentic architecture.
 
-## 22. Conclusion: Building RAG Systems That Users Can Trust
+## Conclusion: Building RAG Systems That Users Can Trust
 
 Retrieval-Augmented Generation gives language-model applications a practical way to work with external knowledge. By retrieving relevant passages before generation, a system can provide answers grounded in documents that are private, specialized, or updated more frequently than model training data.
 
