@@ -24455,62 +24455,673 @@ The following primary sources provide the authoritative details for Kubernetes A
   },
   {
     id: '47',
-    title: 'A Comprehensive Guide to Git Commands for Effective Version Control',
+    title: 'Git Commands: A Practical Guide to Version Control',
     slug: 'guide-to-git-commands-for-version-control',
     category: 'Software Engineering',
     publishDate: '2026-09-19',
+    updatedDate: '2026-11-06',
     author: 'Desire E',
+    readingTime: '22 min read',
     excerpt:
       'Master the essential Git commands that will transform your workflow and help you collaborate seamlessly with teams while maintaining complete control over your code history.',
     featuredImage:
       'https://res.cloudinary.com/f7ko7ayw/image/upload/v1785605726/Git_Commands_ydcr86.png',
     imageAlt: 'Git Commands',
-    metaTitle: 'Git Commands for Effective Version Control',
+    metaTitle: 'Git Commands: Practical Version Control Guide',
     metaDescription:
       'Master the essential Git commands that will transform your workflow and help you collaborate seamlessly with teams while maintaining complete control over your code history.',
-    targetKeywords: ['GitHub', 'Git Commands', 'Version Control'],
-    tags: ['Git', 'GitHub'],
-    content: `Master the essential Git commands that will transform your workflow and help you collaborate seamlessly with teams while maintaining complete control over your code history.
+    targetKeywords: ['Git Commands', 'Git Version Control', 'Git Tutorial', 'Git Workflow'],
+    tags: ['Git', 'Version Control', 'Developer Tools'],
+    content: `Git is one of the most useful tools in a developer's daily workflow. It records how a project changes, lets you experiment without losing working code, and makes it possible for multiple people to contribute without constantly overwriting one another. Learning Git commands is therefore more than memorising terminal instructions: it is learning how to manage change deliberately.
 
-## Understanding Git Fundamentals and Why Version Control Matters
+This practical guide explains the Git commands developers use most, what each command changes, when to use it, and how the commands fit together. It starts with repositories, commits, and the staging area, then moves through branches, remotes, collaboration, history inspection, undo operations, and troubleshooting. Each example uses a typical command-line workflow and can be adapted to projects written in different programming languages.
 
-Version control has become an indispensable tool in modern software development, and Git stands at the forefront as the most widely adopted version control system worldwide. Whether you're a beginner developer just starting your coding journey or transitioning from other development practices, understanding Git workflow is essential for professional software development. Git allows developers to track changes in their code, collaborate with team members, and maintain a complete history of their project's evolution.  
-At its core, Git is a distributed version control system that records changes to files over time, enabling you to recall specific versions later. Unlike centralized version control systems, Git gives every developer a complete copy of the entire project history on their local machine. This distributed nature means you can work offline, commit changes locally, and synchronize with remote repositories when you're ready. This fundamental architecture makes Git incredibly powerful and flexible for teams of any size.  
-The importance of version control extends far beyond simply saving your work. Imagine working on a complex feature for days, only to realize you need to revert to an earlier version because something broke. Without version control, this scenario would be a nightmare. With Git, you can easily roll back changes, compare different versions of your code, and understand exactly what changed, when it changed, and who made the change. This transparency and control are invaluable for maintaining code quality and accountability.  
-Git workflow refers to the systematic approach developers use to manage their code using Git commands and GitHub or other hosting platforms. A solid Git workflow enables teams to work simultaneously on different features without conflicts, maintain stable production code while developing new features, and deploy updates confidently. For beginner developers, establishing good Git habits early will save countless hours of frustration and set the foundation for professional development practices.  
-The synergy between Git and GitHub has revolutionized how developers collaborate. While Git is the version control system that runs locally on your computer, GitHub is a cloud-based hosting service that stores your Git repositories online. This GitHub tutorial aspect of learning version control is crucial because it enables teams to share code, review each other's work through pull requests, and maintain a centralized source of truth for their projects. Together, Git and GitHub create a powerful ecosystem that supports everything from solo projects to enterprise-level development.
+## Table of Contents
 
-## Essential Git Commands Every Developer Should Know
+1. [Understand Git and the Version Control Workflow](#understand-git-and-the-version-control-workflow)
+2. [Configure Git Before Your First Commit](#configure-git-before-your-first-commit)
+3. [Create, Clone, and Inspect Repositories](#create-clone-and-inspect-repositories)
+4. [Track Changes with Status, Add, and Diff](#track-changes-with-status-add-and-diff)
+5. [Create Useful Commits](#create-useful-commits)
+6. [Work with Branches Safely](#work-with-branches-safely)
+7. [Connect to Remote Repositories](#connect-to-remote-repositories)
+8. [Fetch, Pull, Push, and Synchronise Work](#fetch-pull-push-and-synchronise-work)
+9. [Merge Changes and Resolve Conflicts](#merge-changes-and-resolve-conflicts)
+10. [Inspect Project History and Compare Changes](#inspect-project-history-and-compare-changes)
+11. [Undo Mistakes Without Losing Work](#undo-mistakes-without-losing-work)
+12. [Use Stash, Tags, and Other Helpful Commands](#use-stash-tags-and-other-helpful-commands)
+13. [Choose a Branching and Collaboration Workflow](#choose-a-branching-and-collaboration-workflow)
+14. [Git Best Practices for Reliable Projects](#git-best-practices-for-reliable-projects)
+15. [Troubleshoot Common Git Problems](#troubleshoot-common-git-problems)
+16. [A Complete Git Workflow from Start to Finish](#a-complete-git-workflow-from-start-to-finish)
+17. [Frequently Asked Questions About Git Commands](#frequently-asked-questions-about-git-commands)
+18. [Official Git Documentation and Further Reading](#official-git-documentation-and-further-reading)
 
-Mastering essential Git commands is the first step toward implementing an effective Git workflow. The journey begins with 'git init', which initializes a new Git repository in your project directory. This command creates a hidden .git folder that stores all the metadata and object database for your project. Alternatively, if you're joining an existing project, 'git clone \\[repository-url\\]' creates a local copy of a remote repository, including all its history and branches. These commands form the foundation of starting any Git-based project.  
-Once your repository is set up, the most frequently used Git commands revolve around tracking and saving changes. The 'git status' command is your constant companion, showing you which files have been modified, which are staged for commit, and which are untracked. This command provides essential visibility into your working directory's current state. After making changes to your files, 'git add' stages those changes for commit. You can stage individual files with 'git add filename' or stage all changes with 'git add .' or 'git add \\-A'. Staging is Git's way of letting you select which changes you want to include in your next commit.  
-The 'git commit' command permanently stores your staged changes in the repository's history with a descriptive message. Writing clear, meaningful commit messages is crucial for maintaining an understandable project history. Use 'git commit \\-m "Your descriptive message"' for quick commits, or simply 'git commit' to open your default text editor for longer, more detailed commit messages. Best practices suggest using present tense and being specific about what the commit accomplishes, such as 'Add user authentication feature' rather than 'Updated files'.  
-Understanding how to synchronize your local repository with remote repositories is fundamental to collaborative development. The 'git push' command uploads your local commits to a remote repository, typically on GitHub. Use 'git push origin main' to push your main branch to the remote named 'origin'. Conversely, 'git pull' fetches changes from a remote repository and merges them into your current branch, keeping your local copy up to date with your team's work. The 'git fetch' command is similar but only downloads the changes without merging them, giving you more control over the integration process.  
-Viewing your project's history is another critical skill in version control. The 'git log' command displays the commit history, showing commit hashes, authors, dates, and messages. For a more concise view, try 'git log \\--oneline' which displays each commit on a single line. To see what changed in each commit, 'git log \\-p' shows the differences introduced in each commit. The 'git diff' command is invaluable for comparing changes between commits, branches, or your working directory and the staging area. These Git commands give you complete visibility into your project's evolution and help you understand how your code has changed over time.
+## Understand Git and the Version Control Workflow
 
-## Advanced Git Techniques for Managing Complex Projects
+Git is a distributed version control system. It records changes to files in a repository and allows developers to inspect, compare, share, and restore earlier versions. Distributed means that each developer's local clone contains the project's history, rather than depending on one central server for every operation. You can create commits, inspect history, and work on branches while offline, then exchange changes with a remote service when a connection is available.
 
-As your projects grow in complexity, advanced Git techniques become essential for maintaining an organized and efficient Git workflow. One powerful feature is interactive staging with 'git add \\-p', which allows you to stage changes in chunks rather than entire files. This command presents each change and asks if you want to stage it, giving you fine-grained control over what goes into each commit. This technique is particularly useful when you've made multiple logical changes in a single file but want to separate them into distinct commits for a cleaner history.  
-Git stash is an often-overlooked feature that can save you in many situations. When you need to switch contexts quickly but aren't ready to commit your current changes, 'git stash' temporarily shelves your modifications, giving you a clean working directory. Later, you can retrieve those changes with 'git stash pop'. You can even maintain multiple stashes with descriptive names using 'git stash save "description"' and view them all with 'git stash list'. This version control technique is invaluable for managing interruptions and context switching without losing work or creating premature commits.  
-Rewriting history is a powerful but potentially dangerous capability that Git provides through commands like 'git rebase'. Unlike merging, which creates a new commit that combines histories, rebasing rewrites commit history by moving commits to a new base. The command 'git rebase main' takes your current branch's commits and replays them on top of the main branch, creating a linear history. Interactive rebasing with 'git rebase \\-i' is even more powerful, allowing you to reorder commits, squash multiple commits into one, edit commit messages, or even delete commits entirely. However, never rebase commits that have been pushed to a shared repository, as this can create confusion and conflicts for other developers.  
-Cherry-picking is another advanced technique that allows you to apply specific commits from one branch to another. The 'git cherry-pick \\[commit-hash\\]' command copies a commit from anywhere in your repository and applies it to your current branch. This is incredibly useful when you need a specific bug fix from one branch but don't want to merge the entire branch. Similarly, 'git reset' and 'git revert' offer different approaches to undoing changes. While 'git reset' moves the branch pointer backward in history (potentially dangerous for shared branches), 'git revert' creates a new commit that undoes the changes from a previous commit, maintaining a complete history.  
-Tags and releases are essential for marking significant points in your project's history, such as version releases. Creating an annotated tag with 'git tag \\-a v1.0 \\-m "Release version 1.0"' marks a specific commit with a meaningful label. These tags are especially important when working with GitHub, as they can be associated with release notes and downloadable assets. The 'git reflog' command is your safety net, maintaining a history of all reference updates in your repository. Even if you accidentally delete a branch or reset too far back, reflog can help you recover seemingly lost commits. These advanced Git commands separate novice users from power users who can handle complex scenarios with confidence.
+Git and GitHub are related but different. Git is the version control tool that runs locally. GitHub is a hosting and collaboration platform for Git repositories. Other hosting services provide similar capabilities, and Git can also be used without any hosting service at all.
 
-## Collaborating Effectively Using Git Branching and Merging Strategies
+A Git workflow revolves around three important areas:
 
-Branching is arguably Git's most powerful feature for collaboration, enabling multiple developers to work simultaneously without interfering with each other's code. A branch in Git is simply a lightweight pointer to a commit, making branch creation and switching incredibly fast and efficient. The command 'git branch' lists all local branches, while 'git branch feature-name' creates a new branch. To switch to that branch, use 'git checkout feature-name', or combine both operations with 'git checkout \\-b feature-name'. Modern Git versions also support 'git switch feature-name' for changing branches, which provides clearer semantics than the multipurpose checkout command.  
-Understanding popular branching strategies is crucial for implementing an effective Git workflow in team environments. The Git Flow model uses multiple long-lived branches: main (or master) for production-ready code, develop for integration of features, and various supporting branches for features, releases, and hotfixes. Feature branches allow developers to work on new functionality in isolation, then merge back to develop when complete. Release branches prepare for production deployment, while hotfix branches enable quick patches to production code. This structured approach works well for projects with scheduled releases and multiple developers.  
-A simpler alternative is the GitHub Flow, which has gained popularity especially in continuous deployment environments. This Git workflow uses one main branch that's always deployable, with all new work happening in descriptive feature branches created from main. Developers push their feature branches to GitHub, open pull requests for review, and merge back to main once approved and tested. This streamlined approach reduces complexity while still maintaining code quality through peer review. For beginner developers, GitHub Flow often provides the right balance of structure and simplicity.  
-Merging is how you integrate changes from one branch into another, and Git provides several merge strategies. A fast-forward merge occurs when there's a direct path from your current branch to the target branch, simply moving the pointer forward. A three-way merge creates a new commit that combines the histories of two branches when they've diverged. To merge a feature branch into your current branch, use 'git merge feature-name'. Merge conflicts occur when Git can't automatically resolve differences between branches, requiring manual intervention. When conflicts arise, Git marks the conflicting sections in your files, and you must edit them to resolve the conflicts, then stage and commit the resolution.  
-Pull requests (or merge requests in some platforms) are central to collaborative Git workflow on GitHub. Rather than merging directly, developers push their branches to GitHub and open a pull request, which serves as a forum for code review and discussion. Team members can comment on specific lines, suggest changes, and ensure code quality before integration. This GitHub tutorial aspect of version control teaches developers the importance of peer review and collaborative problem-solving. Setting up branch protection rules on GitHub can enforce requirements like passing tests, code review approvals, and up-to-date branches before merging, ensuring that your main branch always contains high-quality, tested code. These collaborative practices transform Git from a simple version control tool into a complete development workflow platform.
+- The **working tree** contains the files you are currently editing.
+- The **staging area**, also called the index, holds the changes selected for the next commit.
+- The **repository history** contains commits that have already been recorded.
 
-## Troubleshooting Common Git Issues and Best Practices
+A typical change moves from the working tree to the staging area with git add, then into repository history with git commit. This separation is valuable because it lets you choose exactly which changes belong together in a commit.
 
-Even experienced developers encounter Git issues, but knowing how to troubleshoot them efficiently is what separates confident version control users from frustrated ones. One of the most common problems is merge conflicts, which occur when Git can't automatically reconcile changes from different branches. When you encounter a conflict, don't panic—Git marks the conflicting sections with special markers: '\\<\\<\\<\\<\\<\\<\\<', '=======', and '\\>\\>\\>\\>\\>\\>\\>'. The code between '\\<\\<\\<\\<\\<\\<\\< HEAD' and '=======' is your current branch's version, while the code between '=======' and '\\>\\>\\>\\>\\>\\>\\> branch-name' is from the branch you're merging. Edit the file to keep the correct version (or combine both), remove the conflict markers, then use 'git add' and 'git commit' to complete the merge.  
-Another frequent issue is accidentally committing to the wrong branch. If you haven't pushed yet, you can move your commits to the correct branch. First, create and switch to the correct branch with 'git checkout \\-b correct-branch'. Your commit comes with you. Then return to the original branch with 'git checkout wrong-branch' and use 'git reset HEAD\\~1' to remove the commit from that branch (but preserve the changes locally if needed). If you've already pushed to a shared repository, the situation is trickier—you may need to create a new branch from your commit and revert it from the wrong branch to avoid disrupting other developers.  
-Lost commits or accidentally deleted branches can cause anxiety, but Git's reflog feature is your safety net. The 'git reflog' command shows a history of where your HEAD and branch references have pointed, even after resets or branch deletions. Find the commit hash you need in the reflog output, then use 'git checkout \\[commit-hash\\]' to view that state, or 'git checkout \\-b recovery-branch \\[commit-hash\\]' to create a new branch from that point. This version control capability means that work committed to Git is rarely truly lost, even if it seems to have disappeared from your branch history.  
-Understanding and implementing Git best practices prevents many issues before they occur. Always commit logical, atomic changes rather than dumping all your work into a single massive commit. Each commit should represent one clear purpose, making your history easier to understand and problems easier to isolate. Write descriptive commit messages that explain why you made changes, not just what changed—the diff shows what changed, but future developers need to understand your reasoning. Pull frequently from remote repositories to stay synchronized with your team and avoid large, complex merge conflicts. Before starting new work, always ensure you're on the correct branch and that your working directory is clean.  
-Security and workflow hygiene are also critical aspects of Git best practices. Never commit sensitive information like passwords, API keys, or credentials to your repository—use environment variables or configuration files that are excluded via .gitignore instead. The .gitignore file itself is a powerful tool that tells Git which files or patterns to exclude from version control, such as compiled code, temporary files, or IDE-specific directories. Create your .gitignore early in the project and update it as needed. When working with GitHub, leverage features like protected branches, required status checks, and code owners files to enforce quality standards. Regular communication with your team about Git workflow expectations, branching naming conventions, and merge strategies ensures everyone works harmoniously. Finally, don't fear making mistakes—Git's robust history and recovery mechanisms mean you can experiment with confidence, and each problem you solve deepens your understanding of this essential version control system.`,
+Git does not automatically save every edit. Until you stage and commit a change, it remains outside the permanent project history. A commit is also not the same as a backup of every external resource used by a project: databases, deployment settings, uploaded assets, and hosted services may need separate backup procedures.
+
+## Configure Git Before Your First Commit
+
+After installing Git, configure the name and email address that should appear in your commit metadata. For a global configuration that applies to your user account, run:
+
+\`\`\`bash
+git config --global user.name "Your Name"
+git config --global user.email "you@example.com"
+\`\`\`
+
+Use an email address associated with your hosting account if you want commits to be attributed to that account. GitHub also provides a private noreply address for people who prefer not to expose a personal email address in public commit history. Check your account's current email settings before choosing one.
+
+Review the values with:
+
+\`\`\`bash
+git config --global --list
+git config user.name
+git config user.email
+\`\`\`
+
+The \`--global\` option applies to all repositories for the current operating-system user. A repository-specific setting, run from inside that repository without \`--global\`, overrides the global value. This is useful when personal and work projects need different identities.
+
+You can choose a default initial branch name, such as main:
+
+\`\`\`bash
+git config --global init.defaultBranch main
+\`\`\`
+
+Git configuration also supports aliases, editor preferences, credential helpers, and other options. Add these only when they solve a real workflow need. Avoid placing access tokens or passwords directly in configuration files, shell history, scripts, or remote URLs. Use a supported credential manager or SSH authentication instead.
+
+## Create, Clone, and Inspect Repositories
+
+Use \`git init\` to turn an existing directory into a new local repository:
+
+\`\`\`bash
+mkdir sample-project
+cd sample-project
+git init
+\`\`\`
+
+Git creates a hidden \`.git\` directory that stores repository metadata and history. The project files remain in the working directory. Initialising a repository does not automatically create a remote repository or upload files to a hosting platform.
+
+If a project already exists on a hosting service, use \`git clone\` to create a local copy:
+
+\`\`\`bash
+git clone https://github.com/owner/project.git
+cd project
+\`\`\`
+
+Cloning downloads the repository and its available history, and normally configures the original repository as a remote named origin. You can also clone using an SSH URL when your SSH key is configured.
+
+To inspect the current repository and its state, use:
+
+\`\`\`bash
+git status
+git rev-parse --show-toplevel
+git remote -v
+git branch --show-current
+\`\`\`
+
+These commands answer different questions: status describes changes, rev-parse identifies the repository root, remote lists connected repositories, and branch shows the current branch. Running them before a significant operation is a simple way to avoid working in the wrong directory or branch.
+
+Use \`git status --short\` for a compact summary. It is especially useful in large projects where the full status output contains many files. Do not assume that a directory is a Git repository just because it contains source code; confirm that Git recognises it before running commands that change history.
+
+## Track Changes with Status, Add, and Diff
+
+The \`git status\` command is one of the most useful commands to run frequently:
+
+\`\`\`bash
+git status
+\`\`\`
+
+It shows the current branch, staged changes, unstaged modifications, and untracked files. Untracked files are files Git has not yet been told to manage. Modified tracked files have changed since the last recorded version.
+
+Use \`git add\` to stage changes for the next commit:
+
+\`\`\`bash
+git add README.md
+git add src/
+git add .
+\`\`\`
+
+The first example stages one file, the second stages a directory, and the third stages changes under the current directory. Be deliberate with broad staging commands. A command such as \`git add .\` can stage generated files, local configuration, or other content that should not be committed if ignore rules are incomplete.
+
+For more control, use interactive patch staging:
+
+\`\`\`bash
+git add -p
+\`\`\`
+
+Git presents individual change hunks and lets you select which ones to stage. This is helpful when one file contains several unrelated edits that should be recorded in separate commits.
+
+Use \`git diff\` to inspect unstaged changes:
+
+\`\`\`bash
+git diff
+\`\`\`
+
+Use \`git diff --staged\` to inspect what is already staged and will be included in the next commit. You can compare two branches or commits with:
+
+\`\`\`bash
+git diff main..feature/search
+\`\`\`
+
+The distinction between unstaged and staged changes matters. A developer may edit a file after staging it; the staged version and the current working copy can then differ. Reviewing both diffs before committing helps prevent accidental omissions or unrelated changes.
+
+A \`.gitignore\` file tells Git which untracked files and paths to ignore. Typical examples include dependency directories, build output, temporary files, editor settings, and local environment files. For example:
+
+\`\`\`gitignore
+node_modules/
+dist/
+.env
+.env.*
+!.env.example
+.DS_Store
+\`\`\`
+
+Ignore patterns do not remove files that are already tracked. If a secret has been committed, adding it to \`.gitignore\` does not erase it from history; revoke or rotate the exposed credential and follow an appropriate history-cleanup process.
+
+## Create Useful Commits
+
+The \`git commit\` command records the staged changes as a new commit:
+
+\`\`\`bash
+git commit -m "Add account settings page"
+\`\`\`
+
+A commit records a snapshot of the staged project state, together with metadata such as author, date, and message. A good commit message is concise but specific enough to explain the change. Messages such as "Update files" or "Fix stuff" provide little value when someone later investigates a regression.
+
+Prefer one logical purpose per commit. For example, keep a bug fix separate from a documentation refresh when the changes can be reviewed independently. Small, focused commits make code review, rollback, and troubleshooting easier.
+
+To inspect the most recent commit, use:
+
+\`\`\`bash
+git show
+git show --stat
+git show --name-only
+\`\`\`
+
+To amend the latest commit message or include additional staged changes, use:
+
+\`\`\`bash
+git add README.md
+git commit --amend
+\`\`\`
+
+Amending replaces the latest commit with a new commit. If the original commit has already been pushed and other people may have based work on it, coordinate before rewriting the shared branch. Do not amend a shared commit casually.
+
+You can create a commit with a message directly using \`git commit -am "message"\`, but this only stages modifications and deletions to files Git already tracks. It does not include new untracked files. Beginners often assume \`-am\` stages everything; check status to confirm what will be committed.
+
+## Work with Branches Safely
+
+A branch is a movable reference to a line of development. Branches allow you to work on a feature or fix without immediately changing the main development line.
+
+List local branches with:
+
+\`\`\`bash
+git branch
+\`\`\`
+
+Create a branch with:
+
+\`\`\`bash
+git branch feature/profile-page
+\`\`\`
+
+Switch to an existing branch with:
+
+\`\`\`bash
+git switch feature/profile-page
+\`\`\`
+
+Create and switch in one command:
+
+\`\`\`bash
+git switch -c feature/profile-page
+\`\`\`
+
+The older \`git checkout\` command can also switch branches and restore files, but \`git switch\` and \`git restore\` provide more focused commands for those tasks.
+
+A useful branch name communicates the purpose of the work. Common prefixes include \`feature/\`, \`fix/\`, \`bugfix/\`, \`docs/\`, and \`chore/\`. For example, \`fix/login-validation\` is easier to understand than \`test-branch-2\`.
+
+To rename the current branch, use:
+
+\`\`\`bash
+git branch -m feature/new-name
+\`\`\`
+
+To delete a local branch that has already been merged, use:
+
+\`\`\`bash
+git branch -d feature/profile-page
+\`\`\`
+
+The uppercase force-delete option can remove a branch that Git considers unmerged. Use it only after confirming that the branch's work is no longer needed. Deleting a branch reference does not immediately erase every commit, but recovery can become difficult after unreachable objects are eventually pruned.
+
+Before switching branches, inspect your working tree. Git may prevent a switch if uncommitted changes would be overwritten. Commit the work, stash it, or deliberately restore it only after confirming that the changes are disposable.
+
+## Connect to Remote Repositories
+
+A remote is a named reference to another copy of a repository, usually hosted on a service such as GitHub, GitLab, or Bitbucket. List configured remotes with:
+
+\`\`\`bash
+git remote -v
+\`\`\`
+
+Add a remote named origin:
+
+\`\`\`bash
+git remote add origin https://github.com/owner/project.git
+\`\`\`
+
+Change an existing remote URL with:
+
+\`\`\`bash
+git remote set-url origin https://github.com/owner/new-project.git
+\`\`\`
+
+Remove a remote configuration with:
+
+\`\`\`bash
+git remote remove origin
+\`\`\`
+
+Removing a remote does not delete the remote repository on the hosting service. It only removes the local name and URL configuration.
+
+For a newly initialised local repository, create the remote repository on your hosting platform, add its URL, and push the initial branch:
+
+\`\`\`bash
+git branch -M main
+git remote add origin https://github.com/owner/project.git
+git push -u origin main
+\`\`\`
+
+The \`-u\` option sets the upstream branch, which allows later push and pull commands to use the configured tracking relationship. Authentication must be configured separately. Use a credential manager, SSH key, or another supported authentication method rather than embedding passwords in commands.
+
+## Fetch, Pull, Push, and Synchronise Work
+
+The \`git fetch\` command downloads objects and updates remote-tracking references without automatically merging them into your current branch:
+
+\`\`\`bash
+git fetch origin
+git fetch --all
+\`\`\`
+
+Fetching first is a good habit when you want to inspect incoming work before integrating it. After fetching, compare your branch with its upstream:
+
+\`\`\`bash
+git log --oneline HEAD..origin/main
+git diff HEAD..origin/main
+\`\`\`
+
+The \`git pull\` command fetches changes and then integrates them into the current branch. Depending on configuration and options, integration may use merge or rebase:
+
+\`\`\`bash
+git pull
+git pull --rebase
+\`\`\`
+
+Understand your team's convention before choosing a strategy. Rebasing can produce a linear history, while merging preserves the explicit integration point. Neither is universally correct for every repository.
+
+The \`git push\` command sends local commits to a remote:
+
+\`\`\`bash
+git push
+git push -u origin feature/profile-page
+\`\`\`
+
+A push can be rejected if the remote branch contains work that your local branch does not include. Fetch and inspect the difference before deciding how to integrate it. Do not respond to every rejected push with a force push.
+
+If you need to update a remote branch after intentionally rewriting your own unpublished or coordinated branch history, prefer the safer lease check:
+
+\`\`\`bash
+git push --force-with-lease
+\`\`\`
+
+This option checks that the remote reference has not changed unexpectedly since your last observation. It is still a history-rewriting operation and should not be used on shared branches without agreement.
+
+## Merge Changes and Resolve Conflicts
+
+The \`git merge\` command integrates another branch into the current branch. To merge a feature branch into main:
+
+\`\`\`bash
+git switch main
+git pull
+git merge feature/profile-page
+\`\`\`
+
+If Git can combine the changes automatically, the merge completes. If both branches changed overlapping parts of a file in incompatible ways, Git reports a conflict and pauses the merge.
+
+Run \`git status\` to identify conflicted files. Open each file and look for conflict markers:
+
+\`\`\`text
+<<<<<<< HEAD
+Current branch version
+=======
+Incoming branch version
+>>>>>>> feature/profile-page
+\`\`\`
+
+These markers are instructions for the developer, not valid final application content. Decide how the combined code should behave, edit the file to keep the correct result, and remove the markers.
+
+After resolving a file, stage it and complete the merge:
+
+\`\`\`bash
+git add src/profile.ts
+git status
+git commit
+\`\`\`
+
+If the merge process should be abandoned, use:
+
+\`\`\`bash
+git merge --abort
+\`\`\`
+
+This attempts to restore the pre-merge state. If you had uncommitted changes before starting, preserve them carefully and inspect status before and after aborting. Run relevant tests after resolving conflicts; a syntactically valid resolution can still introduce a logical bug.
+
+## Inspect Project History and Compare Changes
+
+Git provides several commands for understanding how a repository reached its current state.
+
+\`\`\`bash
+git log
+git log --oneline
+git log --oneline --graph --decorate --all
+\`\`\`
+
+The first shows detailed history, the second gives a compact list, and the third visualises branches and merge relationships. Limit output with \`-n\`:
+
+\`\`\`bash
+git log -n 10 --oneline
+\`\`\`
+
+Inspect a particular commit with \`git show COMMIT_SHA\`. Search commit messages with:
+
+\`\`\`bash
+git log --grep="authentication" --oneline
+\`\`\`
+
+Find commits that changed a particular file with:
+
+\`\`\`bash
+git log --oneline -- src/auth/login.ts
+\`\`\`
+
+Use \`git blame\` to see which commit last changed each line of a file:
+
+\`\`\`bash
+git blame src/auth/login.ts
+\`\`\`
+
+Blame is a historical aid, not a tool for assigning fault. A line may have been introduced as part of a larger refactor, generated file, or later change in requirements. Follow the commit history to understand the context.
+
+Compare a file or branch with another version:
+
+\`\`\`bash
+git diff main..feature/profile-page
+git diff HEAD~1..HEAD
+git show COMMIT_SHA -- src/auth/login.ts
+\`\`\`
+
+These commands are useful during code review and when investigating regressions. A diff shows textual changes, not whether the application behaves correctly, so pair it with tests and appropriate runtime checks.
+
+## Undo Mistakes Without Losing Work
+
+Git offers several ways to undo changes, but they operate at different stages. Understand the difference before running a destructive command.
+
+To discard unstaged edits to a tracked file:
+
+\`\`\`bash
+git restore README.md
+\`\`\`
+
+This replaces the working copy with the staged or committed version, depending on the state of the file. Uncommitted edits to that file can be lost.
+
+To unstage a file while keeping its working-tree edits:
+
+\`\`\`bash
+git restore --staged README.md
+\`\`\`
+
+To create a new commit that reverses an earlier commit, use:
+
+\`\`\`bash
+git revert COMMIT_SHA
+\`\`\`
+
+Revert is generally the safer choice for changes already shared with others because it preserves history and records the reversal as a new commit.
+
+To move the current branch pointer to an earlier commit, use \`git reset\`. The modes have different effects:
+
+- \`git reset --soft COMMIT_SHA\` moves the branch pointer but keeps changes staged.
+- \`git reset --mixed COMMIT_SHA\` moves the pointer and unstages changes while keeping them in the working tree.
+- \`git reset --hard COMMIT_SHA\` also replaces tracked working-tree files and can permanently discard uncommitted work.
+
+Never use \`git reset --hard\` as a routine way to fix a confusing repository state. Inspect status, create a backup branch or copy when necessary, and confirm exactly which commit you are targeting. Resetting a branch that has already been pushed may require a history rewrite and can disrupt collaborators.
+
+If a commit or branch seems to have disappeared, inspect the reflog:
+
+\`\`\`bash
+git reflog
+\`\`\`
+
+The reflog records recent movements of local references and can help locate a previous commit. It is not a permanent backup and entries eventually expire. If important work is missing, stop running cleanup commands and preserve the repository state before attempting recovery.
+
+## Use Stash, Tags, and Other Helpful Commands
+
+The \`git stash\` command temporarily shelves tracked working-tree changes so you can switch context without committing incomplete work:
+
+\`\`\`bash
+git stash push -m "Work in progress: profile page"
+git stash list
+git stash show -p
+git stash apply
+git stash pop
+\`\`\`
+
+Use \`apply\` when you want to restore the changes but keep the stash entry. Use \`pop\` when you want to restore and remove the entry after successful application. Stashes can conflict with later work, so inspect the result and run tests. By default, untracked files may not be included; use the appropriate option if you intentionally need them.
+
+Tags mark particular commits, often to identify releases:
+
+\`\`\`bash
+git tag
+git tag -a v1.0.0 -m "First stable release"
+git show v1.0.0
+git push origin v1.0.0
+\`\`\`
+
+An annotated tag stores additional metadata and is commonly used for release markers. To push all local tags, use \`git push --tags\`, but do so only when the tags are intended to be shared.
+
+Other useful commands include:
+
+- \`git rm FILE\` removes a tracked file and stages the deletion.
+- \`git mv OLD NEW\` moves or renames a tracked file and stages the change.
+- \`git clean -n\` previews the untracked files that a clean operation would remove.
+- \`git remote show origin\` displays information about a remote and its tracked branches.
+- \`git cherry-pick COMMIT_SHA\` applies the change introduced by a commit onto the current branch.
+- \`git ls-files\` lists files tracked by Git.
+
+Be especially careful with \`git clean -f\` and \`git clean -fd\`: they remove untracked files and directories. Preview with \`-n\` first and make sure no untracked work needs to be kept.
+
+## Choose a Branching and Collaboration Workflow
+
+A branching strategy should match the project's size, release process, and testing capability. It should make work easier to coordinate rather than adding ceremony without benefit.
+
+**GitHub Flow** is a lightweight approach: keep main in a deployable state, create a short-lived branch for a change, commit focused updates, open a pull request, review and test, then merge. It works well for many web projects and teams that release frequently.
+
+**Git Flow** uses longer-lived branches such as main and develop, alongside feature, release, and hotfix branches. It can suit projects with planned release cycles and multiple supported versions, but it introduces more branch-management overhead.
+
+**Trunk-based development** emphasises frequent integration into a shared main branch, using very short-lived branches or direct commits under appropriate controls. It depends on reliable automated tests, small changes, and the ability to keep incomplete functionality safely disabled.
+
+For a personal project, a simple main branch plus short-lived feature or fix branches is often sufficient. For a team, agree on naming, review requirements, merge strategy, and release rules before multiple contributors begin working.
+
+A collaborative pull request should explain the purpose of the change, outline important implementation decisions, list tests performed, and include screenshots when the user interface changes. Reviewers should focus on correctness, security, maintainability, performance, and project conventions. Resolve requested changes on the same branch and confirm that required checks pass before merging.
+
+After a pull request is merged, verify the default branch and any resulting deployment. A merged commit is not proof that a production application deployed successfully. Check the deployment environment, build result, health checks, and logs when the project is deployed automatically.
+
+## Git Best Practices for Reliable Projects
+
+A reliable Git workflow depends as much on habits as on commands.
+
+**Check before you change.** Run \`git status\`, confirm the current branch, and inspect the latest commits before a risky operation. This simple check prevents many accidental changes to the wrong branch.
+
+**Commit in logical units.** Group related changes together and write messages that explain the purpose. Smaller commits are easier to review and revert.
+
+**Review the staged diff.** Before committing, run \`git diff --staged\`. Check for debug output, unrelated formatting changes, generated files, secrets, and accidental deletions.
+
+**Keep secrets out of Git.** Do not commit passwords, API keys, private keys, access tokens, or production environment files. Store secrets in an appropriate secret manager or deployment environment. If a credential is exposed, revoke or rotate it immediately; deleting the line in a later commit does not make the old value safe.
+
+**Use ignore rules thoughtfully.** Exclude dependencies, caches, local settings, build output, and files that can be regenerated. Do not ignore source files or lockfiles that the project needs to build consistently.
+
+**Synchronise regularly.** Fetch remote changes and integrate them according to the team's agreed merge or rebase policy. Long-lived branches increase the chance of difficult conflicts.
+
+**Protect important branches.** Use hosting-platform branch rules to require reviews and passing status checks where appropriate. Local Git commands alone cannot enforce a team's remote repository policy.
+
+**Test after integration.** Run tests after merges, rebases, cherry-picks, and conflict resolution. Inspect the final diff and verify the application or service when relevant.
+
+**Preserve recovery options.** Push important branches, use tags for releases, and maintain backups appropriate to the project's value. A Git clone contains repository history but not necessarily every issue, discussion, release asset, deployment setting, or external data source.
+
+## Troubleshoot Common Git Problems
+
+**Git says the current directory is not a repository.** You may be in the wrong folder, or the project may not have been initialised. Use \`pwd\` or your file manager to confirm the location, then run \`git status\` from the repository root. Do not initialise a new repository inside an existing project without first checking its structure.
+
+**Git reports that your identity is unknown.** Configure \`user.name\` and \`user.email\` with \`git config\`. Check whether a repository-specific setting overrides the global value.
+
+**A push is rejected as non-fast-forward.** The remote branch contains commits your local branch does not have. Run \`git fetch\`, inspect the incoming commits, and integrate them with the agreed merge or rebase approach. Avoid force pushing until you understand why the histories differ.
+
+**Git reports a merge conflict.** Use \`git status\` to identify conflicted files, edit the conflict markers, stage the resolved files, and complete the merge or rebase. Run tests after resolution. If the operation should be cancelled, use the matching abort command, such as \`git merge --abort\` or \`git rebase --abort\`.
+
+**A file is missing from a commit.** It may not have been staged, may be ignored, or may have been created after the commit. Run \`git status --short\`, inspect \`git check-ignore -v FILE\`, and check the staged diff before committing again.
+
+**A large file makes the repository difficult to clone.** Build outputs, archives, datasets, and binary assets can increase repository size. Avoid committing files that can be generated. For assets that genuinely need versioning, evaluate Git Large File Storage or a suitable artifact-storage service. Removing a large file from the latest commit does not remove it from earlier history.
+
+**Authentication fails.** Check the remote URL, credential manager, SSH key configuration, and account permissions. A valid account may still lack access to a particular repository or branch. Never paste a token into a public issue or commit.
+
+**You committed to the wrong branch.** Stop and inspect the commit and working tree before attempting to move it. If the commit has not been pushed, you may be able to create the intended branch at that commit and restore the original branch carefully. If it has been pushed, coordinate with collaborators and use a deliberate corrective commit or branch operation. Avoid resetting shared history without agreement.
+
+**You accidentally deleted local work.** Stop making changes and inspect the reflog, stash list, recent commits, and filesystem backups. Recovery is not guaranteed, especially for uncommitted files that were removed by destructive commands. This is why previewing clean operations and keeping regular commits matter.
+
+## A Complete Git Workflow from Start to Finish
+
+The following example demonstrates a common feature workflow in an existing repository. It assumes the project already has a remote named origin and that main is the default branch.
+
+First, confirm the repository and update your local view of the remote:
+
+\`\`\`bash
+git status
+git branch --show-current
+git fetch origin
+git switch main
+git pull --ff-only
+\`\`\`
+
+The \`--ff-only\` option prevents pull from creating an unexpected merge commit if the local branch has diverged. If it fails, inspect the history and resolve the divergence deliberately rather than forcing the update.
+
+Create a short-lived branch:
+
+\`\`\`bash
+git switch -c feature/profile-settings
+\`\`\`
+
+Make the change in your editor. Inspect the working tree and stage only the relevant files:
+
+\`\`\`bash
+git status
+git diff
+git add src/profile/
+git diff --staged
+\`\`\`
+
+Commit the work with a clear message:
+
+\`\`\`bash
+git commit -m "Add profile settings"
+\`\`\`
+
+Run the project's tests and build commands. Then publish the branch:
+
+\`\`\`bash
+git push -u origin feature/profile-settings
+\`\`\`
+
+Open a pull request on the hosting platform. Describe what changed, explain how it was tested, and provide screenshots or additional context if useful. Address review feedback with further commits and verify the required checks.
+
+After approval, merge using the repository's chosen strategy. Update your local main branch and remove the feature branch when it is no longer needed:
+
+\`\`\`bash
+git switch main
+git pull --ff-only
+git branch -d feature/profile-settings
+git fetch --prune
+\`\`\`
+
+Finally, verify the deployed application if the repository is connected to a deployment service. Check that the expected commit was deployed, the build succeeded, and the application responds correctly. This last step separates successful source-code integration from successful delivery.
+
+## Frequently Asked Questions About Git Commands
+
+### What are the most important Git commands for beginners?
+
+Start with \`git status\`, \`git init\`, \`git clone\`, \`git add\`, \`git diff\`, \`git commit\`, \`git log\`, \`git branch\`, \`git switch\`, \`git pull\`, and \`git push\`. These cover repository creation, change tracking, commits, branches, and collaboration. Learn \`git restore\`, \`git revert\`, and \`git reset\` carefully because they affect existing work in different ways.
+
+### What is the difference between Git add and Git commit?
+
+\`git add\` places selected changes into the staging area. \`git commit\` records the staged changes in repository history. Staging gives you an opportunity to review and organise a logical set of changes before recording them.
+
+### What is the difference between Git fetch and Git pull?
+
+\`git fetch\` downloads remote updates and refreshes remote-tracking references without integrating them into the current branch. \`git pull\` fetches and then integrates those updates, usually through merge or rebase depending on configuration and options.
+
+### What is the difference between Git merge and Git rebase?
+
+Merge combines branch histories and may create a merge commit. Rebase replays commits onto a different base, creating new commit identities and often a linear history. Rebase is useful for cleaning up private branch history, but avoid rewriting commits that other people already depend on unless the team has agreed to it.
+
+### How do I undo a Git commit?
+
+Use \`git revert COMMIT_SHA\` to create a new commit that reverses an earlier commit. Use \`git reset\` only when you understand how it changes the current branch and staging state. Revert is generally safer for commits already shared with a remote team.
+
+### How do I see which files have changed?
+
+Run \`git status\` for a summary, \`git diff\` for unstaged edits, and \`git diff --staged\` for staged changes. Use \`git diff --name-only\` when you only need a list of changed file paths.
+
+### Can I use Git without GitHub?
+
+Yes. Git is a standalone version control system. You can create local repositories and manage commits and branches without hosting them on GitHub. A remote hosting service becomes useful when you need off-device collaboration, code review, issue tracking, or hosted automation.
+
+### Is it safe to use Git reset hard?
+
+It is safe only when you intentionally want to discard tracked working-tree and staging changes and have confirmed that nothing important will be lost. It can destroy uncommitted work. Inspect status and preserve important changes before using it.
+
+### What should I do if I accidentally commit a secret?
+
+Revoke or rotate the credential immediately, then investigate where it was used. Remove the secret from the current code and follow the hosting provider's sensitive-data removal guidance if it remains in repository history. A later deletion commit does not invalidate a leaked credential.
+
+### How often should I commit changes?
+
+Commit whenever you complete a small, coherent unit of work that can be described and reviewed independently. Avoid both extremes: one enormous commit for weeks of unrelated work and a large number of meaningless commits that do not explain the project's evolution.
+
+## Official Git Documentation and Further Reading
+
+Git behaviour can vary with version and configuration, so use official documentation when checking command options or advanced workflows.
+
+- [Git reference documentation](https://git-scm.com/docs) — the official command reference for Git.
+- [Pro Git book](https://git-scm.com/book/en/v2) — a detailed, freely available guide to Git concepts and workflows.
+- [Git documentation: Getting started](https://git-scm.com/book/en/v2/Getting-Started-About-Version-Control) — an introduction to version control.
+- [GitHub Docs: About Git](https://docs.github.com/en/get-started/using-git/about-git) — how Git works with GitHub.
+- [GitHub Docs: GitHub flow](https://docs.github.com/en/get-started/using-github/github-flow) — a practical branch and pull request workflow.
+- [GitHub Docs: Resolving merge conflicts](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/addressing-merge-conflicts) — guidance for resolving conflicts in pull requests.
+
+For related guidance, read the [Comprehensive GitHub Guide](/blog/comprehensive-github-guide), which explains repository management, collaboration, security, and GitHub Actions.`,
     featured: false,
   },
   {
