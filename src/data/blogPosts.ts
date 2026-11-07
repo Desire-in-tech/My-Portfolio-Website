@@ -30687,77 +30687,756 @@ The field will continue to change, but the fundamentals remain valuable: underst
   },
   {
     id: '65',
-    title: 'Database Design For Data Engineering Systems',
+    title: 'Database Design for Data Engineering: A Practical Guide',
     slug: 'database-design',
     category: 'Software Engineering',
     publishDate: '2026-09-20',
     author: 'Desire E',
+    readingTime: '38 min read',
     excerpt:
-      'Discover how strategic database design transforms raw data into actionable insights while optimizing performance, scalability, and reliability for modern data engineering systems.',
+      'Learn how to design reliable databases for data engineering, from requirements, data modelling, keys and normalization to OLTP, analytics, indexing, governance, and scalable pipelines.',
     featuredImage:
       'https://res.cloudinary.com/f7ko7ayw/image/upload/v1785605375/Database_Data_engineering_jpbjsz.png',
     imageAlt: 'Database Design',
-    metaTitle: 'Database Design: Data Engineering Systems',
+    metaTitle: 'Database Design for Data Engineering: A Practical Guide',
     metaDescription:
-      'Discover how strategic database design transforms raw data into actionable insights while optimizing performance, scalability, and reliability for modern data engineering systems.',
-    targetKeywords: ['Database Design', 'Data Engineering'],
-    tags: ['Database', 'Data', 'design'],
-    content: `Discover how strategic database design transforms raw data into actionable insights while optimizing performance, scalability, and reliability for modern data engineering systems.
+      'A practical database design guide covering requirements, ERDs, keys, normalization, OLTP and OLAP, dimensional modelling, indexing, scalability, and data governance.',
+    targetKeywords: ['database design', 'database design for data engineering', 'data modelling', 'database normalization', 'database architecture', 'OLTP vs OLAP'],
+    tags: ['Database Design', 'Data Engineering', 'Data Modelling', 'SQL'],
+    content: `Database design is the work of turning the information an application needs into a structure that can store, protect, retrieve, and evolve data reliably. It is more than drawing tables or choosing a database product. Good design starts with the people and processes the system supports, identifies the facts that must be recorded, defines how those facts relate, and anticipates the queries and transactions the application must perform.
 
-## Why Database Architecture Makes or Breaks Your Data Pipeline
+For data engineering systems, these decisions influence every stage of the data lifecycle: ingestion, validation, transformation, storage, integration, analytics, governance, and delivery. A poorly designed schema can create duplicate records, inconsistent metrics, fragile pipelines, expensive queries, and migrations that become harder with every release. A thoughtful design gives engineers a dependable foundation while leaving room for new sources, changing workloads, and growing volumes.
 
-In today's data-driven landscape, the foundation of every successful data engineering system rests on one critical component: database architecture. Whether you're building microservices, implementing real-time analytics, or designing enterprise data warehouses, your database design decisions ripple through every layer of your infrastructure. Poor database design doesn't just slow down queries—it creates a cascade of problems that can cripple your entire data pipeline, from ingestion to analysis.  
-When database architecture fails, the consequences are immediate and costly. Slow queries that take minutes instead of milliseconds frustrate users and waste computational resources. Duplicate data proliferates across tables, creating inconsistencies that erode trust in your analytics. Scaling problems emerge as your system grows, forcing expensive rewrites and migrations that could have been avoided with proper planning. These issues aren't theoretical—they're daily realities for engineering teams struggling with legacy systems built on shaky foundations.  
-The impact of database design principles extends far beyond technical performance metrics. A well-architected database enables data engineers to build reliable pipelines that process millions of records efficiently. It allows analysts to execute complex queries without grinding systems to a halt. It provides the flexibility to adapt as business requirements evolve, whether that means adding new data sources, implementing advanced analytics, or scaling to support exponential growth. Understanding database architecture isn't just an academic exercise—it's the difference between systems that empower organizations and those that hold them back.  
-Modern data engineering demands a comprehensive approach to database design that balances competing priorities. You need transactional consistency for operational systems while maintaining the flexibility required for analytical workloads. You must optimize for both read and write performance, often in the same system. You need to support structured data from traditional sources alongside semi-structured and unstructured data from modern applications. This complexity makes database design more critical than ever, requiring engineers to master fundamental principles while adapting to new paradigms like distributed databases, data lakes, and hybrid architectures that blend multiple storage models.
+This guide explains a practical database design process, from requirements and entity modelling to relational schemas, normalization, dimensional models, document databases, indexing, partitioning, data governance, and production operations. It also works through a data engineering example and provides a checklist you can use before implementing a database.
 
-## Core Principles of Scalable Database Design
+## In This Guide
 
-Effective data modeling forms the cornerstone of scalable database design, transforming abstract business concepts into concrete data structures that computers can process efficiently. At its core, data modeling involves identifying entities—the real-world objects and concepts your system needs to represent—and defining the relationships between them. Consider a typical e-commerce system: you'll need entities for Customer, Transaction, and Product. Each entity becomes a table in your database, with attributes becoming columns that store specific information about each instance.  
-The Customer entity captures everything relevant about the people who use your system: unique identifiers, contact information, authentication credentials, and behavioral metadata. A well-designed Customer table doesn't just store names and email addresses—it considers how this data will be queried, updated, and joined with other tables. Will you need to search customers by location frequently? That suggests indexing strategies. Do customers have multiple addresses? That indicates a separate relationship table. Every decision in data modeling should be driven by both current requirements and anticipated future needs.  
-Transaction entities represent the interactions and events that occur within your system. In an e-commerce context, each transaction captures who bought what, when they bought it, how much they paid, and the status of their order. This entity serves as the bridge between customers and products, creating a historical record that enables both operational processing and analytical insights. Transaction tables typically experience high write volumes and require careful consideration of indexing strategies to maintain performance as data accumulates over time.  
-Product entities store the items available in your system, including descriptions, prices, inventory levels, and categorization information. The design of product tables must accommodate diverse product types while maintaining query performance. Should you use a single table with many nullable columns to represent all product types, or separate tables for different categories? This decision exemplifies the trade-offs inherent in database design: flexibility versus performance, normalization versus denormalization, simplicity versus optimization.  
-Normalization represents a systematic approach to organizing data that eliminates redundancy and maintains data integrity through a series of progressively stricter rules. First Normal Form (1NF) requires that each column contains atomic values—no lists, sets, or arrays within a single field. If your Customer table has a column called 'phone\\_numbers' containing '555-1234, 555-5678, 555-9012,' you're violating 1NF. Instead, phone numbers should either go in separate columns (phone\\_primary, phone\\_secondary) or, better yet, in a separate CustomerPhones table linked by customer ID. This atomicity ensures that you can query, sort, and filter data reliably without parsing delimited strings.  
-Second Normal Form (2NF) builds on 1NF by requiring that every non-key column depends on the entire primary key, not just part of it. This rule primarily affects tables with composite primary keys. Imagine an OrderItem table with a composite key of (order\\_id, product\\_id) that also includes product\\_name and product\\_price. The product information depends only on product\\_id, not the full composite key, violating 2NF. The solution involves moving product details to a separate Product table, leaving OrderItem to contain only information specific to that product's inclusion in that particular order, such as quantity and subtotal.  
-Third Normal Form (3NF) eliminates transitive dependencies, where non-key columns depend on other non-key columns rather than directly on the primary key. Consider a Customer table containing customer\\_id, zip\\_code, city, and state. The city and state depend on zip\\_code, not directly on customer\\_id, creating a transitive dependency. While you could query the city from zip\\_code, storing it redundantly in the Customer table violates 3NF. The normalized approach creates a separate ZipCode table, though in practice, many systems accept this denormalization for convenience, illustrating how database design principles serve as guidelines rather than absolute rules.  
-The tension between normalization and practical performance requirements defines much of modern database design. Highly normalized databases minimize redundancy and update anomalies, making them ideal for transactional systems where data integrity is paramount. However, normalized designs often require complex joins across multiple tables, which can severely impact query performance in analytical contexts. Data engineers must evaluate whether their system prioritizes transactional consistency (favoring normalization) or read performance (potentially accepting controlled denormalization). This decision fundamentally shapes your database architecture and determines which database design principles you'll emphasize.
+1. [What database design means in data engineering](#what-database-design-means-in-data-engineering)
+2. [Start with requirements and access patterns](#start-with-requirements-and-access-patterns)
+3. [Identify entities, attributes, and relationships](#identify-entities-attributes-and-relationships)
+4. [Choose keys and enforce data integrity](#choose-keys-and-enforce-data-integrity)
+5. [Understand normalization and when to denormalize](#understand-normalization-and-when-to-denormalize)
+6. [Choose the right database model](#choose-the-right-database-model)
+7. [Design OLTP and OLAP systems differently](#design-oltp-and-olap-systems-differently)
+8. [Build dimensional models for analytics](#build-dimensional-models-for-analytics)
+9. [Plan data types, constraints, and naming conventions](#plan-data-types-constraints-and-naming-conventions)
+10. [Design indexes around real queries](#design-indexes-around-real-queries)
+11. [Plan partitioning, sharding, and growth](#plan-partitioning-sharding-and-growth)
+12. [Design reliable data pipelines and migrations](#design-reliable-data-pipelines-and-migrations)
+13. [Build security, privacy, and governance into the schema](#build-security-privacy-and-governance-into-the-schema)
+14. [A practical database design example](#a-practical-database-design-example)
+15. [Common database design mistakes](#common-database-design-mistakes)
+16. [A database design workflow and review checklist](#a-database-design-workflow-and-review-checklist)
+17. [Further reading and official resources](#further-reading-and-official-resources)
+18. [Frequently asked questions](#frequently-asked-questions)
 
-## Choosing the Right Database Model for Your Engineering Needs
+## What Database Design Means in Data Engineering
 
-The distinction between OLTP and OLAP systems represents one of the most fundamental architectural decisions in database design, with profound implications for performance, scalability, and functionality. Online Transaction Processing (OLTP) systems optimize for applications that require fast, reliable execution of individual transactions. These systems power operational applications—the customer-facing websites, point-of-sale systems, and mobile apps that businesses use to conduct daily operations. OLTP databases like PostgreSQL, MySQL, and SQL Server excel at handling thousands of concurrent users making frequent small updates, inserts, and deletes.  
-OLTP databases prioritize ACID properties—Atomicity, Consistency, Isolation, and Durability—to ensure that transactions execute reliably even in the face of concurrent access and system failures. When a customer places an order, the OLTP system must decrement inventory, create an order record, process payment, and update customer history as an atomic operation. If any step fails, the entire transaction rolls back, preventing data corruption. This transactional consistency comes at a cost: OLTP systems normalize data heavily, requiring joins across multiple tables to reconstruct complete information, and they focus on write performance rather than complex analytical queries.  
-The typical OLTP query retrieves or modifies small numbers of records with high specificity. 'Find customer details for ID 12345,' 'Update inventory for product SKU ABC123,' or 'Insert new order for transaction XYZ789'—these operations touch few rows and execute in milliseconds. Database design for OLTP emphasizes indexes on frequently queried columns, efficient locking mechanisms to manage concurrent access, and normalized schemas that prevent update anomalies. PostgreSQL exemplifies modern OLTP databases, offering robust transaction support, sophisticated indexing options, and excellent performance for operational workloads.  
-Online Analytical Processing (OLAP) systems serve an entirely different purpose: analytics and reporting. These systems enable business intelligence, data science, and strategic decision-making by processing complex queries across massive datasets. OLAP queries aggregate millions of rows, calculate trends over time, and compare metrics across multiple dimensions. 'What were total sales by product category, region, and month for the past three years?' requires scanning vast amounts of data and performing extensive calculations—operations that would cripple an OLTP system.  
-Data warehouses represent the architectural embodiment of OLAP principles, designed from the ground up to support analytical workloads. Unlike OLTP databases that capture current operational state, data warehouses maintain historical records spanning years or decades. They accept controlled redundancy and denormalization, storing pre-calculated aggregations and duplicating dimensional data across fact tables to accelerate queries. Technologies like Snowflake, Amazon Redshift, Google BigQuery, and traditional platforms like Oracle Exadata provide the columnar storage, massively parallel processing, and query optimization necessary for OLAP performance.  
-The contrast between OLTP and OLAP extends to their operational characteristics. OLTP systems experience continuous write activity throughout business hours, with relatively predictable transaction patterns. OLAP systems typically load data in batches—hourly, daily, or weekly—then serve read-heavy analytical workloads. OLTP performance is measured in milliseconds per transaction; OLAP performance in throughput and the ability to complete complex queries in seconds or minutes rather than hours. OLTP schemas prioritize flexibility and integrity; OLAP schemas sacrifice some flexibility for query performance through denormalized, dimensional models.  
-Modern data engineering increasingly blurs the lines between OLTP and OLAP through hybrid architectures and real-time analytics. Technologies like Apache Pinot, ClickHouse, and Druid enable analytical queries on streaming data with minimal latency. Cloud data warehouses now support continuous ingestion, reducing the traditional batch window. Operational databases add analytical features, while analytical systems improve their ability to serve concurrent users. Despite this convergence, the fundamental distinction remains: understanding whether your workload is primarily transactional or analytical guides every subsequent decision in database architecture, from storage format to indexing strategy to hardware selection.
+Database design is the process of deciding how data will be represented and managed in a database. It includes the logical structure of information, the physical choices that affect storage and performance, and the rules that preserve correctness as data changes. A design describes what the system stores, how records connect, which values are valid, how applications access the data, and how the structure can evolve.
 
-## Performance Optimization Strategies That Actually Work
+A useful way to understand the work is to separate three related levels.
 
-Data warehouse concepts revolutionize how we approach analytical database design, introducing dimensional modeling techniques that optimize for query performance and business understanding. At the heart of data warehouse design lies the distinction between facts and dimensions—two types of tables that work together to represent business processes efficiently. Facts contain the measurable, quantitative data generated by business events: sales amounts, quantities sold, revenue figures, costs, and other numeric metrics. Dimensions provide the context: who, what, when, where, and why information that lets analysts slice and dice facts from multiple perspectives.  
-A fact table in a retail data warehouse might capture each individual sale with columns for date\\_key, customer\\_key, product\\_key, store\\_key, quantity\\_sold, unit\\_price, and total\\_amount. Notice that the fact table contains mostly numeric data and foreign keys—it doesn't duplicate customer names, product descriptions, or store addresses. This design minimizes the size of the fact table, which may contain billions of rows, while maintaining all the detail needed for analysis. Each row represents a specific business event at the lowest level of granularity your system tracks, ensuring that you can aggregate data in any way business users require.  
-Dimension tables enrich facts with descriptive attributes that enable meaningful analysis. The Customer dimension might include customer\\_id, name, address, city, state, zip\\_code, customer\\_segment, and acquisition\\_date. The Product dimension could contain product\\_id, product\\_name, category, subcategory, brand, color, size, and cost. Date dimensions—often the most important in analytical systems—break down dates into components like day\\_of\\_week, month, quarter, fiscal\\_year, is\\_holiday, and is\\_weekend. These denormalized dimensions deliberately violate normalization rules, duplicating data like city and state across millions of customer records to avoid joins during query execution.  
-The star schema emerges as the most popular dimensional modeling pattern, named for its visual resemblance to a star with the fact table at the center and dimension tables radiating outward. In a star schema, the fact table connects directly to each dimension through foreign key relationships, with no additional tables between them. This simplicity makes star schemas intuitive for business users and efficient for query engines. When an analyst wants to see 'total sales by product category and customer segment for Q3 2023,' the query engine joins the fact table to the Product and Customer dimensions once each, applying filters and aggregations efficiently.  
-Consider a hospital management system as a real-world example of these database design principles in action. The operational OLTP system requires tables for Patients, Appointments, and Medical Records, each designed for transactional integrity and operational efficiency. The Patient table serves as the master record for individuals receiving care, containing patient\\_id as the primary key, along with personal information, insurance details, emergency contacts, and account status. This table experiences frequent updates as patient information changes, requiring careful indexing on commonly queried fields like last\\_name, date\\_of\\_birth, and medical\\_record\\_number.  
-The Appointments table links Patients to healthcare providers, facilities, and time slots. Each appointment record includes appointment\\_id, patient\\_id (foreign key to Patient), provider\\_id, facility\\_id, scheduled\\_datetime, appointment\\_type, status, and notes. This junction table represents the relationship between multiple entities and tracks the lifecycle of each appointment from scheduled to completed or cancelled. Database design for this table must support high-concurrency scenarios where multiple staff members schedule appointments simultaneously, requiring robust locking mechanisms and transaction isolation.  
-Medical Records represent the clinical documentation generated during patient care. This table structure depends on how your system handles unstructured clinical notes, diagnostic images, and structured data like vital signs and lab results. A simplified design might include record\\_id, patient\\_id, appointment\\_id, record\\_date, provider\\_id, diagnosis\\_codes, procedure\\_codes, and clinical\\_notes. More sophisticated systems separate structured clinical data into normalized tables for vitals, medications, allergies, and lab results, while storing documents and images in specialized storage with references in the database. The data modeling challenge lies in balancing the flexibility clinicians need with the structure required for meaningful analytics.  
-Translating this operational system into an OLAP data warehouse illustrates how database architecture adapts to different requirements. The analytical system might contain a PatientEncounter fact table recording each patient visit with metrics like wait\\_time\\_minutes, encounter\\_duration, charge\\_amount, and patient\\_satisfaction\\_score. Dimension tables for Patient, Provider, Facility, Diagnosis, and Date enable analysis from multiple perspectives. This star schema supports queries like 'average wait time by facility and appointment type' or 'revenue by diagnosis category and insurance type'—questions that would require complex, slow queries against the operational OLTP schema.  
-Performance optimization in both OLTP and OLAP systems requires strategic use of indexes, but with different priorities. OLTP systems benefit from selective B-tree indexes on frequently queried columns and unique constraints, along with composite indexes that support common join patterns. The Appointments table might index (patient\\_id, scheduled\\_datetime) to quickly find a patient's upcoming appointments, while (provider\\_id, scheduled\\_datetime) accelerates provider schedule queries. However, every index slows down writes, so database design must balance query performance against transaction throughput.  
-OLAP systems employ different optimization strategies, often using columnar storage where data is organized by column rather than row. When a query requests 'total revenue by product category,' a columnar database reads only the revenue and category columns, ignoring the dozens of other columns in the fact table. This drastically reduces I/O compared to row-oriented storage. Additionally, data warehouses use techniques like partitioning (dividing large tables by date ranges), materialized views (pre-computed aggregations), and aggressive compression to accelerate queries. These optimizations accept increased storage and processing overhead during data loading in exchange for dramatic improvements in analytical query performance.
+### Conceptual design
 
-## Future-Proofing Your Database Infrastructure
+Conceptual design describes the business or operational domain without committing to a particular database engine. It identifies the important entities, the facts the organization needs to remember, and the relationships between them. A retail platform, for example, may need customers, products, orders, payments, shipments, and returns.
 
-The evolution of database design principles accelerates as new technologies, architectures, and use cases emerge. Future-proofing your database infrastructure requires understanding not just current best practices but the trajectory of innovation reshaping how we store, process, and analyze data. Cloud-native databases, distributed systems, and hybrid architectures challenge traditional assumptions about database design while reinforcing timeless principles. Data engineers must navigate this landscape strategically, making decisions that serve immediate needs while maintaining the flexibility to adapt as requirements evolve.  
-Scalability considerations dominate modern database architecture discussions, with organizations recognizing that successful systems inevitably outgrow initial capacity estimates. Vertical scaling—adding more CPU, memory, and storage to a single server—offers simplicity but hits hard physical and economic limits. Horizontal scaling—distributing data across multiple servers—provides nearly unlimited capacity but introduces complexity in maintaining consistency and coordinating distributed transactions. Database design choices made early determine how easily your system can scale horizontally, with implications for partitioning strategies, foreign key relationships, and transaction boundaries.  
-Distributed database systems like Apache Cassandra, Amazon DynamoDB, and Google Cloud Spanner represent the cutting edge of scalable database architecture, using techniques like consistent hashing, eventual consistency, and distributed consensus protocols. These systems sacrifice some traditional ACID guarantees for availability and partition tolerance, as described by the CAP theorem. Data modeling for distributed databases differs significantly from traditional relational approaches, often favoring denormalization and embedding related data together to minimize cross-node queries. Understanding these trade-offs helps engineers choose appropriate database technologies and design schemas that leverage their strengths.  
-The rise of polyglot persistence—using multiple database technologies within a single system—reflects the reality that no single database excels at every workload. Your architecture might combine PostgreSQL for transactional data, Elasticsearch for full-text search, Redis for caching, and Snowflake for analytics. This approach optimizes each component for its specific purpose but introduces complexity in maintaining consistency across systems and orchestrating data flows between them. Database design in polyglot architectures requires careful attention to data synchronization patterns, eventual consistency models, and the infrastructure for propagating changes across systems.  
-Data governance and compliance increasingly influence database design decisions as regulations like GDPR, CCPA, and HIPAA impose strict requirements on data handling. Privacy-by-design principles suggest building data protection directly into database architecture through encryption, access controls, audit logging, and data residency controls. The ability to locate and delete all data associated with a specific individual—the 'right to be forgotten'—requires careful data modeling with clear foreign key relationships and no orphaned data scattered across disconnected tables. These requirements aren't optional add-ons but fundamental considerations that should inform initial database design.  
-Machine learning and AI workloads introduce new patterns that traditional database design principles didn't anticipate. Training models requires accessing massive datasets efficiently, favoring append-only data lakes over transactional databases. Feature stores—specialized databases for serving ML features—optimize for extremely low-latency random access to pre-computed features, combining characteristics of both OLTP and OLAP systems. Vector databases that store and query high-dimensional embeddings have emerged to support similarity search for recommendation systems, semantic search, and generative AI applications. Understanding these specialized requirements helps data engineers design systems that support advanced analytics.  
-The convergence of batch and streaming processing challenges traditional data warehouse architectures that assume daily or hourly batch loads. Modern systems increasingly require real-time or near-real-time analytics, blurring the distinction between operational and analytical databases. Lambda and Kappa architectures attempt to unify batch and streaming pipelines, while technologies like Apache Flink and Kafka Streams enable stateful stream processing. Database design for real-time systems must consider how to maintain consistency between streaming updates and batch corrections, how to handle late-arriving data, and how to serve queries against continuously updating datasets.  
-Migration strategies become critical as systems evolve and technologies mature. Few organizations have the luxury of designing greenfield systems; most must evolve existing databases while maintaining service availability. Zero-downtime migrations require careful planning, often involving parallel runs where new and old systems operate simultaneously, gradual traffic shifting, and rollback capabilities. Database design that anticipates evolution—through versioned schemas, abstraction layers, and loose coupling—significantly reduces migration pain. The most future-proof database architectures aren't those that predict the future perfectly but those designed to accommodate change.  
-Monitoring, observability, and performance tuning form the feedback loop that validates database design decisions and identifies optimization opportunities. Modern database systems generate extensive telemetry about query performance, resource utilization, lock contention, and cache hit rates. Data engineers should design not just the database schema but the instrumentation and monitoring that will reveal how the system performs under real-world conditions. Query logs, slow query analysis, and explain plan analysis uncover issues invisible during initial design, driving iterative improvements that compound over time.  
-Ultimately, successful database design balances competing priorities: consistency versus availability, normalization versus performance, flexibility versus optimization, simplicity versus sophistication. The optimal balance depends on your specific requirements, team capabilities, and constraints. A startup building an MVP has different priorities than an enterprise migrating a legacy system. A read-heavy analytics workload requires different trade-offs than a write-intensive IoT application. The database design principles explored in this article—entity modeling, normalization, dimensional modeling, OLTP versus OLAP—provide a framework for thinking through these decisions systematically rather than making arbitrary choices.  
-The data engineering landscape continues evolving rapidly, with innovations in storage formats, query engines, distributed systems, and cloud services expanding the realm of what's possible. Yet the fundamental questions remain constant: What entities does my system need to represent? How do they relate to each other? What queries will I need to support? What are my performance, consistency, and scalability requirements? Answering these questions thoughtfully, grounded in solid database design principles while remaining open to new approaches, produces systems that serve organizations well not just at launch but for years to come. The investment in thoughtful database architecture pays dividends throughout a system's lifetime, enabling capabilities and performance that poorly designed systems can never achieve without expensive, disruptive rewrites.`,
+The conceptual model should make sense to both technical and non-technical stakeholders. It answers questions such as: What counts as an order? Can an order contain several products? Can one payment cover multiple orders? Does a customer account represent a person, an organization, or either? Resolving these questions early prevents the database from encoding conflicting assumptions.
+
+### Logical design
+
+Logical design turns the conceptual model into a structured data model. In a relational database, this usually means defining tables, columns, primary keys, foreign keys, constraints, and relationships. It also includes decisions about normalization and the handling of optional or repeating information.
+
+The logical model should be independent of avoidable implementation details. It expresses the rules of the domain clearly enough that the team can evaluate correctness before choosing specific storage settings or tuning a particular database engine.
+
+### Physical design
+
+Physical design adapts the logical model to the selected platform and workload. It includes indexes, partitioning, clustering, storage formats, compression, replication, and other engine-specific choices. Physical design affects how efficiently the database executes queries and writes, but it should support a sound logical model rather than compensate for unclear requirements.
+
+These levels are connected. A change in the business definition of an order may require a logical schema change, which in turn may require a migration and new indexes. Treating database design as a one-time diagramming task misses this ongoing responsibility.
+
+### Why database design matters to data engineering
+
+Data engineering systems move information between operational applications, message brokers, object storage, warehouses, and analytical services. Each boundary introduces decisions about identifiers, timestamps, data types, ownership, update behavior, and historical retention.
+
+A reliable design makes those decisions explicit. It helps teams identify where a record originated, distinguish a new event from a replay, preserve historical values, and reconcile data across systems. It also makes it easier to investigate why a metric changed or why two downstream tables disagree.
+
+Database design is therefore not just a database administrator's concern. Backend developers, analytics engineers, data engineers, architects, and application developers all contribute to the quality of the data model.
+
+## Start with Requirements and Access Patterns
+
+The most common design mistake is beginning with tables before understanding the work the database must support. Start by identifying users, business processes, data sources, and the questions the system must answer.
+
+### Define the purpose and scope
+
+Write down what the system is responsible for and what it is not responsible for. A customer analytics platform may combine sales, support, and web activity, but it may not be the system of record for payments or customer authentication. Clarifying system boundaries helps avoid duplicated ownership and confusing update rules.
+
+Identify the authoritative source for each important fact. If an order's payment status belongs to a payment service, an analytics warehouse may store a copy for reporting, but the warehouse should not become an alternative authority that independently changes the payment state.
+
+### Describe the workload
+
+List the operations that will run most often. Include reads, inserts, updates, deletes, batch loads, reports, exports, and administrative tasks. For each operation, note expected frequency, concurrency, response-time expectations, and approximate data volume.
+
+For example, an order application may need to:
+- Retrieve an order and its line items by order ID.
+- Show a customer's most recent orders.
+- Find orders awaiting shipment.
+- Record a payment result without losing an earlier order update.
+- Produce a daily sales report grouped by product and region.
+
+These operations imply different access patterns. Retrieving one order by identifier is a selective lookup. Producing a monthly sales report is an aggregation across many records. A schema and index strategy should reflect both, while recognizing that operational and analytical workloads may belong in separate systems.
+
+### Estimate data volume and growth
+
+Estimate the number of records created per day, average record size, retention period, and expected growth. Include peak periods rather than relying only on averages. A system that records a few thousand events daily has different requirements from one that ingests millions of events per hour.
+
+Also consider the shape of the data. Are records mostly small and structured? Do they contain large documents, images, or event payloads? Are updates frequent, or is the workload primarily append-only? These details influence storage, indexing, partitioning, and archival decisions.
+
+### Capture non-functional requirements
+
+Document requirements that are not visible in a simple entity diagram:
+- **Consistency:** Which operations must be immediately consistent, and where is eventual consistency acceptable?
+- **Availability:** How much downtime can the application tolerate?
+- **Latency:** What response times are required for interactive queries and batch processing?
+- **Durability:** What data loss, if any, can the organization tolerate?
+- **Security:** Which users and services may read or change each category of information?
+- **Recovery:** What are the recovery time objective (RTO) and recovery point objective (RPO)?
+- **Compliance:** Are there retention, residency, deletion, or audit obligations?
+- **Maintainability:** Which teams will own schema changes, migrations, and operational support?
+
+A short requirements document is often more valuable than an elaborate diagram built on untested assumptions.
+
+## Identify Entities, Attributes, and Relationships
+
+An entity represents a distinct type of thing or concept about which the system stores information. In a relational model, entities commonly become tables. Attributes describe the properties of each entity and become columns.
+
+### Find entities from business language
+
+Read process descriptions, forms, reports, API payloads, and source datasets. Look for important nouns, but do not automatically turn every noun into a table. A status such as pending may be a controlled attribute rather than a separate entity. A product category may deserve its own table if it has attributes, lifecycle rules, and relationships of its own.
+
+For a basic commerce system, candidate entities might include:
+- Customer: a person or organization placing orders.
+- Product: an item that can be purchased.
+- Order: a customer's request to purchase items.
+- Order item: one product and quantity within an order.
+- Payment: a record of an attempted or completed payment.
+- Shipment: the movement of an order or part of an order to a destination.
+
+Define each entity precisely. If two teams use the word customer to mean different things, the model should expose that difference rather than hide it behind one ambiguous table.
+
+### Choose appropriate attributes
+
+Each attribute should represent one well-defined fact. A customer may have a customer ID, display name, email address, account creation timestamp, and account status. Avoid storing unrelated facts in one text field merely because the initial application needs only to display them together.
+
+Consider whether a value is required, optional, derived, time-dependent, or sensitive. A customer's current address is not necessarily the address used for an order placed last year. If historical accuracy matters, preserve the address associated with the transaction or model address history explicitly.
+
+### Model relationship cardinality
+
+Relationships describe how entities connect. The common patterns are:
+
+- **One-to-one:** One record in entity A is associated with at most one record in entity B. For example, an employee may have one current access profile.
+- **One-to-many:** One record in entity A can be associated with many records in entity B. One customer can place many orders.
+- **Many-to-many:** Many records in entity A can be associated with many records in entity B. An order can contain many products, and a product can appear in many orders.
+
+In a relational model, a one-to-many relationship is usually represented by a foreign key on the many side. A many-to-many relationship is usually represented by an associative or junction table. For orders and products, an order_items table connects the two and stores relationship-specific attributes such as quantity and unit price at the time of purchase.
+
+### Use entity-relationship diagrams
+
+An entity-relationship diagram (ERD) shows entities, attributes, keys, and relationships. It is a communication tool, not proof that the model is correct. Review the diagram with people who understand the source processes and the queries that applications must perform.
+
+Check optionality as well as cardinality. A customer may have no orders, but an order must belong to a customer. A payment attempt may exist before it succeeds. These distinctions affect nullability, constraints, and application logic.
+
+## Choose Keys and Enforce Data Integrity
+
+Keys allow a database to identify records and connect related information. A clear key strategy prevents duplicate entities and makes joins predictable.
+
+### Primary keys
+
+A primary key uniquely identifies each row in a table. It should be stable, non-null, and independent of attributes that users may change. A generated integer, UUID, or domain-specific identifier may be appropriate depending on the system's requirements.
+
+Do not use a person's email address as a primary key simply because it appears unique today. Email addresses can change, may be shared in some contexts, and can have normalization and case-sensitivity complications. Use a stable internal identifier and enforce email uniqueness separately when the business rule requires it.
+
+### Natural and surrogate keys
+
+A natural key has meaning in the business domain, such as a recognized product code. A surrogate key is generated primarily to identify a row, such as an integer identity or UUID.
+
+Natural keys can be useful when the domain provides a stable identifier, but they may change or arrive with inconsistent formatting. Surrogate keys provide stable internal references, while a unique constraint can preserve the business rule for the natural key. Many systems use both.
+
+### Foreign keys and referential integrity
+
+A foreign key ensures that a value in one table refers to an existing row in another table. It prevents orphaned relationships and communicates the intended structure to both the database and future developers.
+
+Choose delete and update behavior deliberately. Cascading deletion can be suitable for dependent records that have no independent meaning, but dangerous when records must be retained for audit or financial history. Restricting deletion may be safer when related records must be handled explicitly.
+
+### Unique, check, and not-null constraints
+
+Constraints enforce rules close to the data:
+- **NOT NULL** requires a value.
+- **UNIQUE** prevents duplicate values or combinations.
+- **CHECK** validates a condition, such as a non-negative quantity.
+- **PRIMARY KEY** identifies a row and enforces uniqueness and non-nullability.
+- **FOREIGN KEY** protects relationships between tables.
+
+Application validation is still important for clear user feedback, but it should not be the only line of defence. Multiple applications, scripts, and data pipelines may write to the same database. Database constraints protect the data regardless of which client submits a change.
+
+## Understand Normalization and When to Denormalize
+
+Normalization organizes relational data to reduce unnecessary duplication and avoid anomalies. It helps ensure that each fact is stored in an appropriate place and that updates do not leave conflicting copies behind.
+
+### First Normal Form
+
+First Normal Form (1NF) requires each row-column intersection to contain a single value from the column's domain, rather than a repeating list of values. A customer table should not store several phone numbers as a comma-separated string if the application needs to search, validate, or update those numbers individually.
+
+A separate customer_phones table can store one phone number per row, linked to the customer. This makes it easier to enforce uniqueness, mark a preferred number, and add or remove numbers without parsing text.
+
+### Second Normal Form
+
+Second Normal Form (2NF) requires that every non-key attribute depend on the whole candidate key, not just part of it. It matters when a table uses a key made of multiple columns.
+
+Suppose order_items uses (order_id, product_id) as a composite key. If the table also stores product_name, that value depends on product_id alone, not on the entire combination. Product details belong in the products table. The order item should store attributes specific to that product's presence in that order, such as quantity and the agreed unit price.
+
+### Third Normal Form
+
+Third Normal Form (3NF) addresses transitive dependencies. Non-key attributes should depend on the key, the whole key, and not on another non-key attribute.
+
+For example, if a customer table stores customer_id, postal_code, and region_name, and the region is determined by the postal code, the region value may be better represented in a related reference table. Whether that separation is worthwhile depends on the stability of the relationship and the system's requirements, but the dependency should be understood.
+
+### Why normalization helps
+
+Poorly structured duplication creates three common anomalies:
+- **Update anomaly:** A fact appears in several rows, and an update changes only some copies.
+- **Insert anomaly:** A fact cannot be recorded without inventing an unrelated record.
+- **Delete anomaly:** Removing one record unintentionally removes the only copy of another fact.
+
+Normalization reduces these risks, clarifies ownership, and makes transactional updates more predictable.
+
+### When denormalization is justified
+
+Denormalization intentionally duplicates or pre-computes information to improve a workload. It may reduce joins, accelerate common reads, simplify analytical queries, or support a data structure that is optimized for a specific access pattern.
+
+Examples include storing a product name in an immutable order-line snapshot, maintaining a summary table for reporting, or embedding a small bounded set of related values in a document. These choices introduce maintenance responsibilities. The design must define which copy is authoritative, how changes propagate, and how discrepancies are detected.
+
+Do not denormalize based on a vague assumption that joins are always slow. Measure representative queries first. A normalized schema with appropriate indexes can perform very well, and premature duplication often creates more problems than it solves.
+
+## Choose the Right Database Model
+
+No database model is ideal for every workload. Choose technology based on the shape of the data, query patterns, consistency requirements, operational capabilities, and the team's ability to run it reliably.
+
+### Relational databases
+
+Relational databases organize data into tables with defined columns and relationships. SQL provides a powerful way to query and manipulate the data. Relational systems are a strong choice when relationships, constraints, transactions, and structured queries are important.
+
+PostgreSQL, MySQL, SQL Server, and SQLite are common examples. Their capabilities and operational characteristics differ, so compare the features that matter to your workload rather than assuming they are interchangeable.
+
+Relational databases are often appropriate for transactional applications, financial records, inventory, customer management, and systems where referential integrity is important. For practical PostgreSQL development, see [Engineering Software with PostgreSQL](/blog/engineering-software-with-postgresql).
+
+### Document databases
+
+Document databases store records as documents, commonly using JSON-like structures. They can be useful when records have varying attributes, when an application retrieves related information together, or when the data naturally maps to nested documents.
+
+MongoDB is a widely used document database. Its flexible schema does not remove the need for design. Engineers still need to define validation rules, relationship strategies, document size boundaries, and access patterns. Embedding can make common reads efficient, while references can be more appropriate for shared or independently updated data.
+
+A document model should not be chosen merely to avoid designing a schema. A flexible model still needs a clear understanding of how information is created, queried, updated, and retained.
+
+### Key-value stores
+
+Key-value databases associate a key with a value and are optimized for direct lookups. They are useful for caching, sessions, counters, and other access patterns where the key is known. Redis is a common example. It is usually a complement to a system of record rather than a replacement for every relational workload. See [How Redis Accelerates Backend Performance](/blog/how-redis-accelerates-backend-performance).
+
+### Wide-column and graph databases
+
+Wide-column databases are designed for large-scale distributed workloads with access patterns that can be modelled around partition keys and query paths. Apache Cassandra is a well-known example. Graph databases represent entities as nodes and relationships as edges, making them useful for traversing complex connections such as networks, recommendations, and dependency graphs.
+
+These systems require different modelling approaches. A design that works well in a relational database may not translate directly to a distributed wide-column or graph model.
+
+### Time-series and analytical databases
+
+Time-series databases optimize for timestamped measurements and event streams. Analytical databases and warehouses optimize for scans, aggregations, and large-scale reporting. Some platforms combine several capabilities, but the workload should still determine the model.
+
+### Polyglot persistence
+
+Polyglot persistence means using more than one data technology within a system. A platform might use PostgreSQL for transactions, Redis for caching, object storage for raw files, and a warehouse for analytics. This can be effective when each component has a clear purpose.
+
+The trade-off is operational complexity. Data may be copied across systems, failures can occur between writes, and teams must define synchronization, ownership, monitoring, and recovery. Add a second database only when its benefits justify the cost of operating another system.
+
+## Design OLTP and OLAP Systems Differently
+
+Online Transaction Processing (OLTP) and Online Analytical Processing (OLAP) support different kinds of work. Treating them as the same workload often leads to poor performance and confusing data models.
+
+### OLTP: operational transactions
+
+OLTP systems handle the day-to-day operations of an application. They typically perform many short transactions that read or modify a small number of rows. Examples include creating an order, updating inventory, recording a payment, and changing a customer profile.
+
+OLTP design generally emphasizes:
+- Transaction correctness and ACID guarantees.
+- Constraints and referential integrity.
+- Efficient inserts and updates.
+- Selective indexes for common lookups.
+- Concurrency control and predictable latency.
+- Normalized schemas that avoid update anomalies.
+
+A transaction that creates an order and its line items should either complete consistently or roll back. The application should not leave an order header without its required items because one step failed.
+
+### OLAP: analytical processing
+
+OLAP systems support reporting, business intelligence, forecasting, and data science. They often scan large datasets, group records, calculate aggregates, and compare historical periods.
+
+Analytical design generally emphasizes:
+- Efficient scans and aggregations.
+- Columnar storage where appropriate.
+- Fact and dimension models.
+- Partitioning and data lifecycle management.
+- Historical accuracy and reproducibility.
+- Workload isolation from critical operational transactions.
+
+A query that calculates monthly revenue by product category across several years is fundamentally different from retrieving one order by ID. It may be better served by a warehouse or analytical database than by the operational application database.
+
+### Separate workloads when the trade-off warrants it
+
+A common architecture captures operational data in an OLTP database, moves changes through a batch or streaming pipeline, and loads them into an analytical platform. This reduces the impact of heavy reporting queries on customer-facing transactions.
+
+The pipeline must still address data freshness, duplicate delivery, late-arriving events, schema changes, and reconciliation. The separation does not make those problems disappear; it gives the system a clearer place to manage them.
+
+For related concepts, explore [Explaining Data Warehouses](/blog/data-warehouses), [ETL vs ELT](/blog/etl-vs-elt), and [Real-Time Data Pipelines](/blog/real-time-data-pipeline).
+
+## Build Dimensional Models for Analytics
+
+Dimensional modelling organizes analytical data around measurable business processes and the descriptive context needed to understand them. It is designed to make common analytical questions easier to express and execute.
+
+### Fact tables
+
+A fact table stores measurements associated with a business event or process. In a retail warehouse, a sales fact may represent one order line and contain keys for date, product, customer, and store, alongside measures such as quantity, unit price, discount, and net sales.
+
+Define the grain before choosing columns. Grain states exactly what one row represents. Is it one order, one order line, one payment attempt, or one daily product summary? A fact table with an unclear grain becomes difficult to aggregate correctly and can lead to double counting.
+
+Measures may be additive, semi-additive, or non-additive. Sales amount can usually be summed across dimensions. An account balance may be additive across accounts but not across time. Ratios and percentages often need to be recalculated from their underlying components rather than summed.
+
+### Dimension tables
+
+Dimension tables describe the context around facts. A product dimension may include product name, category, brand, and product family. A date dimension may include calendar date, week, month, quarter, fiscal period, and holiday indicators.
+
+Dimensions often contain descriptive attributes that make reports easier to read and filter. They are commonly denormalized to reduce the number of joins required by analytical queries.
+
+### Star and snowflake schemas
+
+A star schema places a fact table at the centre and connects it directly to dimension tables. It is simple to understand and often performs well for common analytical queries.
+
+A snowflake schema normalizes some dimension structures into additional related tables. This can reduce repeated descriptive values but introduces more joins and complexity. Choose based on the warehouse engine, governance requirements, and the needs of analysts and reporting tools.
+
+### Slowly changing dimensions
+
+Dimension attributes can change over time. A customer's region, a product's category, or an employee's department may not remain constant. If historical reports should reflect the value that was true when a fact occurred, the warehouse must preserve history.
+
+Common slowly changing dimension patterns include:
+- **Type 1:** Overwrite the old value. History is not retained.
+- **Type 2:** Add a new dimension row with effective dates or a current-record indicator. Historical facts can continue to reference the earlier version.
+- **Type 3:** Store a limited previous value alongside the current value.
+
+The right strategy depends on the business question. A current-state dashboard may use Type 1, while historical performance reporting often needs Type 2.
+
+### Data vault and other modelling approaches
+
+Some organizations use Data Vault modelling to integrate data from multiple sources while retaining source history and traceability. It separates business keys, relationships, and descriptive attributes into hubs, links, and satellites. It can support complex integration and audit requirements, but it also introduces additional structures and modelling overhead.
+
+Do not select a warehouse methodology because it is fashionable. Choose a pattern that fits the number of source systems, change frequency, lineage requirements, query needs, and team experience.
+
+## Plan Data Types, Constraints, and Naming Conventions
+
+A schema communicates meaning through its data types and constraints. Choosing them carefully improves correctness, storage efficiency, and interoperability.
+
+### Choose types that match the domain
+
+Use integer types for whole-number quantities and appropriate decimal types for exact financial values. Floating-point types are useful for approximate scientific or statistical calculations, but they are usually unsuitable for representing currency where exact decimal arithmetic is required.
+
+Use date and timestamp types rather than storing dates as arbitrary text. Decide whether timestamps represent UTC instants, local wall-clock times, or dates without time zones. Record time-zone context where the business meaning requires it. Confusing local time with UTC can create errors around daylight-saving transitions and cross-region reporting.
+
+Choose text lengths and numeric precision based on real constraints, not guesses. Avoid overly narrow types that cause truncation and excessively broad types that hide invalid input.
+
+### Make nullability intentional
+
+NULL means the value is unknown, missing, or not applicable; it is not the same as an empty string or zero. Decide whether a field is genuinely optional. If an order must always have a customer, make the relationship non-nullable. If a delivery date is not known until shipment, it may be nullable.
+
+Too many nullable columns can indicate that several distinct concepts have been placed in one table. Conversely, forcing fake default values into a column can make reports and application logic misleading.
+
+### Name objects consistently
+
+Choose conventions for tables, columns, keys, indexes, and constraints. Consistency matters more than any universal naming style. Avoid ambiguous abbreviations and names that change meaning across teams. Prefer clear terms such as created_at, customer_id, and order_status.
+
+Use plural or singular table names consistently. Document special conventions for timestamps, monetary amounts, units, and status fields. A column named weight is ambiguous unless the unit is known; weight_grams or a documented unit convention is clearer.
+
+### Store units and currencies explicitly
+
+Do not assume every amount is in one currency or every measurement uses one unit. Store currency codes and define rounding rules. For measurements, store a unit or normalize values to a clearly documented base unit. This is particularly important when integrating datasets from multiple systems.
+
+## Design Indexes Around Real Queries
+
+An index is an additional data structure that helps a database locate or order rows without scanning an entire table. Indexes can dramatically improve some queries, but they consume storage and add work to inserts, updates, and deletes.
+
+### Start with query patterns
+
+Review the most important queries and identify columns used in filters, joins, sorting, and grouping. Index candidates often include primary keys, frequently searched foreign keys, and combinations of columns used together in common predicates.
+
+For example, if an application frequently retrieves a customer's newest orders, a composite index on customer_id and created_at may be useful. The order of columns matters: a composite index is not automatically equally effective for every query that references any of its columns.
+
+### Understand common index types
+
+A B-tree index is a common general-purpose index for equality and range comparisons. Other index types support specialized workloads, such as full-text search, geospatial operations, or particular data structures. Availability and behavior vary by database engine.
+
+A unique index can enforce a business rule as well as accelerate lookup. A partial or filtered index can index only rows that meet a condition in systems that support it. Covering indexes may allow a query to retrieve required values from the index without reading the full table row.
+
+### Avoid indexing every column
+
+Every index has a cost. It consumes disk space, may increase memory pressure, and must be maintained when indexed data changes. Too many indexes can slow write-heavy workloads and make schema maintenance harder.
+
+Use the database's query plan tools to inspect how important queries execute. Review estimated and actual row counts, scan types, join strategies, sort operations, and I/O. Test with representative data volumes; a query that is fast on a table with 500 rows may behave very differently with 50 million.
+
+For deeper tuning, see [SQL Query Optimization](/blog/guide-to-sql-query-optimization) and [Database Optimization Techniques](/blog/database-optimization).
+
+## Plan Partitioning, Sharding, and Growth
+
+Scaling decisions should follow measured constraints and a clear understanding of the workload. Partitioning and sharding solve different problems and introduce different operational trade-offs.
+
+### Partitioning
+
+Partitioning divides a large logical table into smaller physical pieces according to a partition key, such as a date range or region. A query that filters on the partition key may be able to scan only relevant partitions, a process commonly called partition pruning.
+
+Time-based partitioning can simplify retention and archival for event or transaction tables. However, partitioning does not automatically make every query faster. Poor partition keys, too many partitions, or queries that cannot prune partitions may increase complexity without delivering a benefit.
+
+### Sharding
+
+Sharding distributes data across multiple database nodes. A shard key determines where records are stored. A good shard key distributes workload evenly and supports common queries. A poor key can create hot spots, uneven storage, and expensive cross-shard operations.
+
+Sharding adds complexity to transactions, joins, rebalancing, monitoring, and incident response. Prefer simpler approaches—query optimization, vertical scaling, caching, read replicas, or partitioning—when they meet the requirements.
+
+### Plan retention and archival
+
+Not all data needs to remain in the hottest storage tier indefinitely. Define how long operational records, logs, events, and derived data must be retained. Consider legal requirements, user expectations, recovery needs, and analytical value.
+
+Archiving can reduce the size and cost of active datasets, but archived information must remain discoverable and recoverable when required. Document deletion and retention processes, including how they affect downstream copies and backups.
+
+### Replication, availability, and recovery
+
+Replication can improve availability and support read scaling, but it is not a substitute for backups. Replicas may copy accidental deletions or corrupted writes. Maintain tested backups, point-in-time recovery where appropriate, and documented restoration procedures.
+
+Define RTO and RPO with the people responsible for the service. Test recovery in realistic conditions rather than assuming that a successful backup job proves that the system can be restored.
+
+## Design Reliable Data Pipelines and Migrations
+
+A database in a data engineering system is rarely isolated. It receives data from applications, files, APIs, event streams, and other databases. Its design must support reliable ingestion and controlled change.
+
+### Make ingestion repeatable
+
+Pipelines should be designed to handle retries and duplicate delivery. A source event may be sent more than once because a consumer failed after processing it but before acknowledging it. Use stable event identifiers, idempotent writes, deduplication rules, and clear transaction boundaries.
+
+For batch ingestion, record source file names, extraction windows, load timestamps, and processing status. For streaming ingestion, consider event time, processing time, ordering, late-arriving data, and replay behavior.
+
+### Separate raw, staged, and curated data
+
+A layered architecture can preserve source information while creating progressively more useful datasets. A raw layer retains data close to its original form. A staging layer validates and standardizes it. Curated models apply business rules and prepare data for consumption.
+
+The exact architecture varies, but avoid silently overwriting source evidence when traceability matters. Preserve lineage so that a downstream metric can be traced back to the source records and transformations that produced it.
+
+### Treat schema changes as controlled releases
+
+Schema changes can affect applications, reports, pipelines, and integrations. Use version-controlled migrations rather than manually changing production tables without a record.
+
+A migration should define what changes, how existing data is transformed, whether the operation locks or rewrites a large table, and how the application behaves during deployment. For a large table, a safer approach may be to add a nullable column, deploy code that can read both old and new forms, backfill in batches, add constraints after validation, and remove the old field in a later release.
+
+Avoid assuming every migration is reversible. Some data transformations lose information. Prepare backups and a recovery plan, and test migrations against realistic data volumes. The [Alembic Migrations guide](/blog/alembic-migrations) explains schema versioning with SQLAlchemy.
+
+### Use CDC when continuous change capture is needed
+
+Change Data Capture (CDC) records changes made to a source database so that downstream systems can process them. CDC can reduce the need for repeated full-table extracts and support near-real-time integration. Design for deletes, updates, transaction ordering, schema evolution, and replay. A downstream consumer must be able to recover after downtime without silently skipping changes.
+
+## Build Security, Privacy, and Governance into the Schema
+
+Data governance is not a separate document that can be added after the database is complete. It affects what data is collected, who can access it, how long it is retained, and how its use is audited.
+
+### Classify data before storing it
+
+Identify public, internal, confidential, and sensitive data according to the organization's policy. Avoid collecting personal information that the application does not need. Minimize the number of systems and tables that contain sensitive values.
+
+Separate sensitive attributes when doing so enables narrower access controls. For example, a broad analytics role may need a customer identifier and region but not a full address or authentication secret.
+
+### Apply least-privilege access
+
+Give applications and users only the permissions required for their responsibilities. Avoid using one all-powerful database account for every service and analyst. Separate migration privileges from routine runtime access, and review permissions as teams and systems change.
+
+Where supported, use row-level security, schemas, views, or controlled service interfaces to limit access. Remember that application-level authorization and database-level permissions serve complementary purposes.
+
+### Protect data in transit and at rest
+
+Use encrypted connections and managed encryption capabilities appropriate to the platform. Store credentials and encryption keys in approved secret-management systems, not in source code or database tables accessible to ordinary application roles.
+
+Sensitive values may require tokenization, masking, hashing, or encryption depending on their purpose. Passwords should be stored using a purpose-built password hashing algorithm, not reversible encryption or plain text.
+
+### Maintain lineage, auditability, and retention rules
+
+Record where important data came from, which transformations were applied, and when datasets were updated. Audit logs can help answer who accessed or changed sensitive records, subject to privacy and retention requirements.
+
+Define retention and deletion rules for the primary database, analytical copies, caches, exports, and backups. A deletion request may need to propagate through several systems. The design should make it possible to identify related records without relying on manual searches across disconnected stores.
+
+## A Practical Database Design Example
+
+Consider a data engineering platform that collects orders from an online store and prepares them for operational reporting and analytics. The platform needs to support customer-facing order operations while also answering questions about revenue, product performance, and delivery trends.
+
+### Step 1: Define the requirements
+
+The operational application must create orders, store multiple line items, record payment attempts, and track fulfillment. It must prevent invalid references and preserve the price agreed at the time of purchase.
+
+The analytics platform must calculate daily sales, revenue by category, average order value, payment success rates, and delivery time. It must retain historical product and customer attributes so that past reports remain meaningful after current records change.
+
+### Step 2: Identify the relational entities
+
+A reasonable first logical model includes:
+- customers: one row per customer account.
+- products: one row per sellable product.
+- orders: one row per order.
+- order_items: one row per product line within an order.
+- payments: one row per payment attempt or transaction, according to the defined payment model.
+- shipments: one row per shipment, allowing partial fulfillment if the business supports it.
+
+The many-to-many relationship between orders and products is resolved through order_items. That table stores quantity and a snapshot of the unit price, because the product's current price may change later.
+
+### Step 3: Define keys and constraints
+
+The following PostgreSQL-style example illustrates the main relationships. It is a starting point, not a complete production schema; exact types, statuses, currency rules, and deletion policies should be adapted to the application.
+
+~~~sql
+CREATE TABLE customers (
+    customer_id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    email TEXT NOT NULL UNIQUE,
+    display_name TEXT NOT NULL,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE products (
+    product_id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    sku TEXT NOT NULL UNIQUE,
+    product_name TEXT NOT NULL,
+    current_price NUMERIC(12, 2) NOT NULL CHECK (current_price >= 0),
+    is_active BOOLEAN NOT NULL DEFAULT TRUE
+);
+
+CREATE TABLE orders (
+    order_id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    customer_id BIGINT NOT NULL REFERENCES customers(customer_id),
+    order_status TEXT NOT NULL,
+    currency_code CHAR(3) NOT NULL,
+    placed_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE order_items (
+    order_id BIGINT NOT NULL REFERENCES orders(order_id),
+    line_number INTEGER NOT NULL CHECK (line_number > 0),
+    product_id BIGINT NOT NULL REFERENCES products(product_id),
+    quantity INTEGER NOT NULL CHECK (quantity > 0),
+    unit_price NUMERIC(12, 2) NOT NULL CHECK (unit_price >= 0),
+    PRIMARY KEY (order_id, line_number)
+);
+
+CREATE TABLE payments (
+    payment_id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    order_id BIGINT NOT NULL REFERENCES orders(order_id),
+    payment_reference TEXT UNIQUE,
+    amount NUMERIC(12, 2) NOT NULL CHECK (amount >= 0),
+    currency_code CHAR(3) NOT NULL,
+    payment_status TEXT NOT NULL,
+    attempted_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+~~~
+
+The example uses a composite key for order lines because a line number is unique within an order. A separate generated order_item_id could also be appropriate, particularly if other tables need to reference an individual line. The important point is to define the identity rule explicitly.
+
+A production system should also define allowed status values, currency validation, payment idempotency, timestamp conventions, indexes, audit requirements, and lifecycle rules. Do not assume a text status column is safe simply because the application currently sends a limited set of values. Use a constraint, reference table, or another controlled representation that fits the database and deployment strategy.
+
+### Step 4: Consider the queries before adding indexes
+
+Suppose the application frequently lists a customer's orders from newest to oldest. An index on customer_id and placed_at may support that access pattern. If staff frequently filter unpaid orders by status and date, a different index may be appropriate.
+
+Do not add indexes merely because a column exists. Use representative queries and execution plans to decide. Confirm that the index improves the target workload enough to justify its storage and write overhead.
+
+### Step 5: Build an analytical model
+
+The warehouse can receive order and order-item changes through a batch or CDC pipeline. A sales fact table may use one row per order line. Dimensions can describe the product, customer, date, and sales channel.
+
+A fact_sales table might contain:
+- Date dimension key.
+- Product dimension key.
+- Customer dimension key.
+- Order identifier as a degenerate dimension or traceable reference.
+- Quantity sold.
+- Gross amount, discount amount, and net amount.
+- Currency code or a standardized reporting currency with documented conversion rules.
+
+The product dimension may use Type 2 history if reports must show the category that applied when a sale occurred. The fact table grain must remain one order line; aggregating to order level should happen in a separate query or model with clearly defined logic.
+
+### Step 6: Validate the design with realistic questions
+
+Test whether the model can answer the required questions without ambiguous joins or double counting:
+- What was net sales by product category and month?
+- How many payment attempts failed before a successful payment?
+- What was the average time between order placement and shipment?
+- Which products had no sales during a given period?
+- Can a historical report reproduce the product category that applied at the time of each sale?
+
+If the answers require inconsistent definitions or manual workarounds, revisit the grain, keys, history strategy, or source ownership. A schema is not finished simply because all tables can be created successfully.
+
+## Common Database Design Mistakes
+
+### Designing around the first screen or report
+
+A table structure built only for one interface often becomes difficult to reuse. Understand the wider business process and likely integrations before fixing the model. This does not mean predicting every future feature; it means avoiding unnecessary coupling to one presentation.
+
+### Storing multiple values in one column
+
+Comma-separated IDs, phone numbers, or tags make filtering and validation difficult. Use related rows, arrays, or document structures only when their semantics and query requirements are clear. In relational systems, repeating groups often indicate that a separate table is needed.
+
+### Using vague or overloaded fields
+
+A column named status, value, or type without a clear domain definition can mean different things to different teams. Use specific names and document allowed values. Avoid storing unrelated concepts in one field because they happen to share a data type.
+
+### Ignoring historical changes
+
+Overwriting a customer's region or a product's category can make past reports inaccurate if the historical value matters. Decide which attributes require history and implement snapshots, effective dating, or slowly changing dimensions as appropriate.
+
+### Choosing a database because it is popular
+
+A technology should solve a defined problem. A document database is not automatically more scalable than a relational database, and a distributed database is not automatically faster for every workload. Compare query patterns, consistency, operational burden, and team capability.
+
+### Over-indexing
+
+Indexes improve selected access patterns, not every query. Excessive indexes increase write costs and maintenance. Measure before and after changes, and remove indexes that no longer support a useful workload.
+
+### Treating backups as a complete recovery plan
+
+A backup that has never been restored is an untested assumption. Practice recovery, verify integrity, and document who can perform the process and how long it takes.
+
+### Skipping migrations and documentation
+
+Untracked production changes create uncertainty about which schema version is deployed. Keep migrations in version control, review their effects, and document important business rules and ownership decisions.
+
+## A Database Design Workflow and Review Checklist
+
+A repeatable process helps teams make design decisions deliberately and review them before they become expensive to change.
+
+### A practical sequence
+
+1. **Understand the domain.** Interview stakeholders, inspect source data, and document the business processes.
+2. **Define the workload.** List important transactions, reports, ingestion patterns, volumes, concurrency, and latency expectations.
+3. **Create a conceptual model.** Identify entities and relationships using language stakeholders understand.
+4. **Create a logical model.** Define attributes, candidate keys, primary keys, foreign keys, constraints, and normalization choices.
+5. **Review the model with sample scenarios.** Walk through inserts, updates, deletes, edge cases, and representative queries.
+6. **Select the database platform.** Compare transactional features, data types, indexing, scaling, availability, security, cost, and team expertise.
+7. **Create the physical design.** Define indexes, partitioning, storage settings, access controls, backup strategy, and monitoring.
+8. **Implement through migrations.** Version the schema, test migrations, and plan deployment and rollback or forward-recovery steps.
+9. **Validate with realistic data.** Test correctness, query plans, concurrency, data volume, and failure behavior.
+10. **Monitor and evolve.** Review slow queries, storage growth, data quality, access patterns, and changing requirements.
+
+### Before implementation
+
+- [ ] The system's purpose, boundaries, and authoritative data sources are documented.
+- [ ] Important users, workflows, and access patterns are understood.
+- [ ] Expected volume, growth, retention, and peak load are estimated.
+- [ ] Entities and relationships have clear business definitions.
+- [ ] Table grain and relationship cardinality are explicit.
+- [ ] Primary keys and foreign keys are stable and meaningful.
+- [ ] Unique, check, and not-null constraints reflect real business rules.
+- [ ] Data types, units, currency, and timestamp conventions are documented.
+- [ ] Normalization and any deliberate denormalization have clear reasons.
+- [ ] OLTP and analytical workloads are separated where necessary.
+- [ ] Indexes are justified by representative queries.
+- [ ] Historical data and slowly changing attributes are handled intentionally.
+- [ ] Privacy classification, access control, and retention rules are defined.
+- [ ] Migrations, backup, recovery, and monitoring plans exist.
+- [ ] The design has been reviewed with realistic sample data and queries.
+
+A checklist cannot replace engineering judgment, but it makes hidden assumptions easier to discover. Revisit it whenever the system adds a new data source, changes a business process, or moves into a different scale of operation.
+
+## Further Reading and Official Resources
+
+The following primary resources provide platform-specific guidance and deeper technical detail. Database features and supported syntax vary by engine and version, so consult the documentation for the exact platform you deploy.
+
+### Relational database design and SQL
+
+- [PostgreSQL Documentation: Data Definition](https://www.postgresql.org/docs/current/ddl.html) — tables, constraints, schemas, privileges, and partitioning.
+- [PostgreSQL Documentation: Indexes](https://www.postgresql.org/docs/current/indexes.html) — index concepts and supported index types.
+- [Microsoft: Database Design Basics](https://support.microsoft.com/en-us/access/database-design-basics) — entities, tables, relationships, keys, and normalization fundamentals.
+- [Microsoft Learn: Design and Implement Database Objects with SQL](https://learn.microsoft.com/en-us/training/modules/design-implement-database-objects/) — tables, constraints, indexes, and partitioning.
+- [MySQL Reference Manual](https://dev.mysql.com/doc/refman/8.4/en/) — SQL syntax, storage engines, indexes, and transactional behavior.
+
+### Document and NoSQL data modelling
+
+- [MongoDB Manual: Designing Your Schema](https://www.mongodb.com/docs/manual/data-modeling/schema-design-process/) — workload analysis, relationship mapping, design patterns, and indexes.
+- [MongoDB Manual: Data Modeling](https://www.mongodb.com/docs/manual/data-modeling/) — document relationships, schema validation, and modelling concepts.
+- [Apache Cassandra Documentation](https://cassandra.apache.org/doc/latest/) — distributed data modelling and query-oriented design.
+
+### Data engineering and analytics
+
+- [Apache Kafka Documentation](https://kafka.apache.org/documentation/) — event streaming concepts and architecture.
+- [Apache Airflow Documentation](https://airflow.apache.org/docs/) — workflow orchestration for data pipelines.
+- [dbt Documentation](https://docs.getdbt.com/) — transforming and testing analytical data models.
+- [Kimball Group: Dimensional Modeling Techniques](https://www.kimballgroup.com/data-warehouse-business-intelligence-resources/kimball-techniques/) — foundational dimensional modelling guidance.
+
+### Related guides on Desire Dev
+
+Continue with [Engineering Software with PostgreSQL](/blog/engineering-software-with-postgresql), [SQL Query Optimization](/blog/guide-to-sql-query-optimization), and [Database Optimization Techniques](/blog/database-optimization) for relational performance. For application architecture, see [Backend Architecture](/blog/mastering-backend-architecture), [Software Architecture and System Design](/blog/software-architecture-system-design), and [SQLAlchemy ORM](/blog/architecture-with-sql-alchemy). For data engineering, explore [Explaining Data Warehouses](/blog/data-warehouses), [ETL vs ELT](/blog/etl-vs-elt), [Real-Time Data Pipelines](/blog/real-time-data-pipeline), and [Apache Kafka](/blog/explaining-apache-kafka).
+
+## Frequently Asked Questions
+
+### What is database design?
+
+Database design is the process of structuring data, relationships, keys, constraints, and storage so that an application can manage information accurately and efficiently. It includes conceptual, logical, and physical decisions.
+
+### What are the main stages of database design?
+
+The main stages are requirements analysis, conceptual modelling, logical modelling, physical design, implementation, testing, and ongoing optimization. The process is iterative: real queries and operational experience may reveal changes that the original model did not anticipate.
+
+### What is the difference between a database schema and a database model?
+
+A data model describes the concepts, entities, relationships, and rules used to organize information. A schema is the concrete structure implemented in a database, such as its tables, columns, keys, constraints, views, and indexes. The terms are related and are sometimes used interchangeably in everyday conversation.
+
+### What is database normalization?
+
+Normalization is a set of principles for structuring relational data to reduce unnecessary duplication and prevent update, insertion, and deletion anomalies. The first three normal forms are common foundations for practical relational design, although higher normal forms may matter in specialized cases.
+
+### Is a normalized database always faster?
+
+No. Normalization improves consistency and reduces redundancy, but queries may need joins across multiple tables. A denormalized structure can improve selected read-heavy workloads. The right choice depends on measured access patterns and the cost of keeping duplicated data consistent.
+
+### What is the difference between OLTP and OLAP?
+
+OLTP systems handle operational transactions such as creating orders and updating accounts. OLAP systems support analytical queries over larger datasets, such as calculating revenue trends and comparing performance over time. Their schemas and optimization priorities are often different.
+
+### Should I use SQL or NoSQL?
+
+Use relational SQL databases when structured relationships, transactions, constraints, and flexible querying are important. Consider a NoSQL model when its specific strengths—such as document-oriented access, key-value lookup, graph traversal, or distributed write patterns—fit the workload. Evaluate the actual data and operational requirements rather than treating the choice as a trend.
+
+### What is an ERD?
+
+An entity-relationship diagram is a visual representation of entities, their attributes, keys, and relationships. It helps teams discuss the logical structure of a database and identify missing or ambiguous relationships before implementation.
+
+### What is a primary key?
+
+A primary key is a column or combination of columns that uniquely identifies each row in a table. It must be unique and non-null. A good primary key is stable and should not depend on an attribute that users may change.
+
+### What is a foreign key?
+
+A foreign key is a column or set of columns that references a candidate key, usually the primary key, in another table. It helps enforce referential integrity by preventing invalid references.
+
+### When should a database be partitioned?
+
+Partitioning may help when tables become large, queries can filter on a useful partition key, or data lifecycle operations benefit from managing groups of records separately. It should be introduced after measuring a real need because it adds design and operational complexity.
+
+### How often should a database schema change?
+
+A schema should change when requirements, data sources, or access patterns change—not according to an arbitrary schedule. Changes should be version-controlled, reviewed, tested, and deployed through a migration process that considers existing data and application compatibility.
+
+## Conclusion
+
+Effective database design begins with understanding the information a system must manage and the work that information must support. A clear conceptual model, well-defined entities and relationships, stable keys, and appropriate constraints provide the foundation for reliable data. Normalization protects consistency, while deliberate denormalization and dimensional modelling can support specific analytical and read-heavy workloads.
+
+For data engineering systems, the design must also account for ingestion, event replay, schema evolution, historical accuracy, governance, and the operational realities of running databases in production. Indexes, partitioning, and distributed storage should be selected in response to measured requirements rather than assumptions.
+
+There is no universally perfect schema or database platform. The best design is the one that represents the domain accurately, supports the important workloads, protects data integrity, and can evolve without unnecessary disruption. Start with the requirements, test the model against real scenarios, document the trade-offs, and treat the database as a long-lived part of the system—not simply a place to put data.`,
     featured: true,
   },
   {
