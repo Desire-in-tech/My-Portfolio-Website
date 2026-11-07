@@ -28049,7 +28049,7 @@ Start with a focused use case, prepare a governed collection of content, evaluat
 - [NIST AI Risk Management Framework](https://www.nist.gov/itl/ai-risk-management-framework) — guidance for managing AI-related risks.
 - [OpenTelemetry Documentation](https://opentelemetry.io/docs/) — observability fundamentals for instrumenting AI-backed services.
 
-For related learning, explore [large language models](/blog/large-language-models), [machine learning fundamentals](/blog/machine-learning), [AI engineering in software development](/blog/ai-engineering-in-software-development), [API design principles with FastAPI](/blog/api-design-principles-with-fastapi), [database optimization](/blog/database-optimization), and [AI business tools](/blog/ai-business-tools).`,
+For related learning, explore [large language models](/blog/large-language-models), [machine learning fundamentals](/blog/machine-learning), [AI engineering in software development](/blog/ai-engineering-in-software-development), [API design principles with FastAPI](/blog/api-design-principles-with-fastapi), [database optimization](/blog/database-optimization), and [RAG systems](/blog/explaining-rag-systems).`,
     featured: false,
   },
   {
