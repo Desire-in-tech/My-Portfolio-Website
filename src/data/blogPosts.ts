@@ -29228,15 +29228,15 @@ Prefer straightforward control flow. Early returns can remove unnecessary nestin
 
 ## Choose Names That Explain Intent
 
-Names are one of the highest-value forms of documentation because they appear exactly where a reader needs context. A variable named `d` forces the reader to infer what it represents. A name such as `daysSinceLastLogin` communicates its meaning directly. Likewise, `processData` is vague, while `calculateMonthlyInvoiceTotal` describes a specific operation.
+Names are one of the highest-value forms of documentation because they appear exactly where a reader needs context. A variable named \`d\` forces the reader to infer what it represents. A name such as \`daysSinceLastLogin\` communicates its meaning directly. Likewise, \`processData\` is vague, while \`calculateMonthlyInvoiceTotal\` describes a specific operation.
 
-Use nouns or noun phrases for values, objects, and domain concepts. Use verbs or verb phrases for functions that perform actions. Boolean names should read like questions or conditions, such as `isAuthenticated`, `hasPermission`, or `shouldRetry`. Avoid names that imply a stronger guarantee than the code provides: a function called `validatePayment` should not merely check whether a payment object is non-empty if it is expected to verify authorization and amount.
+Use nouns or noun phrases for values, objects, and domain concepts. Use verbs or verb phrases for functions that perform actions. Boolean names should read like questions or conditions, such as \`isAuthenticated\`, \`hasPermission\`, or \`shouldRetry\`. Avoid names that imply a stronger guarantee than the code provides: a function called \`validatePayment\` should not merely check whether a payment object is non-empty if it is expected to verify authorization and amount.
 
 Prefer domain language that matches how the business or application describes its concepts. If the system distinguishes an invoice from a payment, do not use those words interchangeably in code. Precise terminology helps prevent conceptual mistakes and makes code easier for product, operations, and engineering teams to discuss together.
 
-Avoid unexplained abbreviations and generic names such as `data`, `info`, `manager`, and `handler` when a more specific name is available. Short names can be appropriate for small scopes and well-known conventions, such as `i` in a simple loop or `req` and `res` in a familiar web framework. The question is whether the name remains clear in its context.
+Avoid unexplained abbreviations and generic names such as \`data\`, \`info\`, \`manager\`, and \`handler\` when a more specific name is available. Short names can be appropriate for small scopes and well-known conventions, such as \`i\` in a simple loop or \`req\` and \`res\` in a familiar web framework. The question is whether the name remains clear in its context.
 
-Do not add redundant context to every name. Inside a `Customer` class, a property called `name` may be clearer than `customerName`. At a system boundary, however, a name such as `customerName` may be necessary to distinguish it from a supplier or account name. Naming should be specific enough for the scope in which it is used.
+Do not add redundant context to every name. Inside a \`Customer\` class, a property called \`name\` may be clearer than \`customerName\`. At a system boundary, however, a name such as \`customerName\` may be necessary to distinguish it from a supplier or account name. Naming should be specific enough for the scope in which it is used.
 
 ## Keep Functions Focused and Manageable
 
@@ -29248,7 +29248,7 @@ Function length is a useful signal, not a strict law. A short function can still
 
 Limit parameters to the information a function genuinely needs. A long list of unrelated parameters can indicate that the function is coordinating multiple responsibilities. A cohesive request object or domain type may improve clarity when several values naturally belong together. Do not create a new abstraction merely to avoid a few parameters; the abstraction should represent a meaningful concept.
 
-Avoid hidden side effects. A function named `getUserProfile` should not unexpectedly update a record, send a notification, or mutate global state. When a function changes something, make that behavior clear in its name, documentation, or interface. Predictable functions are easier to test and safer to reuse.
+Avoid hidden side effects. A function named \`getUserProfile\` should not unexpectedly update a record, send a notification, or mutate global state. When a function changes something, make that behavior clear in its name, documentation, or interface. Predictable functions are easier to test and safer to reuse.
 
 ## Apply DRY Without Creating the Wrong Abstractions
 
@@ -29258,13 +29258,13 @@ However, not every similar-looking block is meaningful duplication. Two pieces o
 
 Before creating an abstraction, ask whether the pieces share the same reason to change. If they encode the same business rule, a shared function or module may be appropriate. If they merely have similar syntax but different responsibilities, keeping them separate can be clearer.
 
-When extracting shared logic, choose a name that describes the concept rather than the mechanics of the current implementation. A function named `calculateEligibleDiscount` communicates more than `commonHelper2`. Keep the abstraction small, test its behavior, and avoid adding configuration options for hypothetical future use cases.
+When extracting shared logic, choose a name that describes the concept rather than the mechanics of the current implementation. A function named \`calculateEligibleDiscount\` communicates more than \`commonHelper2\`. Keep the abstraction small, test its behavior, and avoid adding configuration options for hypothetical future use cases.
 
 ## Use Comments and Documentation Deliberately
 
 Good code should communicate as much as possible through structure and naming. Comments are still important, but they should add context that the code cannot express easily. Useful comments explain why a non-obvious decision exists, document a constraint imposed by an external system, or warn about a subtle edge case.
 
-Avoid comments that merely repeat the code. A comment such as `// increment counter` above `counter += 1` adds no useful information. Worse, comments can become outdated when code changes, leaving readers with two conflicting sources of truth.
+Avoid comments that merely repeat the code. A comment such as \`// increment counter\` above \`counter += 1\` adds no useful information. Worse, comments can become outdated when code changes, leaving readers with two conflicting sources of truth.
 
 When a workaround is necessary, explain the underlying reason and, where useful, link it to an issue or external specification. For example, document why a retry delay is longer than expected because a third-party service enforces a specific rate limit. This helps a future maintainer distinguish an intentional constraint from an accidental oddity.
 
@@ -29290,7 +29290,7 @@ Use dependency direction intentionally. Business rules should not be tightly cou
 
 Prefer explicit dependencies over hidden global state. When a service receives the repository or client it needs through its constructor or function parameters, tests can supply a controlled substitute. This makes the component's requirements visible and reduces surprises caused by shared mutable state.
 
-Avoid circular dependencies and overly broad utility modules. A general-purpose `utils` file can become a dumping ground for unrelated functions with unclear ownership. Place code near the domain or feature that owns it, and extract shared modules only when there is a genuine common responsibility.
+Avoid circular dependencies and overly broad utility modules. A general-purpose \`utils\` file can become a dumping ground for unrelated functions with unclear ownership. Place code near the domain or feature that owns it, and extract shared modules only when there is a genuine common responsibility.
 
 ## Make Tests Part of Clean Code
 
@@ -29358,7 +29358,7 @@ These principles can conflict if applied mechanically. A design that maximizes a
 
 ## Practical Example: Refactoring a Difficult Function
 
-Imagine an application has a function called `processOrder`. It receives a request, checks inventory, calculates a total, charges a payment method, writes an order record, and sends a confirmation email. If payment succeeds but the database write fails, the function must decide what happens next. If an email provider is unavailable, should the customer be charged again when the entire function is retried?
+Imagine an application has a function called \`processOrder\`. It receives a request, checks inventory, calculates a total, charges a payment method, writes an order record, and sends a confirmation email. If payment succeeds but the database write fails, the function must decide what happens next. If an email provider is unavailable, should the customer be charged again when the entire function is retried?
 
 The first improvement is to make the workflow and its failure boundaries explicit. Separate request validation, pricing, payment authorization, order persistence, and notification delivery into cohesive operations. Give each operation a clear input and output. The orchestration layer should make the sequence understandable and handle failures according to the business rules.
 
