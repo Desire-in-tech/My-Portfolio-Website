@@ -26570,7 +26570,7 @@ Measure progress through evidence: working features, meaningful tests, clear doc
     readingTime: '25 min read',
     author: 'Desire E',
     excerpt:
-      'Learn how to design secure, scalable, resilient Azure workloads using the right compute, data, networking, governance, and operations services.' ,
+      'Learn how to design secure, scalable, resilient Azure workloads using the right compute, data, networking, governance, and operations services.',
     featuredImage:
       'https://res.cloudinary.com/f7ko7ayw/image/upload/v1785605054/azure_cloud_architecture_xwvexk.png',
     imageAlt: 'Azure Cloud',
@@ -26579,9 +26579,7 @@ Measure progress through evidence: working features, meaningful tests, clear doc
       'A practical Azure architecture guide covering core services, Well-Architected principles, security, networking, resilience, scalability, cost, and DevOps.',
     targetKeywords: ['Azure cloud architecture', 'Microsoft Azure architecture', 'Azure architecture best practices', 'Azure Well-Architected Framework', 'Azure cloud services', 'Azure security architecture', 'Azure scalability and resilience'],
     tags: ['Azure', 'Cloud Architecture', 'Cloud Computing', 'Azure Security', 'DevOps', 'System Design'],
-    content: `# Azure Cloud Architecture: Design Principles, Services, and Best Practices
-
-## In This Guide
+    content: `## In This Guide
 
 1. [What Azure Cloud Architecture Means](#what-azure-cloud-architecture-means)
 2. [Start with Requirements and the Azure Well-Architected Framework](#start-with-requirements-and-the-azure-well-architected-framework)
