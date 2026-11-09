@@ -34132,7 +34132,7 @@ Common problems can usually be narrowed down with a few checks:
 - **Changes do not appear:** confirm you rebuilt the intended image and recreated the container. An existing container does not update automatically when an image tag is rebuilt.
 - **The image is too large:** inspect the build context, improve .dockerignore, avoid copying virtual environments and Git history, and consider a multi-stage build when compilation tools are required.
 
-For a broader deployment workflow, continue with the site's [FastAPI deployment guide](/blog/deploy-fastapi-apps), [deployment strategies in CI/CD](/blog/mastering-deployment-strategies), and [GitHub Actions guide](/blog/github-actions-for-developers). If the API is part of a larger backend system, the [high-performance APIs](/blog/high-performance-apis) and [robust message queues](/blog/robust-message-queues) articles provide useful architectural context.
+For a broader deployment workflow, continue with the site's [FastAPI deployment guide](/blog/deploy-fastapi-apps), [deployment strategies in CI/CD](/blog/mastering-deployment-strategies), and [GitHub Actions guide](/blog/github-actions-for-developers). If the API is part of a larger backend system, the site's [high-performance APIs](/blog/high-performance-apis) article provides useful architectural context.
 
 ## Pre-Deployment Checklist and FAQs
 
