@@ -35366,11 +35366,11 @@ This guide explains what environment variables are, how operating systems and ap
 
 ## What Are Environment Variables?
 
-An environment variable is a named value made available to a running process by its execution environment. It is usually represented as a string and identified by a name such as \\`PORT\\`, \\`DATABASE_URL\\`, or \\`LOG_LEVEL\\`. When a program starts, it receives an environment from its parent process. The program can read the values it needs while it runs.
+An environment variable is a named value made available to a running process by its execution environment. It is usually represented as a string and identified by a name such as \`PORT\`, \`DATABASE_URL\`, or \`LOG_LEVEL\`. When a program starts, it receives an environment from its parent process. The program can read the values it needs while it runs.
 
-For example, a web application might read \\`PORT=8000\\` to decide which port to listen on. Another variable, \\`APP_ENV=production\\`, might select production logging and disable development-only features. A database client might read \\`DATABASE_URL\\` to locate a database and authenticate with it.
+For example, a web application might read \`PORT=8000\` to decide which port to listen on. Another variable, \`APP_ENV=production\`, might select production logging and disable development-only features. A database client might read \`DATABASE_URL\` to locate a database and authenticate with it.
 
-The operating system does not automatically understand what every variable means. The variable is simply data. Your application, runtime, framework, or a tool launched alongside it decides how to interpret that data. This distinction matters: setting \\`DEBUG=false\\` does not magically disable debugging unless the application reads the variable and implements that behavior.
+The operating system does not automatically understand what every variable means. The variable is simply data. Your application, runtime, framework, or a tool launched alongside it decides how to interpret that data. This distinction matters: setting \`DEBUG=false\` does not magically disable debugging unless the application reads the variable and implements that behavior.
 
 Environment variables are commonly inherited by child processes. If a terminal session defines a variable and launches a Python process, the Python process normally receives that variable. A child process can also receive a deliberately constructed environment from its parent. Changes made inside a child process do not normally travel backwards and modify the parent shell.
 
@@ -35404,34 +35404,34 @@ Environment variables are associated with processes. A shell can define a value 
 
 On Unix-like systems, shells distinguish between shell variables and exported environment variables. A variable created in a shell is not necessarily inherited by child processes until it is exported. For example:
 
-\\`\\`\\`bash
+\`\`\`bash
 APP_ENV=development
 export APP_ENV
 python app.py
-\\`\\`\\`
+\`\`\`
 
 The shorter form combines assignment and export:
 
-\\`\\`\\`bash
+\`\`\`bash
 export APP_ENV=development
 python app.py
-\\`\\`\\`
+\`\`\`
 
 A one-command assignment can also be used:
 
-\\`\\`\\`bash
+\`\`\`bash
 APP_ENV=test pytest
-\\`\\`\\`
+\`\`\`
 
 In that example, the variable is supplied to the command being launched rather than being permanently added to the current shell session.
 
 On Windows PowerShell, environment variables are accessed through the process environment provider:
 
-\\`\\`\\`powershell
+\`\`\`powershell
 $env:APP_ENV = "development"
 $env:PORT = "8000"
 python app.py
-\\`\\`\\`
+\`\`\`
 
 The syntax differs by shell and operating system, but the principle is consistent: the process receives a set of name-value pairs when it is launched. Values set in one terminal session should not be assumed to exist in a different terminal, a separately launched IDE, or a service running under another account.
 
@@ -35445,33 +35445,33 @@ Avoid placing secrets in shared shell startup files unless the access model is a
 
 ## Setting Environment Variables on Linux and macOS
 
-Linux and macOS terminals commonly use shells such as Bash and Zsh. The \\`export\\` command makes a variable available to commands launched from that shell:
+Linux and macOS terminals commonly use shells such as Bash and Zsh. The \`export\` command makes a variable available to commands launched from that shell:
 
-\\`\\`\\`bash
+\`\`\`bash
 export API_BASE_URL="http://localhost:8000"
 export LOG_LEVEL="debug"
 python app.py
-\\`\\`\\`
+\`\`\`
 
 To inspect a single variable, use:
 
-\\`\\`\\`bash
+\`\`\`bash
 echo "$API_BASE_URL"
-\\`\\`\\`
+\`\`\`
 
 To remove a variable from the current shell environment, use:
 
-\\`\\`\\`bash
+\`\`\`bash
 unset API_BASE_URL
-\\`\\`\\`
+\`\`\`
 
 For a value needed only by one command, prefix the command with the assignment:
 
-\\`\\`\\`bash
+\`\`\`bash
 LOG_LEVEL=warning python worker.py
-\\`\\`\\`
+\`\`\`
 
-Persistent shell settings can be placed in files such as \\`.bashrc\\`, \\`.bash_profile\\`, or \\`.zshrc\\`, depending on the shell and how it starts. These files are useful for non-sensitive personal preferences and developer tooling. For application-specific settings, a project-level \\`.env\\` file or a process manager is often easier for a team to document and reproduce.
+Persistent shell settings can be placed in files such as \`.bashrc\`, \`.bash_profile\`, or \`.zshrc\`, depending on the shell and how it starts. These files are useful for non-sensitive personal preferences and developer tooling. For application-specific settings, a project-level \`.env\` file or a process manager is often easier for a team to document and reproduce.
 
 When troubleshooting, remember that a graphical application launched from a desktop menu may not inherit variables from a terminal you configured later. Similarly, a service started by systemd does not automatically inherit your interactive shell's variables. Configure the environment in the mechanism that actually launches the process.
 
@@ -35481,73 +35481,73 @@ Windows supports environment variables at process, user, and machine scopes. The
 
 In PowerShell, assign a process-level variable with:
 
-\\`\\`\\`powershell
+\`\`\`powershell
 $env:APP_ENV = "development"
 $env:DATABASE_URL = "postgresql://localhost/example"
 python app.py
-\\`\\`\\`
+\`\`\`
 
-Read a variable with \\`$env:APP_ENV\\` and remove it from the current process environment with:
+Read a variable with \`$env:APP_ENV\` and remove it from the current process environment with:
 
-\\`\\`\\`powershell
+\`\`\`powershell
 Remove-Item Env:APP_ENV
-\\`\\`\\`
+\`\`\`
 
-In Command Prompt, use \\`set\\` for the current command session:
+In Command Prompt, use \`set\` for the current command session:
 
-\\`\\`\\`bat
+\`\`\`bat
 set APP_ENV=development
 python app.py
-\\`\\`\\`
+\`\`\`
 
 Windows also provides a graphical Environment Variables dialog through System Properties. It allows user-level and system-level values to be configured persistently. New processes generally receive the updated values; already-running processes should not be expected to refresh their environment automatically.
 
-The older \\`setx\\` command writes persistent values for future sessions, but it should be used carefully. It does not update the current Command Prompt, and careless use can create quoting or value-length problems. For repeatable development projects, document the required variables and use a project-specific setup process rather than relying on undocumented machine-wide settings.
+The older \`setx\` command writes persistent values for future sessions, but it should be used carefully. It does not update the current Command Prompt, and careless use can create quoting or value-length problems. For repeatable development projects, document the required variables and use a project-specific setup process rather than relying on undocumented machine-wide settings.
 
 ## Using a .env File During Local Development
 
-A \\`.env\\` file is a plain-text file containing environment-style key-value assignments. It is commonly used to make local development configuration easy to set up:
+A \`.env\` file is a plain-text file containing environment-style key-value assignments. It is commonly used to make local development configuration easy to set up:
 
-\\`\\`\\`dotenv
+\`\`\`dotenv
 APP_ENV=development
 PORT=8000
 LOG_LEVEL=debug
 DATABASE_URL=postgresql://localhost:5432/example_app
-\\`\\`\\`
+\`\`\`
 
 A dotenv library reads the file and places its values into the process environment, allowing application code to use the same environment-variable interface it would use in production. Popular options include [python-dotenv](https://github.com/theskumar/python-dotenv) for Python and [dotenv](https://github.com/motdotla/dotenv) for Node.js.
 
 A typical local workflow is:
 
-1. Commit a safe \\`.env.example\\` file that lists the variables the project needs.
-2. Each developer copies it to \\`.env\\`.
+1. Commit a safe \`.env.example\` file that lists the variables the project needs.
+2. Each developer copies it to \`.env\`.
 3. Developers fill in local values and obtain any required credentials through an approved channel.
 4. The application loads the file during local startup.
-5. The real \\`.env\\` file stays out of version control.
+5. The real \`.env\` file stays out of version control.
 
-Add local secret files to \\`.gitignore\\`:
+Add local secret files to \`.gitignore\`:
 
-\\`\\`\\`gitignore
+\`\`\`gitignore
 .env
 .env.*
 !.env.example
-\\`\\`\\`
+\`\`\`
 
 Adjust the pattern if your project uses other environment-file names. The important point is to ignore actual local configuration while deliberately allowing a safe example file to be committed.
 
-A \\`.env.example\\` file should document variable names, expected formats, and whether values are required. Use placeholders such as \\`replace-me\\` rather than real credentials. Never copy production passwords or API tokens into an example file. Also remember that a dotenv file is not encrypted. Anyone who can read the file can read its contents.
+A \`.env.example\` file should document variable names, expected formats, and whether values are required. Use placeholders such as \`replace-me\` rather than real credentials. Never copy production passwords or API tokens into an example file. Also remember that a dotenv file is not encrypted. Anyone who can read the file can read its contents.
 
 ### Loading a .env file in Python
 
 Install the package:
 
-\\`\\`\\`bash
+\`\`\`bash
 python -m pip install python-dotenv
-\\`\\`\\`
+\`\`\`
 
 Then load the file near the application's entry point:
 
-\\`\\`\\`python
+\`\`\`python
 import os
 from dotenv import load_dotenv
 
@@ -35556,28 +35556,28 @@ load_dotenv()
 app_env = os.getenv("APP_ENV", "development")
 port = int(os.getenv("PORT", "8000"))
 database_url = os.environ["DATABASE_URL"]
-\\`\\`\\`
+\`\`\`
 
-Python's \\`os.getenv()\\` returns a value or a default. Accessing \\`os.environ["DATABASE_URL"]\\` raises a \\`KeyError\\` if the variable is missing, which can be appropriate for mandatory configuration. The [Python documentation](https://docs.python.org/3/library/os.html#os.environ) explains the process environment mapping.
+Python's \`os.getenv()\` returns a value or a default. Accessing \`os.environ["DATABASE_URL"]\` raises a \`KeyError\` if the variable is missing, which can be appropriate for mandatory configuration. The [Python documentation](https://docs.python.org/3/library/os.html#os.environ) explains the process environment mapping.
 
 ### Loading a .env file in Node.js
 
-Recent Node.js releases include built-in support for environment files through the command-line \\`--env-file\\` option. For example:
+Recent Node.js releases include built-in support for environment files through the command-line \`--env-file\` option. For example:
 
-\\`\\`\\`bash
+\`\`\`bash
 node --env-file=.env server.js
-\\`\\`\\`
+\`\`\`
 
 Alternatively, a project can use the dotenv package and load it before modules that read configuration:
 
-\\`\\`\\`javascript
+\`\`\`javascript
 require("dotenv").config();
 
 const port = Number(process.env.PORT ?? 8000);
 const databaseUrl = process.env.DATABASE_URL;
-\\`\\`\\`
+\`\`\`
 
-In Node.js, values in \\`process.env\\` are strings. Convert and validate values before using them as numbers, booleans, lists, or structured settings. Consult the [Node.js environment variables documentation](https://nodejs.org/api/environment_variables.html) for supported behavior and version-specific details.
+In Node.js, values in \`process.env\` are strings. Convert and validate values before using them as numbers, booleans, lists, or structured settings. Consult the [Node.js environment variables documentation](https://nodejs.org/api/environment_variables.html) for supported behavior and version-specific details.
 
 ## Reading and Validating Environment Variables
 
@@ -35590,11 +35590,11 @@ A reliable configuration layer should answer four questions:
 - Is the value within acceptable limits?
 - Is the default safe and appropriate for this environment?
 
-Environment variables are strings, even when they represent numbers or booleans. For example, \\`PORT\\` may contain the text \\`"8000"\\`. Convert it explicitly and handle invalid input. Do not assume that every non-empty string is a true boolean: in many languages, the string \\`"false"\\` is still truthy.
+Environment variables are strings, even when they represent numbers or booleans. For example, \`PORT\` may contain the text \`"8000"\`. Convert it explicitly and handle invalid input. Do not assume that every non-empty string is a true boolean: in many languages, the string \`"false"\` is still truthy.
 
 A simple Python validation pattern might look like this:
 
-\\`\\`\\`python
+\`\`\`python
 import os
 
 def required(name: str) -> str:
@@ -35614,7 +35614,7 @@ def integer_setting(name: str, default: int) -> int:
 
 DATABASE_URL = required("DATABASE_URL")
 PORT = integer_setting("PORT", 8000)
-\\`\\`\\`
+\`\`\`
 
 For larger applications, use a typed settings library or schema-validation approach. In Python, Pydantic Settings can define types, defaults, required values, and environment-variable sources. In Node.js, libraries such as Zod or envalid can validate configuration at startup. The goal is not to add dependencies unnecessarily; it is to make configuration errors explicit and predictable.
 
@@ -35624,31 +35624,31 @@ Be deliberate about defaults. A local development default may be convenient, but
 
 Containers make environment variables especially useful because the same image can be started with different configuration. Build an image once, then supply development, staging, or production values when creating the container.
 
-A Dockerfile can define non-sensitive defaults with the \\`ENV\\` instruction:
+A Dockerfile can define non-sensitive defaults with the \`ENV\` instruction:
 
-\\`\\`\\`dockerfile
+\`\`\`dockerfile
 ENV PORT=8000
 ENV LOG_LEVEL=info
-\\`\\`\\`
+\`\`\`
 
-At runtime, values can be supplied with \\`docker run -e\\`:
+At runtime, values can be supplied with \`docker run -e\`:
 
-\\`\\`\\`bash
+\`\`\`bash
 docker run --rm \\
   -e APP_ENV=production \\
   -e PORT=8000 \\
   -p 8000:8000 my-application:latest
-\\`\\`\\`
+\`\`\`
 
 You can also use an environment file:
 
-\\`\\`\\`bash
+\`\`\`bash
 docker run --env-file .env -p 8000:8000 my-application:latest
-\\`\\`\\`
+\`\`\`
 
-Docker Compose supports an \\`environment\\` section and an \\`env_file\\` section. For example:
+Docker Compose supports an \`environment\` section and an \`env_file\` section. For example:
 
-\\`\\`\\`yaml
+\`\`\`yaml
 services:
   api:
     build: .
@@ -35658,21 +35658,21 @@ services:
       - .env
     environment:
       APP_ENV: development
-\\`\\`\\`
+\`\`\`
 
-Compose's project \\`.env\\` file is also used for interpolation in the Compose model. It is important to distinguish interpolation from injecting a variable into a container: a variable used to substitute a value in the YAML is not necessarily available inside the container unless it is passed through \\`environment\\` or \\`env_file\\`.
+Compose's project \`.env\` file is also used for interpolation in the Compose model. It is important to distinguish interpolation from injecting a variable into a container: a variable used to substitute a value in the YAML is not necessarily available inside the container unless it is passed through \`environment\` or \`env_file\`.
 
-Do not bake production credentials into a Docker image using Dockerfile \\`ENV\\` or \\`ARG\\`. Image layers and build metadata can be inspected, cached, copied, or published. Build arguments are not a secure secret store. Supply sensitive values at runtime through a suitable secret-management mechanism. Docker's [build secrets documentation](https://docs.docker.com/build/building/secrets/) explains how to pass secrets securely to build steps when a build genuinely requires them.
+Do not bake production credentials into a Docker image using Dockerfile \`ENV\` or \`ARG\`. Image layers and build metadata can be inspected, cached, copied, or published. Build arguments are not a secure secret store. Supply sensitive values at runtime through a suitable secret-management mechanism. Docker's [build secrets documentation](https://docs.docker.com/build/building/secrets/) explains how to pass secrets securely to build steps when a build genuinely requires them.
 
 ## Environment Variables in Kubernetes
 
 Kubernetes separates configuration resources from application container images. ConfigMaps are designed for non-sensitive configuration, while Secret objects are intended for sensitive values such as credentials and tokens.
 
-A Pod can receive individual values from a ConfigMap or Secret using \\`env\\` and \\`valueFrom\\`. It can also import a collection of keys using \\`envFrom\\`. This keeps configuration declarations separate from application code and allows the same container image to run in multiple namespaces or clusters with different settings.
+A Pod can receive individual values from a ConfigMap or Secret using \`env\` and \`valueFrom\`. It can also import a collection of keys using \`envFrom\`. This keeps configuration declarations separate from application code and allows the same container image to run in multiple namespaces or clusters with different settings.
 
 A simplified example of a ConfigMap is:
 
-\\`\\`\\`yaml
+\`\`\`yaml
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -35680,15 +35680,15 @@ metadata:
 data:
   APP_ENV: production
   LOG_LEVEL: info
-\\`\\`\\`
+\`\`\`
 
 A Pod can reference those values:
 
-\\`\\`\\`yaml
+\`\`\`yaml
 envFrom:
   - configMapRef:
       name: api-settings
-\\`\\`\\`
+\`\`\`
 
 Kubernetes Secrets require particular care. Their values are commonly represented using base64 encoding in manifests, but base64 is encoding, not encryption. Access should be restricted through RBAC, encryption at rest should be configured for the cluster's data store, and secret values should not be committed to public repositories. Consider an external secrets operator or a cloud provider's secret integration when it better fits your threat model and operational requirements.
 
@@ -35720,7 +35720,7 @@ The [OWASP Secrets Management Cheat Sheet](https://cheatsheetseries.owasp.org/ch
 
 ### Public and private frontend variables
 
-Frontend build tools sometimes expose selected environment variables to browser code. These values are not secret once they are bundled into JavaScript delivered to a visitor. For example, Vite exposes variables with the \\`VITE_\\` prefix to client-side code by design. Frameworks such as Next.js also have explicit conventions for public environment variables.
+Frontend build tools sometimes expose selected environment variables to browser code. These values are not secret once they are bundled into JavaScript delivered to a visitor. For example, Vite exposes variables with the \`VITE_\` prefix to client-side code by design. Frameworks such as Next.js also have explicit conventions for public environment variables.
 
 Only put values in public-prefixed variables if they are safe for anyone to see. A public API base URL or analytics identifier may be appropriate. A database password, private API token, signing key, or privileged service credential is not. Hiding a variable name or obfuscating a bundle does not protect a secret. Keep privileged operations behind a trusted server-side boundary.
 
@@ -35728,12 +35728,12 @@ Only put values in public-prefixed variables if they are safe for anyone to see.
 
 Consistent names make a project easier to understand and reduce accidental misconfiguration. Uppercase names with underscores are widely used:
 
-- \\`DATABASE_URL\\`
-- \\`REDIS_URL\\`
-- \\`PORT\\`
-- \\`LOG_LEVEL\\`
-- \\`PAYMENT_PROVIDER_SECRET\\`
-- \\`SESSION_COOKIE_SECURE\\`
+- \`DATABASE_URL\`
+- \`REDIS_URL\`
+- \`PORT\`
+- \`LOG_LEVEL\`
+- \`PAYMENT_PROVIDER_SECRET\`
+- \`SESSION_COOKIE_SECURE\`
 
 Use names that describe purpose rather than implementation details that may change. Group related settings with a clear prefix when that improves readability. Avoid creating multiple variables for the same concept unless there is a genuine distinction.
 
@@ -35741,11 +35741,11 @@ Document each variable's meaning, expected type, whether it is required, its def
 
 | Variable | Required? | Example or default | Sensitive? |
 | --- | --- | --- | --- |
-| \\`APP_ENV\\` | No | \\`development\\` | No |
-| \\`PORT\\` | No | \\`8000\\` | No |
-| \\`DATABASE_URL\\` | Yes | Supplied by environment | Yes |
-| \\`LOG_LEVEL\\` | No | \\`info\\` | No |
-| \\`PAYMENT_API_KEY\\` | Yes in payment-enabled environments | Supplied by secret manager | Yes |
+| \`APP_ENV\` | No | \`development\` | No |
+| \`PORT\` | No | \`8000\` | No |
+| \`DATABASE_URL\` | Yes | Supplied by environment | Yes |
+| \`LOG_LEVEL\` | No | \`info\` | No |
+| \`PAYMENT_API_KEY\` | Yes in payment-enabled environments | Supplied by secret manager | Yes |
 
 Avoid putting several unrelated values into one variable unless the receiving tool explicitly expects a structured format. A connection URL is a common exception because the database client understands its syntax. For complex settings, a configuration file or dedicated service may be more maintainable than encoding nested structures into environment variables.
 
@@ -35761,9 +35761,9 @@ Treat configuration changes as deployable changes. Review them, record who chang
 
 ## Common Environment Variable Mistakes
 
-**Committing a real .env file.** A local file can contain credentials that grant access to databases, cloud accounts, or payment services. Add it to \\`.gitignore\\`, verify ignore rules, and use a safe example file instead. If a secret is committed, rotate it rather than relying on deleting the file.
+**Committing a real .env file.** A local file can contain credentials that grant access to databases, cloud accounts, or payment services. Add it to \`.gitignore\`, verify ignore rules, and use a safe example file instead. If a secret is committed, rotate it rather than relying on deleting the file.
 
-**Assuming variables are automatically loaded.** A \\`.env\\` file is not automatically read by every programming language or hosting environment. Explicitly configure a dotenv library, runtime option, process manager, or platform integration.
+**Assuming variables are automatically loaded.** A \`.env\` file is not automatically read by every programming language or hosting environment. Explicitly configure a dotenv library, runtime option, process manager, or platform integration.
 
 **Using the wrong scope.** A variable set in one terminal may not exist in an IDE, scheduled task, container, or service manager. Configure the environment where the process is launched and verify it from that process.
 
@@ -35787,8 +35787,8 @@ A small, disciplined workflow is usually more valuable than adopting a large con
 
 1. **List the configuration the application needs.** Separate ordinary settings, environment-specific endpoints, and sensitive credentials.
 2. **Choose clear names and types.** Use consistent naming and document expected formats, valid ranges, and defaults.
-3. **Create a safe example file.** Add \\`.env.example\\` to version control with placeholders and short comments.
-4. **Ignore local secret files.** Confirm that \\`.env\\` and other real environment files are excluded by Git.
+3. **Create a safe example file.** Add \`.env.example\` to version control with placeholders and short comments.
+4. **Ignore local secret files.** Confirm that \`.env\` and other real environment files are excluded by Git.
 5. **Load configuration at startup.** Use the runtime, framework, or a dotenv library appropriate to the project.
 6. **Validate before serving requests.** Fail fast when required variables are missing or malformed.
 7. **Use separate values per environment.** Keep local, test, preview, staging, and production resources isolated.
@@ -35796,7 +35796,7 @@ A small, disciplined workflow is usually more valuable than adopting a large con
 9. **Test the configuration path.** Run the application in a clean environment and include configuration checks in CI.
 10. **Review, rotate, and remove values.** Audit unused settings and rotate credentials when required.
 
-For a backend service, this workflow might mean using a local PostgreSQL URL in \\`.env\\`, a disposable test database in CI, and a managed database secret in production. The application reads \\`DATABASE_URL\\` in all three cases, but the value is supplied by a different trusted source in each environment. That is the central idea: the application depends on a stable configuration contract, not on a particular machine or credential.
+For a backend service, this workflow might mean using a local PostgreSQL URL in \`.env\`, a disposable test database in CI, and a managed database secret in production. The application reads \`DATABASE_URL\` in all three cases, but the value is supplied by a different trusted source in each environment. That is the central idea: the application depends on a stable configuration contract, not on a particular machine or credential.
 
 ## Environment Variables in a Broader Software Architecture
 
@@ -35816,11 +35816,11 @@ They are generally preferable to hardcoding secrets in source code, but they are
 
 ### Should I commit a .env file to Git?
 
-Do not commit a file containing real credentials or private configuration. Commit a safe \\`.env.example\\` file instead, with placeholder values and documentation. Add actual local environment files to \\`.gitignore\\`. If a real secret reaches Git history, revoke or rotate it because deleting the latest copy does not invalidate the credential.
+Do not commit a file containing real credentials or private configuration. Commit a safe \`.env.example\` file instead, with placeholder values and documentation. Add actual local environment files to \`.gitignore\`. If a real secret reaches Git history, revoke or rotate it because deleting the latest copy does not invalidate the credential.
 
 ### What is the difference between an environment variable and a .env file?
 
-An environment variable is a value supplied to a process. A \\`.env\\` file is one possible source from which a tool or library can load values into that process environment. The file itself is not automatically interpreted by every operating system or runtime.
+An environment variable is a value supplied to a process. A \`.env\` file is one possible source from which a tool or library can load values into that process environment. The file itself is not automatically interpreted by every operating system or runtime.
 
 ### Do environment variables change while an application is running?
 
@@ -35856,7 +35856,7 @@ Environment variables provide a simple, widely supported interface between softw
 
 Used well, they improve portability, automation, maintainability, and security. Used carelessly, they can create hidden dependencies, inconsistent deployments, and accidental credential exposure. The most reliable approach is to document configuration, validate it early, keep local secrets out of version control, use separate credentials for separate environments, and rely on dedicated secret-management systems when the risk requires stronger controls.
 
-Start with a clear configuration contract and a safe \\`.env.example\\` file. Then make sure every environment supplies the right values through an appropriate, controlled mechanism. That small discipline makes software easier to run and much safer to maintain as projects grow.`,
+Start with a clear configuration contract and a safe \`.env.example\` file. Then make sure every environment supplies the right values through an appropriate, controlled mechanism. That small discipline makes software easier to run and much safer to maintain as projects grow.`,
     featured: false,
   },
   {
