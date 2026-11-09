@@ -34408,7 +34408,7 @@ Explore these complementary guides for the wider backend and distributed-systems
 
 Robust message-driven systems are built by making failure behavior explicit. Choose a broker that fits the workload, define stable contracts, assume duplicate delivery, protect business operations with idempotency, control retries, monitor queue age and consumer lag, and rehearse recovery. With these foundations, asynchronous messaging becomes a dependable architectural tool rather than another source of hidden complexity.`,
     featured: false,
-  }
+  },
   {
     id: '72',
     title: 'Engineering Software with PostgreSQL: A Complete Guide for Backend Developers',
