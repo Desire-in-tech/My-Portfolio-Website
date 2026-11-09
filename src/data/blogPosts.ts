@@ -33999,9 +33999,9 @@ A container image should not contain environment-specific credentials. The same 
 For a quick local run, pass non-sensitive values with environment flags:
 
 ~~~bash
-docker run --rm -p 8000:8000 \
-  -e APP_ENV=development \
-  -e LOG_LEVEL=debug \
+docker run --rm -p 8000:8000 \\
+  -e APP_ENV=development \\
+  -e LOG_LEVEL=debug \\
   fastapi-example:latest
 ~~~
 
@@ -34078,7 +34078,7 @@ async def health():
 Docker also supports a HEALTHCHECK instruction. If the image does not include curl or wget, avoid examples that depend on those commands unless you explicitly install them. Python's standard library can perform a basic HTTP check:
 
 ~~~dockerfile
-HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
+HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \\
   CMD python -c "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health', timeout=3)"
 ~~~
 
