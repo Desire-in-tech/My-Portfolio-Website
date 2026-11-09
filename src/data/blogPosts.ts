@@ -34386,6 +34386,15 @@ In financial services, transaction events can feed fraud detection, risk analysi
 
 In SaaS applications, queues can handle report generation, data exports, webhook delivery, scheduled notifications, and integrations with third-party APIs. Rate-limited consumers protect external services, while retry and DLQ policies isolate individual customer failures. Tenant identifiers and quotas help prevent one customer's burst from starving everyone else.
 
+## Related Articles
+
+Explore these complementary guides for the wider backend and distributed-systems context:
+
+- [High-performance APIs](/blog/high-performance-apis) — designing API services that remain responsive under load.
+- [Database design](/blog/database-design) — structuring durable application data and relationships.
+- [Cloud security tips](/blog/cloud-security-tips) — strengthening the infrastructure and operational controls around distributed services.
+- [Deploying FastAPI applications](/blog/deploy-fastapi-apps) — taking Python backend services from development into production.
+
 ## Further Reading
 
 - [RabbitMQ documentation](https://www.rabbitmq.com/docs) — exchanges, queues, acknowledgements, publisher confirms, and reliability.
