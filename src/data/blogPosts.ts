@@ -39345,7 +39345,7 @@ Kafka is most valuable when multiple systems need reliable access to a shared ev
 - [Confluent Kafka Python client](https://docs.confluent.io/kafka-clients/python/current/overview.html) — Python producer and consumer examples.
 `,
     featured: false,
-  }
+  },
   {
     id: '85',
     title: 'Explaining Data Warehouses',
