@@ -36641,7 +36641,7 @@ Use primary documentation to confirm implementation details for the cloud servic
 - [Microsoft Entra Documentation](https://learn.microsoft.com/en-us/entra/) explains identity, authentication, conditional access, and governance.
 - [Google Cloud Security Best Practices](https://cloud.google.com/security/best-practices) provides recommendations for securing Google Cloud environments.
 - [Google Cloud Security Documentation](https://cloud.google.com/docs/security) describes security capabilities and operational guidance.
-- [CISA Identity and Access Management Best Practices](https://www.cisa.gov/resources-tools/resources/identity-and-access-management-recommended-best-practices-administrators) provides guidance for stronger authentication and access governance.
+- [CISA Identity and Access Management Best Practices](https://www.cisa.gov/sites/default/files/2023-12/ESF%20IDENTITY%20AND%20ACCESS%20MANAGEMENT%20RECOMMENDED%20BEST%20PRACTICES%20FOR%20ADMINISTRATORS%20PP-23-0248_508C.pdf) provides guidance for stronger authentication and access governance.
 - [NIST Cybersecurity Framework 2.0](https://www.nist.gov/cyberframework) offers a risk-based structure for governing, identifying, protecting, detecting, responding, and recovering.
 - [Cloud Security Alliance Cloud Controls Matrix v4.1](https://cloudsecurityalliance.org/artifacts/cloud-controls-matrix-v4-1) provides cloud-focused security and privacy controls, including shared-responsibility guidance.
 - [OWASP Top 10](https://owasp.org/www-project-top-ten/) describes common web application security risks.
