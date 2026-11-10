@@ -38660,7 +38660,7 @@ Redis is not a substitute for sound database design or a shortcut around profili
 - [Redis commands](https://redis.io/docs/latest/commands/) — command behavior, complexity, and supported options.
 `,
     featured: false,
-  }
+  },
   {
     id: '84',
     title: 'Explaining Apache Kafka: Architecture, Use Cases, And Comparisons',
