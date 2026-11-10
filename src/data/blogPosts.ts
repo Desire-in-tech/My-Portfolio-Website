@@ -38669,7 +38669,7 @@ Redis is not a substitute for sound database design or a shortcut around profili
     publishDate: '2026-09-20',
     updatedDate: '2026-11-10',
     author: 'Desire E',
-    readingTime: '22 min read',
+    readingTime: '37 min read',
     excerpt:
       'Understand Apache Kafka architecture, KRaft, topics and partitions, producers, consumer groups, offsets, delivery guarantees, Kafka Connect, Kafka Streams, Python examples, and production best practices.',
     featuredImage:
@@ -38700,7 +38700,7 @@ Redis is not a substitute for sound database design or a shortcut around profili
       'Data Engineering',
       'Python',
     ],
-    content: \`Apache Kafka is an open-source event streaming platform for systems that need to publish, store, read, and process streams of events. It is commonly used to connect microservices, collect application activity, move data between operational systems, and build real-time analytics pipelines. Rather than requiring every service to call every other service directly, Kafka gives applications a shared, durable event log that producers can write to and multiple independent consumers can read.
+    content: `Apache Kafka is an open-source event streaming platform for systems that need to publish, store, read, and process streams of events. It is commonly used to connect microservices, collect application activity, move data between operational systems, and build real-time analytics pipelines. Rather than requiring every service to call every other service directly, Kafka gives applications a shared, durable event log that producers can write to and multiple independent consumers can read.
 
 Kafka is powerful, but it is not simply a faster message queue, a database replacement, or a guarantee that every business operation happens exactly once. Its architecture has specific trade-offs around partitioning, ordering, retention, replication, consumer coordination, and operational complexity. Understanding those trade-offs is essential before introducing Kafka into a backend system.
 
@@ -39343,7 +39343,7 @@ Kafka is most valuable when multiple systems need reliable access to a shared ev
 - [Kafka Connect documentation](https://kafka.apache.org/44/kafka-connect/) — source and sink integrations.
 - [Kafka Streams documentation](https://kafka.apache.org/44/streams/) — stream processing with the Java library.
 - [Confluent Kafka Python client](https://docs.confluent.io/kafka-clients/python/current/overview.html) — Python producer and consumer examples.
-\`,
+`,
     featured: false,
   }
   {
