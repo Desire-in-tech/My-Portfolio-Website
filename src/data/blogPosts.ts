@@ -39480,15 +39480,15 @@ Imagine a retailer with an online store, a point-of-sale system, and a customer 
 
 A simple dimensional model might include:
 
-- `fact_sales`: one row per order line, with order ID, customer key, product key, date key, quantity, gross amount, discount, tax, and net amount.
-- `dim_customer`: customer key, source customer ID, customer segment, region, and effective dates.
-- `dim_product`: product key, source product ID, product name, brand, and category.
-- `dim_date`: calendar date, week, month, quarter, and year.
-- `fact_returns`: one row per returned order line, with return date, reason, quantity, and refunded amount.
+- \`fact_sales\`: one row per order line, with order ID, customer key, product key, date key, quantity, gross amount, discount, tax, and net amount.
+- \`dim_customer\`: customer key, source customer ID, customer segment, region, and effective dates.
+- \`dim_product\`: product key, source product ID, product name, brand, and category.
+- \`dim_date\`: calendar date, week, month, quarter, and year.
+- \`fact_returns\`: one row per returned order line, with return date, reason, quantity, and refunded amount.
 
 A simplified query could calculate monthly net sales by product category:
 
-```sql
+\`\`\`sql
 SELECT
     d.year,
     d.month,
@@ -39501,7 +39501,7 @@ JOIN dim_product AS p
     ON f.product_key = p.product_key
 GROUP BY d.year, d.month, p.category
 ORDER BY d.year, d.month, p.category;
-```
+\`\`\`
 
 The query is only meaningful if the business has agreed what net sales includes, how cancelled orders are treated, and whether refunds are subtracted in the same reporting period or reported separately. Those definitions belong in model documentation and the semantic layer, not only in an individual dashboard.
 
@@ -39543,7 +39543,7 @@ Analytical performance depends on the platform, data model, query design, and wo
 
 Practical techniques include:
 
-- Select only the columns a query needs instead of repeatedly using `SELECT *`.
+- Select only the columns a query needs instead of repeatedly using \`SELECT *\`.
 - Filter early and avoid unnecessary transformations in frequently queried paths.
 - Partition large tables by a useful date or ingestion column when queries commonly filter by it.
 - Cluster, sort, or index data according to platform-specific guidance and observed access patterns.
