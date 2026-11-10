@@ -37080,50 +37080,6 @@ Metrics should include request rate, error rate, latency distributions, saturati
 
 Define alerts around user impact rather than every individual exception. A temporary spike in a low-priority background job may not require the same response as a sustained increase in checkout failures. Create dashboards for service owners and operational teams, document incident procedures, and use production observations to improve the contract and implementation.
 
-## Use webhooks and events for timely integration
-
-Some consumers need to know when something changes without repeatedly polling an endpoint. Webhooks allow an API provider to send an HTTP request to a consumer's registered endpoint when an event occurs. Common examples include payment confirmation, shipment updates, subscription changes, and completed background jobs.
-
-Define event names and payloads as versioned contracts. Include a unique event identifier, event type, occurrence time, and relevant resource reference. Consumers should be able to process duplicate deliveries safely because webhook systems commonly retry after timeouts or unsuccessful responses. Document delivery attempts, retry schedules, timeouts, and how consumers can request a replay.
-
-Sign webhook payloads using a documented signature scheme and include a timestamp so consumers can detect tampering and reduce replay risk. Consumers should verify the signature against the raw request body, use constant-time comparison where appropriate, and reject stale timestamps according to the provider's policy. Keep signing secrets private and support rotation.
-
-Webhook delivery is usually at least once, not exactly once. A provider may deliver the same event more than once, and events may arrive out of order. Consumers should deduplicate using the event ID and avoid assuming arrival order. For critical workflows, provide an API endpoint to retrieve the current authoritative resource state.
-
-## Avoid unnecessary complexity and premature microservices
-
-A good API is not necessarily a large API. Every endpoint, parameter, response field, authentication mode, and version creates a maintenance obligation. Expose capabilities that solve known consumer problems, not hypothetical features that may never be used.
-
-Start with clear boundaries and a deployment model the team can operate. A modular monolith can provide a well-designed API without the distributed-systems overhead of many services. Microservices can be valuable when independent scaling, deployment, ownership, or fault isolation justify the cost. They also introduce network failures, distributed tracing, data consistency challenges, service discovery, and more complex testing.
-
-Avoid creating separate endpoints for every frontend component. That can couple the backend too tightly to one user interface. Conversely, avoid one generic endpoint with dozens of flags that make behavior difficult to reason about. Design around domain capabilities and consumer workflows, and use measured evidence to decide when specialized endpoints or aggregation are justified.
-
-Keep the API surface small enough to document and test thoroughly. Remove deprecated operations only through a communicated lifecycle process. Review endpoint usage and ownership regularly so forgotten experimental or administrative routes do not remain exposed indefinitely.
-
-## Common API design mistakes and how to correct them
-
-**Using verbs for every URL.** Action-oriented routes can be appropriate for genuine commands that do not map naturally to a resource, but using /getUsers, /createOrder, and /deleteProduct everywhere ignores standard HTTP semantics. Prefer resource paths and consistent methods where possible.
-
-**Returning different shapes for similar resources.** Inconsistent field names, nesting, date formats, and error bodies force consumers to add special cases. Define shared schemas and conventions, then validate them with contract tests.
-
-**Returning every record at once.** Large responses increase memory use, latency, and failure risk. Add bounded pagination, sensible defaults, and maximum limits. Prefer cursors for collections that change frequently or become very large.
-
-**Using HTTP 200 for failures.** This makes monitoring and client behavior harder to interpret. Return meaningful status codes and a consistent error representation. Do not hide server failures in a nominally successful response.
-
-**Confusing authentication with authorization.** A valid token proves something about the caller; it does not prove access to every object. Enforce object-level and property-level authorization on the server.
-
-**Trusting the frontend.** Client-side validation improves usability but can be bypassed. Repeat validation and permission checks on the server for every request.
-
-**Exposing database models directly.** This couples the public contract to persistence details and may expose fields consumers should never see. Use explicit request and response schemas.
-
-**Changing contracts without a migration plan.** Renaming or removing a field can break deployed clients. Prefer additive changes, document deprecations, monitor usage, and coordinate breaking releases.
-
-**Retrying unsafe operations blindly.** A lost response does not prove that the server failed to process the request. Use idempotency keys for operations such as payments and order creation, and document retry policies.
-
-**Treating CORS as API security.** CORS is enforced by browsers and does not prevent non-browser clients from sending requests. Use real authentication, authorization, and server-side security controls.
-
-**Ignoring observability.** Without metrics, structured logs, and tracing, incidents become difficult to diagnose. Add correlation identifiers and operational visibility from the beginning.
-
 ## A practical design workflow from idea to release
 
 A repeatable workflow helps teams make good decisions before implementation becomes expensive. First, describe the consumer and the task the API must support. Write example requests and responses for the happy path and important failure cases. Identify the domain resources and commands, and agree on the vocabulary used in paths and payloads.
@@ -37163,9 +37119,9 @@ Use this checklist during design reviews and before a production release:
 
 ## Final thoughts
 
-The strongest APIs are predictable, secure, consistent, and designed around the needs of the people and systems that consume them. Good resource modeling and HTTP semantics make an interface easier to understand. Clear schemas, pagination, and error handling make it easier to integrate. Authentication, authorization, validation, and resource limits help protect it. Versioning, documentation, testing, and observability make it possible to maintain over time.
+Reliable APIs use clear contracts, secure defaults, consistent semantics, and measurable operational behavior.
 
-You do not need to implement every advanced pattern in the first release. Start with a small, coherent contract, validate it with consumers, and add complexity only when a real requirement justifies it. A thoughtful API design reduces friction for every team that builds on top of your system.
+Start with a small, coherent contract, validate it with consumers, and add complexity only when a real requirement justifies it. The best API is not the one with the most features, but the one that solves its users' problems reliably over time.
 
 ## Further reading
 
