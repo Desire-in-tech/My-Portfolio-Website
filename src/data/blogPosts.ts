@@ -39791,7 +39791,7 @@ Numerical features include counts, durations, prices, balances, measurements, an
 Standardization transforms a feature using its mean and standard deviation:
 
 \[
-z = \frac{x-\mu}{\sigma}
+z = \\frac{x-\\mu}{\\sigma}
 \]
 
 This places features on comparable scales, which can help linear models with regularization, support vector machines, nearest-neighbor methods, and many neural networks. The mean and standard deviation must be learned from the training data only, then reused for validation, test, and production data.
@@ -39845,8 +39845,8 @@ Dates and timestamps often contain rich information, but a raw timestamp is rare
 For cyclical variables such as hour of day or month, simple integer encoding can create an artificial boundary: hour 23 is numerically far from hour 0 even though they are adjacent. A common representation uses sine and cosine:
 
 \[
-x_{\sin}=\sin(2\pi x/P), \qquad
-x_{\cos}=\cos(2\pi x/P)
+x_{\\sin}=\\sin(2\\pi x/P), \\qquad
+x_{\\cos}=\\cos(2\\pi x/P)
 \]
 
 where P is the cycle length, such as 24 for hours or 7 for days of the week.
@@ -39929,7 +39929,7 @@ There are several common forms:
 
 The split strategy should reflect the deployment scenario. Use a random split when examples are independent and production resembles random sampling. Use group-aware splitting when entities must not cross partitions. Use chronological evaluation when predicting future periods. In time-series work, consider rolling or expanding-window validation rather than shuffling observations.
 
-A reliable rule is to split first, fit transformations only on the training partition, and apply the fitted transformations to held-out data. Scikit-learn pipelines help enforce this pattern during cross-validation and hyperparameter search. For historical features, use point-in-time joins so each training row receives only values that existed at its observation time.
+A reliable rule is to split first, fit transformations only on the training partition, and apply the fitted transformations to held-out data. Scikit-learn pipelines help enforce this pattern during cross-validation and hyperparameter search. For a broader view of operationalizing models, see the guide to [machine learning model deployment](/blog/machine-learning-models-deployment). For historical features, use point-in-time joins so each training row receives only values that existed at its observation time.
 
 ## Build a Reproducible scikit-learn Pipeline
 
@@ -39999,7 +39999,7 @@ A feature that works in a notebook is not automatically ready for production. Pr
 
 Batch features are computed on a schedule and stored for later use. They suit use cases where hourly or daily freshness is adequate, such as periodic risk scoring or weekly recommendations. Online features are retrieved or computed during a prediction request and are useful when the latest state is required. Streaming architectures update features continuously as events arrive, but add complexity around ordering, state, late events, and recovery.
 
-A feature store can help teams define, discover, reuse, validate, and serve features across training and inference. Many architectures separate an offline store for historical training data from an online store for low-latency serving. The important design goal is not adopting a particular product; it is ensuring that feature definitions, timestamps, entity keys, and transformations are consistent.
+A feature store can help teams define, discover, reuse, validate, and serve features across training and inference. Read more about the architecture and practical use cases in the article on [explaining feature stores](/blog/explaining-feature-stores). Many architectures separate an offline store for historical training data from an online store for low-latency serving. The important design goal is not adopting a particular product; it is ensuring that feature definitions, timestamps, entity keys, and transformations are consistent.
 
 Training-serving skew occurs when a feature has one meaning or calculation during training and another during production. For example, a training job may calculate a 30-day purchase count using UTC while an online service uses local midnight. A shared definition, versioned transformation code, point-in-time training data, and comparison of sampled online features with training values help reduce this risk.
 
