@@ -39759,7 +39759,7 @@ This defines the boundary between a valid predictor and information that would o
 
 The prediction unit also determines how rows should be constructed. If the model predicts at account level, transaction-level records may need to be aggregated. If it predicts each transaction, customer-level history can be joined to each transaction only using history available before that transaction.
 
-A clear prediction contract prevents feature work from drifting away from the real use case. It also makes evaluation more meaningful: a random train/test split may be inappropriate when the model will predict future behavior, while a time-based split may be essential.
+A clear prediction contract prevents feature work from drifting away from the real use case. It also provides the foundation for a repeatable [machine learning pipeline](/blog/machine-learning-pipeline), from data preparation through evaluation. It also makes evaluation more meaningful: a random train/test split may be inappropriate when the model will predict future behavior, while a time-based split may be essential.
 
 ## Explore and Understand the Raw Data
 
