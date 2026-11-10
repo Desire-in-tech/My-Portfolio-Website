@@ -35364,6 +35364,45 @@ That sounds like a small implementation detail, but it is a foundational practic
 
 This guide explains what environment variables are, how operating systems and applications use them, how to load and validate configuration in common languages, how to manage values in containers and cloud platforms, and where environment variables fit into a wider secrets-management strategy. It also covers common mistakes and a practical workflow you can adapt to your own projects.
 
+**Table of Contents**
+
+1. [What Are Environment Variables?](#what-are-environment-variables)
+   - [Environment variables versus application configuration files](#environment-variables-versus-application-configuration-files)
+2. [Why Environment Variables Matter](#why-environment-variables-matter)
+3. [How Environment Variables Are Created and Inherited](#how-environment-variables-are-created-and-inherited)
+   - [Temporary and persistent values](#temporary-and-persistent-values)
+4. [Environment Variable Precedence and Lifecycle](#environment-variable-precedence-and-lifecycle)
+5. [Setting Environment Variables on Linux and macOS](#setting-environment-variables-on-linux-and-macos)
+6. [Setting Environment Variables on Windows](#setting-environment-variables-on-windows)
+7. [Using a .env File During Local Development](#using-a-env-file-during-local-development)
+   - [Loading a .env file in Python](#loading-a-env-file-in-python)
+   - [Loading a .env file in Node.js](#loading-a-env-file-in-nodejs)
+8. [Reading and Validating Environment Variables](#reading-and-validating-environment-variables)
+9. [Environment Variables in Docker and Docker Compose](#environment-variables-in-docker-and-docker-compose)
+10. [Environment Variables in Kubernetes](#environment-variables-in-kubernetes)
+11. [Environment Variables in Cloud and Serverless Platforms](#environment-variables-in-cloud-and-serverless-platforms)
+12. [Environment Variables and Application Security](#environment-variables-and-application-security)
+    - [Public and private frontend variables](#public-and-private-frontend-variables)
+13. [Naming Conventions and Configuration Design](#naming-conventions-and-configuration-design)
+14. [Testing Configuration and Managing Changes](#testing-configuration-and-managing-changes)
+15. [Troubleshooting Environment Variable Problems](#troubleshooting-environment-variable-problems)
+16. [Common Environment Variable Mistakes](#common-environment-variable-mistakes)
+17. [A Practical Environment Variable Workflow](#a-practical-environment-variable-workflow)
+18. [Environment Variables in a Broader Software Architecture](#environment-variables-in-a-broader-software-architecture)
+19. [Frequently Asked Questions](#frequently-asked-questions)
+    - [Are environment variables secure enough for passwords and API keys?](#are-environment-variables-secure-enough-for-passwords-and-api-keys)
+    - [Should I commit a .env file to Git?](#should-i-commit-a-env-file-to-git)
+    - [What is the difference between an environment variable and a .env file?](#what-is-the-difference-between-an-environment-variable-and-a-env-file)
+    - [Do environment variables change while an application is running?](#do-environment-variables-change-while-an-application-is-running)
+    - [Can environment variables contain spaces or special characters?](#can-environment-variables-contain-spaces-or-special-characters)
+    - [Are environment variables available inside Docker containers?](#are-environment-variables-available-inside-docker-containers)
+    - [Are Kubernetes Secrets encrypted?](#are-kubernetes-secrets-encrypted)
+    - [What happens if a required environment variable is missing?](#what-happens-if-a-required-environment-variable-is-missing)
+    - [Should frontend applications use environment variables?](#should-frontend-applications-use-environment-variables)
+    - [How should teams document environment variables?](#how-should-teams-document-environment-variables)
+20. [Further Reading](#further-reading)
+21. [Final Thoughts](#final-thoughts)
+
 ## What Are Environment Variables?
 
 An environment variable is a named value made available to a running process by its execution environment. It is usually represented as a string and identified by a name such as \`PORT\`, \`DATABASE_URL\`, or \`LOG_LEVEL\`. When a program starts, it receives an environment from its parent process. The program can read the values it needs while it runs.
@@ -35442,6 +35481,18 @@ A temporary variable exists only in the current process environment and the envi
 Persistent variables are configured through a shell startup file, operating-system settings, a service manager, or a deployment platform. Persistence does not mean that a running process automatically sees every later change. Many applications read configuration at startup, so changing a variable in a dashboard or shell often requires restarting or redeploying the process before the new value takes effect.
 
 Avoid placing secrets in shared shell startup files unless the access model is appropriate. A developer's shell profile is convenient for personal tools, but it is not a substitute for controlled production secret management.
+
+## Environment Variable Precedence and Lifecycle
+
+A variable can be supplied by several layers: the parent shell, an operating-system service manager, a local dotenv file, a container runtime, a CI/CD runner, or a hosting platform. There is no single precedence rule that applies to every operating system and tool. The application framework and launcher determine how competing values are resolved.
+
+A useful rule is to define one authoritative source for each setting in each environment. For example, a local developer might load values from \`.env\`, a test runner might set an isolated database URL, and a production platform might inject a value from its secret store. Avoid defining the same variable in several places unless the override behavior is intentional and documented.
+
+Common tools have their own precedence rules. Python's \`python-dotenv\` does not normally replace values already present in the process environment unless its override option is enabled. Node.js environment-file support also gives already-defined process variables precedence over values loaded from a file. In Docker Compose, values under a service's \`environment\` section take precedence over values supplied through that service's \`env_file\`. Always check the documentation for the exact runtime and version you use.
+
+Environment changes also have a lifecycle. A process normally receives its environment when it starts. Updating a shell variable, dashboard setting, ConfigMap, or secret source does not necessarily alter the environment of a process that is already running. A restart, container replacement, or new deployment may be required. If an application genuinely needs settings to change without restarting, use a configuration service or another mechanism designed for dynamic updates rather than assuming environment variables will refresh themselves.
+
+Treat configuration precedence as part of the application's contract. Document which source wins, how local overrides work, and what action is required after a value changes. This makes deployments reproducible and helps prevent a stale or unintended value from silently reaching production.
 
 ## Setting Environment Variables on Linux and macOS
 
@@ -35616,7 +35667,31 @@ DATABASE_URL = required("DATABASE_URL")
 PORT = integer_setting("PORT", 8000)
 \`\`\`
 
-For larger applications, use a typed settings library or schema-validation approach. In Python, Pydantic Settings can define types, defaults, required values, and environment-variable sources. In Node.js, libraries such as Zod or envalid can validate configuration at startup. The goal is not to add dependencies unnecessarily; it is to make configuration errors explicit and predictable.
+For larger applications, a typed settings library can centralize parsing and validation. For example, the \`pydantic-settings\` package can read environment variables, optionally load a dotenv file, convert values to declared types, and report missing required settings:
+
+\`\`\`bash
+python -m pip install pydantic-settings
+\`\`\`
+
+\`\`\`python
+from pydantic_settings import BaseSettings, SettingsConfigDict
+
+class Settings(BaseSettings):
+    model_config = SettingsConfigDict(
+        env_file=".env",
+        env_file_encoding="utf-8",
+    )
+
+    app_env: str = "development"
+    port: int = 8000
+    database_url: str
+
+settings = Settings()
+\`\`\`
+
+Here, \`database_url\` is required because it has no default, while \`port\` has a development-friendly default. The settings object validates the values when it is created, so configuration errors can be detected before the application starts serving requests. Keep production defaults deliberate: a missing production database URL should not silently fall back to a local database.
+
+In Node.js, libraries such as Zod or envalid can provide similar startup validation. The goal is not to add dependencies unnecessarily; it is to make configuration errors explicit and predictable. In Python, Pydantic Settings can define types, defaults, required values, and environment-variable sources. In Node.js, libraries such as Zod or envalid can validate configuration at startup. The goal is not to add dependencies unnecessarily; it is to make configuration errors explicit and predictable.
 
 Be deliberate about defaults. A local development default may be convenient, but a production database URL should not silently fall back to a developer's local database. Security-sensitive settings should generally fail closed when missing. Avoid printing actual secret values in validation errors. It is enough to identify the missing variable and explain where an authorized operator should configure it.
 
@@ -35662,6 +35737,22 @@ services:
 
 Compose's project \`.env\` file is also used for interpolation in the Compose model. It is important to distinguish interpolation from injecting a variable into a container: a variable used to substitute a value in the YAML is not necessarily available inside the container unless it is passed through \`environment\` or \`env_file\`.
 
+For sensitive values, Docker Compose also supports secrets. A secret is made available to an explicitly authorized service as a file rather than adding the value to the container's ordinary environment:
+
+\`\`\`yaml
+services:
+  api:
+    image: example/api:latest
+    secrets:
+      - database_password
+
+secrets:
+  database_password:
+    file: ./secrets/database_password.txt
+\`\`\`
+
+In a Linux container, the service can read the secret from \`/run/secrets/database_password\`. Protect the source file and do not commit real credentials. For production, use an external or platform-managed secret source where possible; a local file-backed Compose secret does not remove the need to secure the file and the host.
+
 Do not bake production credentials into a Docker image using Dockerfile \`ENV\` or \`ARG\`. Image layers and build metadata can be inspected, cached, copied, or published. Build arguments are not a secure secret store. Supply sensitive values at runtime through a suitable secret-management mechanism. Docker's [build secrets documentation](https://docs.docker.com/build/building/secrets/) explains how to pass secrets securely to build steps when a build genuinely requires them.
 
 ## Environment Variables in Kubernetes
@@ -35690,6 +35781,35 @@ envFrom:
       name: api-settings
 \`\`\`
 
+A Secret can be referenced by a specific key rather than importing every key into the container:
+
+\`\`\`yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: api-credentials
+type: Opaque
+stringData:
+  DATABASE_PASSWORD: replace-with-a-secret
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: api
+spec:
+  containers:
+    - name: api
+      image: example/api:latest
+      env:
+        - name: DATABASE_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: api-credentials
+              key: DATABASE_PASSWORD
+\`\`\`
+
+The value above is only a placeholder. Do not commit real secret values in a manifest. Prefer creating or synchronizing production secrets through an approved secret-management workflow. When an application can read a mounted secret file, that may be preferable to exposing the value through the process environment. The Kubernetes guidance on [good practices for Secrets](https://kubernetes.io/docs/concepts/security/secrets-good-practices/) explains encryption at rest, least-privilege RBAC, and limiting which containers can access a secret.
+
 Kubernetes Secrets require particular care. Their values are commonly represented using base64 encoding in manifests, but base64 is encoding, not encryption. Access should be restricted through RBAC, encryption at rest should be configured for the cluster's data store, and secret values should not be committed to public repositories. Consider an external secrets operator or a cloud provider's secret integration when it better fits your threat model and operational requirements.
 
 Environment variables injected into a container are generally read when the container starts. Updating a ConfigMap or Secret does not automatically rewrite the environment of an already-running process. A rollout or restart may be needed to apply changes. Mounted configuration files have different update behavior, so choose the delivery method based on how the application reads configuration. See the [Kubernetes documentation on environment variables](https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/) and [Secrets](https://kubernetes.io/docs/concepts/configuration/secret/).
@@ -35703,6 +35823,8 @@ On AWS, environment variables can be configured for services such as Lambda and 
 Azure applications can receive application settings through their hosting configuration, while Azure Key Vault provides a dedicated service for secrets, keys, and certificates. Google Cloud workloads can use runtime configuration and Secret Manager integrations. In all cases, use workload identity or managed identity where available so that applications do not need long-lived cloud credentials embedded in their settings.
 
 For platforms such as Render, Railway, Fly.io, and Vercel, the dashboard or CLI usually allows variables to be configured for different environments or deployment targets. Check the platform's current documentation for whether a change triggers a new deployment, a restart, or only affects future instances. Do not assume all platforms handle changes identically.
+
+For CI/CD workflows, avoid keeping long-lived cloud access keys in repository variables when the provider supports workload federation. GitHub Actions can use OpenID Connect (OIDC) to request short-lived credentials from a cloud provider after the provider verifies the workflow's identity. Configure trust conditions narrowly so only the intended repository, branch, workflow, and deployment environment can obtain access. See GitHub's guide to [security hardening deployments with OpenID Connect](https://docs.github.com/en/actions/how-tos/secure-your-work/security-harden-deployments).
 
 A good cloud configuration workflow distinguishes preview deployments from production. Preview environments should use isolated databases, restricted test credentials, and non-production third-party keys. Production secrets should be accessible only to the deployment and runtime identities that need them. Avoid copying a complete production environment into every preview build simply because it is convenient.
 
@@ -35721,6 +35843,8 @@ The [OWASP Secrets Management Cheat Sheet](https://cheatsheetseries.owasp.org/ch
 ### Public and private frontend variables
 
 Frontend build tools sometimes expose selected environment variables to browser code. These values are not secret once they are bundled into JavaScript delivered to a visitor. For example, Vite exposes variables with the \`VITE_\` prefix to client-side code by design. Frameworks such as Next.js also have explicit conventions for public environment variables.
+
+For example, Vite exposes variables prefixed with \`VITE_\`, while Next.js uses \`NEXT_PUBLIC_\` for values intended for browser code. In Next.js, public-prefixed values are inlined into the JavaScript bundle during the build, so they are visible to visitors and are not a mechanism for keeping credentials private. See the official [Next.js environment variables guide](https://nextjs.org/docs/pages/guides/environment-variables) and [Vite environment and mode documentation](https://vite.dev/guide/env-and-mode).
 
 Only put values in public-prefixed variables if they are safe for anyone to see. A public API base URL or analytics identifier may be appropriate. A database password, private API token, signing key, or privileged service credential is not. Hiding a variable name or obfuscating a bundle does not protect a secret. Keep privileged operations behind a trusted server-side boundary.
 
@@ -35758,6 +35882,25 @@ Tests should isolate environment state. Set only the variables needed for a test
 For CI/CD, store secrets in the platform's protected secret or variable facility. Restrict which workflows can access them, especially for pull requests from forks or untrusted branches. Avoid exposing production secrets to arbitrary build jobs. Masking helps reduce accidental log exposure, but it is not a guarantee: transformed, encoded, or partially printed secrets may not be masked reliably.
 
 Treat configuration changes as deployable changes. Review them, record who changed them, and understand which environments are affected. Infrastructure-as-code can help describe non-secret configuration and access policies reproducibly, while the secret values themselves remain in a secret store. For critical systems, use staged rollout and rollback procedures so that a malformed setting does not take down every instance at once.
+
+## Troubleshooting Environment Variable Problems
+
+When a setting is missing or incorrect, inspect the process that actually runs the application rather than assuming the value exists because it appears in a terminal or dashboard. Troubleshooting should avoid printing secret values: verify whether a variable is present, not what its password or token contains.
+
+| Symptom | Likely cause | Practical check |
+| --- | --- | --- |
+| The application reports a required variable is missing | It was not supplied to the process, or the wrong launcher or scope was configured | Check the service, container, CI job, or terminal that starts the application |
+| A value from \`.env\` is ignored | A process-level value has higher precedence, or the dotenv loader is configured not to override it | Review the documented precedence rules and inspect the variable's source |
+| The variable works in a terminal but not in an IDE or service | The other process did not inherit the terminal's environment | Configure the IDE, service manager, or deployment platform directly |
+| A container cannot read a host variable | The value was not passed into the container | Check the Compose \`environment\` and \`env_file\` settings or the runtime's environment options |
+| A changed value has no effect | The application is still running with its original environment | Restart or redeploy the process, or use a dynamic configuration mechanism |
+| A port or boolean setting behaves unexpectedly | The application is treating a string as a number or boolean incorrectly | Parse the value explicitly and validate its allowed range or accepted literals |
+| A secret appears in browser code or logs | A private value was exposed through a public build prefix or diagnostic output | Remove the exposure, rotate the credential, and correct the logging or build configuration |
+| A CI workflow cannot access a secret | The workflow context, environment protection, fork restrictions, or permissions prevent access | Review the workflow trigger and secret-access policy without printing the secret |
+
+For a local diagnosis, first confirm the variable name and expected scope. Check for spelling and case differences, especially when moving between Windows and case-sensitive Unix environments. Confirm that the dotenv file is in the location the loader expects and that the application calls the loader before reading configuration. If a value is present but invalid, validate its type and format rather than changing it blindly.
+
+For containers and cloud deployments, inspect the effective deployment configuration using tools that redact sensitive values. Verify that the intended environment is selected, that the service has permission to retrieve its secrets, and that the latest deployment or container instance is running. If the problem began after a rotation, confirm that the application and dependent services are using compatible credentials and that old connections have been refreshed.
 
 ## Common Environment Variable Mistakes
 
@@ -35849,6 +35992,15 @@ Frontend build tools often use environment variables to configure public values 
 ### How should teams document environment variables?
 
 Maintain a safe example file and a configuration reference that explains each variable's purpose, type, required status, default, environment scope, and sensitivity. Update the documentation whenever configuration changes, and make the application validate the same contract at startup.
+
+## Further Reading
+
+The following primary resources provide deeper implementation and security guidance:
+
+- [The Twelve-Factor App: Config](https://12factor.net/config) — explains why deployment-specific configuration should be separated from application code.
+- [Docker Compose: Manage secrets securely](https://docs.docker.com/compose/how-tos/use-secrets/) — describes how Compose can provide secrets to authorized services as files.
+- [Kubernetes: Good practices for Secrets](https://kubernetes.io/docs/concepts/security/secrets-good-practices/) — covers encryption at rest, access control, and limiting exposure.
+- [OWASP Secrets Management Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Secrets_Management_Cheat_Sheet.html) — provides broader guidance for creating, storing, rotating, and auditing application secrets.
 
 ## Final Thoughts
 
