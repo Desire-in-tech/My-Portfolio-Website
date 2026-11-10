@@ -36683,7 +36683,7 @@ AWS, Azure, and Google Cloud all provide capable security services. The stronges
     publishDate: '2026-09-20',
     updatedDate: '2026-11-10',
     author: 'Desire E',
-    readingTime: '22 min read',
+    readingTime: '25 min read',
     excerpt: 'Learn the principles of API design, from resource modeling and HTTP semantics to pagination, error handling, authentication, security, versioning, documentation, testing, and observability, with practical examples.',
     featuredImage:
       'https://res.cloudinary.com/f7ko7ayw/image/upload/v1785604944/api_design_fundamentals_ad9d6q.png',
