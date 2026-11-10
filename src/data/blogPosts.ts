@@ -17041,7 +17041,7 @@ Security depends on layered controls: strong authentication, resource-level auth
     publishDate: '2026-09-21',
     updatedDate: '2026-11-05',
     author: 'Desire E',
-    readingTime: '22 min read',
+    readingTime: '27 min read',
     excerpt: "Learn how programming works, from variables and data types to control flow, functions, data structures, debugging, testing, Git, APIs, and building your first projects.",
     featuredImage: "https://res.cloudinary.com/f7ko7ayw/image/upload/v1785605317/coding_concepts_yah5dk.png",
     imageAlt: "Coding Concepts",
