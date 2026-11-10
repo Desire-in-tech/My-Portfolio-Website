@@ -35842,7 +35842,7 @@ The [OWASP Secrets Management Cheat Sheet](https://cheatsheetseries.owasp.org/ch
 
 ### Public and private frontend variables
 
-Frontend build tools sometimes expose selected environment variables to browser code. These values are not secret once they are bundled into JavaScript delivered to a visitor. For example, Vite exposes variables with the \`VITE_\` prefix to client-side code by design. Frameworks such as Next.js also have explicit conventions for public environment variables.
+Frontend build tools sometimes expose selected environment variables to browser code. These values are not secret once they are bundled into JavaScript delivered to a visitor. The exact prefix and whether a value is embedded at build time or read by a server process depend on the framework and rendering mode.
 
 For example, Vite exposes variables prefixed with \`VITE_\`, while Next.js uses \`NEXT_PUBLIC_\` for values intended for browser code. In Next.js, public-prefixed values are inlined into the JavaScript bundle during the build, so they are visible to visitors and are not a mechanism for keeping credentials private. See the official [Next.js environment variables guide](https://nextjs.org/docs/pages/guides/environment-variables) and [Vite environment and mode documentation](https://vite.dev/guide/env-and-mode).
 
