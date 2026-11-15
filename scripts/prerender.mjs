@@ -89,10 +89,10 @@ function homepageSchema() {
 
 const staticPages = [
   { path: '/', title: 'Desire Eyotaru | Software Engineer & AI Developer', description: 'Software Engineer & AI Developer specializing in machine learning, backend development, and data-driven solutions. Building intelligent applications with Python, React, Django, and FastAPI.', schema: homepageSchema() },
-  { path: '/about', title: 'About | Desire Eyotaru', description: 'Get to know my journey, skills, and what drives me as a developer' },
-  { path: '/projects', title: 'Projects | Desire Eyotaru', description: 'A showcase of my work in machine learning, backend development, and full-stack applications' },
-  { path: '/blog', title: 'Blog | Desire Eyotaru', description: 'Technical articles on machine learning, backend development, and data-driven solutions by Desire Eyotaru.' },
-  { path: '/contact', title: 'Contact | Desire Eyotaru', description: "Have a project in mind or want to discuss opportunities? I'd love to hear from you." },
+  { path: '/about', title: 'About | Desire Eyotaru', description: 'Get to know my journey, skills, and what drives me as a developer', breadcrumbs: [{ label: 'Home', path: '/' }, { label: 'About' }] },
+  { path: '/projects', title: 'Projects | Desire Eyotaru', description: 'A showcase of my work in machine learning, backend development, and full-stack applications', breadcrumbs: [{ label: 'Home', path: '/' }, { label: 'Projects' }] },
+  { path: '/blog', title: 'Blog | Desire Eyotaru', description: 'Technical articles on machine learning, backend development, and data-driven solutions by Desire Eyotaru.', breadcrumbs: [{ label: 'Home', path: '/' }, { label: 'Blog' }] },
+  { path: '/contact', title: 'Contact | Desire Eyotaru', description: "Have a project in mind or want to discuss opportunities? I'd love to hear from you.", breadcrumbs: [{ label: 'Home', path: '/' }, { label: 'Contact' }] },
   { path: '/privacy-policy', title: 'Privacy Policy | Desire E', description: 'How this website handles browser consent storage, hosting, fonts, images, and the contact form. General information, not legal advice.', breadcrumbs: [{ label: 'Home', path: '/' }, { label: 'Privacy Policy' }] },
   { path: '/cookies-policy', title: 'Cookies Policy | Desire E', description: 'What this website stores in your browser, how to change the analytics choice, and which font and image requests load for every visitor.', breadcrumbs: [{ label: 'Home', path: '/' }, { label: 'Cookies Policy' }] },
 ];
