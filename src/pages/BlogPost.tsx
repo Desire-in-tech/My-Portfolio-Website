@@ -15,7 +15,7 @@ import {
 } from '../components';
 import { useSeo } from '../hooks/use-seo';
 import { extractHeadings, renderMarkdownSections, formatDate } from '../lib/blog';
-import { SITE_URL } from '../lib/site';
+import { toCanonicalUrl } from '../lib/site';
 import { getRelatedArticles, getRelatedProjectsForPost } from '../lib/related';
 import 'highlight.js/styles/github-dark.css';
 
@@ -73,7 +73,7 @@ export default function BlogPost() {
     publishedTime: post?.publishDate,
     modifiedTime: post?.updatedDate,
     author: post?.author,
-    canonical: post ? `${SITE_URL}/blog/${post.slug}` : undefined,
+    canonical: post ? toCanonicalUrl(`/blog/${post.slug}`) : undefined,
     noindex: !post,
     articleSchema: post
       ? {
@@ -86,7 +86,7 @@ export default function BlogPost() {
           dateModified: post.updatedDate ?? post.publishDate,
           author: { '@type': 'Person', name: post.author },
           publisher: { '@type': 'Person', name: 'Desire Eyotaru' },
-          mainEntityOfPage: { '@type': 'WebPage', '@id': `${SITE_URL}/blog/${post.slug}` },
+          mainEntityOfPage: { '@type': 'WebPage', '@id': toCanonicalUrl(`/blog/${post.slug}`) },
         }
       : undefined,
   });
@@ -169,7 +169,7 @@ export default function BlogPost() {
               />
             </m.div>
 
-            <SocialShare url={`${SITE_URL}/blog/${post.slug}`} title={post.title} />
+            <SocialShare url={toCanonicalUrl(`/blog/${post.slug}`)} title={post.title} />
           </AnimatedSection>
         </div>
       </article>
