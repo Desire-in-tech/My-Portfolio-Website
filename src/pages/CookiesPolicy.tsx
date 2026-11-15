@@ -2,14 +2,14 @@ import { Link } from 'react-router-dom';
 import Breadcrumbs from '../components/Breadcrumbs';
 import { useSeo } from '../hooks/use-seo';
 import { openCookieSettings } from '../lib/consent';
-import { SITE_URL } from '../lib/site';
+import { SITE_URL, toCanonicalUrl } from '../lib/site';
 
 export default function CookiesPolicy() {
   useSeo({
     title: 'Cookies Policy | Desire E',
     description:
       'What this website stores in your browser, how to change the analytics choice, and which font and image requests load for every visitor.',
-    canonical: `${SITE_URL}/cookies-policy`,
+    canonical: toCanonicalUrl('/cookies-policy'),
     type: 'website',
   });
 
