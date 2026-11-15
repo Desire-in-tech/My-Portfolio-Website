@@ -92,7 +92,7 @@ function validateSource(posts: SourcePost[]): void {
       errors.push(`post ${post.slug || index} content is not a string`);
     }
     if (typeof post.imageAlt !== 'string' || post.imageAlt.trim().length === 0) {
-      errors.push(`post ${post.slug || index} is missing meaningful featured-image alt text`);
+      errors.push(`post ${post.slug || index} is missing non-empty featured-image alt text`);
     }
   });
 
