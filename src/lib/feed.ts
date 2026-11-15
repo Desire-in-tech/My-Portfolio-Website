@@ -2,13 +2,13 @@ import { blogPosts } from '../data/blogPosts';
 import { getSortedPosts } from '../data/blogPosts';
 import { getExcerpt } from './blog';
 import { profile } from '../data/profile';
-import { SITE_URL } from './site';
+import { SITE_URL, toCanonicalUrl } from './site';
 
 export function generateRssFeed(): string {
   const posts = getSortedPosts();
   const items = posts
     .map((post) => {
-      const url = `${SITE_URL}/blog/${post.slug}`;
+      const url = toCanonicalUrl(`/blog/${post.slug}`);
       const excerpt = getExcerpt(post);
       const desc = escapeXml(excerpt);
       return `    <item>
@@ -27,7 +27,7 @@ export function generateRssFeed(): string {
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>${escapeXml(profile.name)} - Blog</title>
-    <link>${SITE_URL}/blog</link>
+    <link>${toCanonicalUrl('/blog')}</link>
     <atom:link href="${SITE_URL}/rss.xml" rel="self" type="application/rss+xml" />
     <description>Technical articles on machine learning, backend development, and data-driven solutions by ${escapeXml(profile.name)}.</description>
     <language>en-us</language>

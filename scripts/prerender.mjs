@@ -12,6 +12,17 @@ const socialImage = 'https://res.cloudinary.com/f7ko7ayw/image/upload/v179353943
 const siteUrl = 'https://desire-djh.pages.dev';
 const author = 'Desire Eyotaru';
 
+function normalizeCanonicalPath(pathname) {
+  const path = String(pathname).split(/[?#]/, 1)[0] || '/';
+  const segments = path.split('/').filter(Boolean);
+  return segments.length === 0 ? '/' : `/${segments.join('/')}/`;
+}
+
+function toCanonicalUrl(pathname) {
+  const url = new URL(pathname, siteUrl);
+  return `${siteUrl}${normalizeCanonicalPath(url.pathname)}`;
+}
+
 function escapeHtml(value = '') {
   return String(value).replace(/[&<>"']/g, (char) => ({
     '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;',
@@ -27,7 +38,7 @@ function metaTag(name, content, attribute = 'name') {
 }
 
 function makeHead(meta, createBreadcrumbSchema) {
-  const canonical = meta.canonical ?? `${siteUrl}${meta.path === '/' ? '/' : meta.path}`;
+  const canonical = toCanonicalUrl(meta.canonical ?? meta.path);
   const image = meta.image ?? socialImage;
   const tags = [
     `<title>${escapeHtml(meta.title)}</title>`,
@@ -82,12 +93,12 @@ const staticPages = [
   { path: '/projects', title: 'Projects | Desire Eyotaru', description: 'A showcase of my work in machine learning, backend development, and full-stack applications' },
   { path: '/blog', title: 'Blog | Desire Eyotaru', description: 'Technical articles on machine learning, backend development, and data-driven solutions by Desire Eyotaru.' },
   { path: '/contact', title: 'Contact | Desire Eyotaru', description: "Have a project in mind or want to discuss opportunities? I'd love to hear from you." },
-  { path: '/privacy-policy', title: 'Privacy Policy | Desire E', description: 'How this website handles browser consent storage, hosting, fonts, images, and the contact form. General information, not legal advice.', canonical: `${siteUrl}/privacy-policy`, breadcrumbs: [{ label: 'Home', path: '/' }, { label: 'Privacy Policy' }] },
-  { path: '/cookies-policy', title: 'Cookies Policy | Desire E', description: 'What this website stores in your browser, how to change the analytics choice, and which font and image requests load for every visitor.', canonical: `${siteUrl}/cookies-policy`, breadcrumbs: [{ label: 'Home', path: '/' }, { label: 'Cookies Policy' }] },
+  { path: '/privacy-policy', title: 'Privacy Policy | Desire E', description: 'How this website handles browser consent storage, hosting, fonts, images, and the contact form. General information, not legal advice.', breadcrumbs: [{ label: 'Home', path: '/' }, { label: 'Privacy Policy' }] },
+  { path: '/cookies-policy', title: 'Cookies Policy | Desire E', description: 'What this website stores in your browser, how to change the analytics choice, and which font and image requests load for every visitor.', breadcrumbs: [{ label: 'Home', path: '/' }, { label: 'Cookies Policy' }] },
 ];
 
 function blogMeta(post) {
-  const canonical = `${siteUrl}/blog/${post.slug}`;
+  const canonical = toCanonicalUrl(`/blog/${post.slug}`);
   return {
     path: `/blog/${post.slug}`,
     canonical,
@@ -117,7 +128,7 @@ function blogMeta(post) {
 }
 
 function projectMeta(project, createProjectSchema) {
-  const canonical = `${siteUrl}/projects/${project.slug}`;
+  const canonical = toCanonicalUrl(`/projects/${project.slug}`);
   return {
     path: `/projects/${project.slug}`,
     canonical,
@@ -184,7 +195,7 @@ try {
     );
     if (html === makeHead(route, createBreadcrumbSchema)) throw new Error(`Could not inject rendered markup for ${route.path}`);
     if (!html.includes(`<title>${escapeHtml(route.title)}</title>`)) throw new Error(`Missing title for ${route.path}`);
-    if (!html.includes(`href="${escapeHtml(route.canonical ?? `${siteUrl}${route.path === '/' ? '/' : route.path}`)}"`)) {
+    if (!html.includes(`href="${escapeHtml(toCanonicalUrl(route.canonical ?? route.path))}"`)) {
       throw new Error(`Missing canonical URL for ${route.path}`);
     }
     if (route.breadcrumbs?.length && !html.includes('id="breadcrumb-schema"')) {
@@ -213,7 +224,7 @@ try {
     title: 'Page Not Found | Desire E',
     description: 'The page you are looking for could not be found.',
     noindex: true,
-    canonical: `${siteUrl}/__not-found__`,
+    canonical: toCanonicalUrl('/__not-found__'),
   };
   const notFoundPath = path.join(dist, '404.html');
   results.push(await renderRoute(notFound, notFoundPath));

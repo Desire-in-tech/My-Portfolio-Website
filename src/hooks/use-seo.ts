@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { SITE_URL } from '../lib/site';
+import { SITE_URL, toCanonicalUrl } from '../lib/site';
 
 const DEFAULT_SOCIAL_IMAGE =
   'https://res.cloudinary.com/f7ko7ayw/image/upload/v1793539435/Socials_image_vkrgiz.png';
@@ -55,9 +55,7 @@ function setJsonLd(id: string, data: Record<string, unknown>) {
 }
 
 function getCanonicalUrl(canonical?: string) {
-  if (canonical) return canonical;
-  const pathname = window.location.pathname.replace(/\/+$/, '') || '/';
-  return `${SITE_URL}${pathname === '/' ? '/' : pathname}`;
+  return toCanonicalUrl(canonical ?? window.location.pathname);
 }
 
 function getHomepageSchema(): Record<string, unknown> {
