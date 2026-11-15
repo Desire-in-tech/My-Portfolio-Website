@@ -1,5 +1,5 @@
 import type { Project } from '../data/projects';
-import { SITE_URL } from './site';
+import { SITE_URL, toCanonicalUrl } from './site';
 
 export interface BreadcrumbItem {
   label: string;
@@ -14,7 +14,7 @@ export function createBreadcrumbSchema(items: BreadcrumbItem[]): Record<string, 
       '@type': 'ListItem',
       position: index + 1,
       name: item.label,
-      ...(item.path ? { item: new URL(item.path, SITE_URL).toString() } : {}),
+      ...(item.path ? { item: toCanonicalUrl(item.path) } : {}),
     })),
   };
 }
@@ -35,7 +35,7 @@ export function createProjectSchema(project: Project): Record<string, unknown> {
     name: project.title,
     description: project.description,
     codeRepository: project.github,
-    url: `${SITE_URL}/projects/${project.slug}`,
+    url: toCanonicalUrl(`/projects/${project.slug}`),
     image: project.image,
     author: {
       '@type': 'Person',
@@ -46,7 +46,7 @@ export function createProjectSchema(project: Project): Record<string, unknown> {
     ...(languages.length ? { programmingLanguage: languages } : {}),
     mainEntityOfPage: {
       '@type': 'WebPage',
-      '@id': `${SITE_URL}/projects/${project.slug}`,
+      '@id': toCanonicalUrl(`/projects/${project.slug}`),
     },
   };
 }
