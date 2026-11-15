@@ -1,14 +1,14 @@
 import { Link } from 'react-router-dom';
 import Breadcrumbs from '../components/Breadcrumbs';
 import { useSeo } from '../hooks/use-seo';
-import { SITE_URL } from '../lib/site';
+import { SITE_URL, toCanonicalUrl } from '../lib/site';
 
 export default function PrivacyPolicy() {
   useSeo({
     title: 'Privacy Policy | Desire E',
     description:
       'How this website handles browser consent storage, hosting, fonts, images, and the contact form. General information, not legal advice.',
-    canonical: `${SITE_URL}/privacy-policy`,
+    canonical: toCanonicalUrl('/privacy-policy'),
     type: 'website',
   });
 
