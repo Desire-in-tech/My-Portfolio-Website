@@ -91,6 +91,9 @@ function validateSource(posts: SourcePost[]): void {
     if (typeof post.content !== 'string') {
       errors.push(`post ${post.slug || index} content is not a string`);
     }
+    if (typeof post.imageAlt !== 'string' || post.imageAlt.trim().length === 0) {
+      errors.push(`post ${post.slug || index} is missing non-empty featured-image alt text`);
+    }
   });
 
   for (const [id, count] of idCounts) {
