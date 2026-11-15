@@ -9,7 +9,7 @@ import { AnimatedSection, RelatedArticles, TableOfContents, Breadcrumbs, Cloudin
 import { useSeo } from '../hooks/use-seo';
 import { extractHeadings, renderMarkdown } from '../lib/blog';
 import { getRelatedArticlesForProject } from '../lib/related';
-import { SITE_URL } from '../lib/site';
+import { toCanonicalUrl } from '../lib/site';
 import { createProjectSchema } from '../lib/structured-data';
 
 const projectContentPromises = new Map<string, Promise<string>>();
@@ -52,7 +52,7 @@ export default function ProjectDetail() {
     image: project?.image,
     type: 'website',
     articleSchema: project ? createProjectSchema(project) : undefined,
-    canonical: project ? `${SITE_URL}/projects/${project.slug}` : undefined,
+    canonical: project ? toCanonicalUrl(`/projects/${project.slug}`) : undefined,
     noindex: !project,
   });
 
