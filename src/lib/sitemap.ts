@@ -1,6 +1,6 @@
 import { blogPosts } from '../data/blogPosts';
 import { projects } from '../data/projects';
-import { SITE_URL } from './site';
+import { toCanonicalUrl } from './site';
 
 export function generateSitemap(): string {
   const staticPages = [
@@ -18,7 +18,7 @@ export function generateSitemap(): string {
   const allUrls = [...staticPages, ...projectPages, ...postPages];
 
   const urls = allUrls
-    .map((path) => `  <url><loc>${SITE_URL}${path}</loc></url>`)
+     .map((path) => `  <url><loc>${toCanonicalUrl(path)}</loc></url>`)
     .join('\n');
 
   return `<?xml version="1.0" encoding="UTF-8"?>
