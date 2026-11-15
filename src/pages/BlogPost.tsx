@@ -206,7 +206,7 @@ export default function BlogPost() {
 
       <section className="py-12 border-t border-gray-800">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-          <SocialShare url={`${SITE_URL}/blog/${post.slug}`} title={post.title} />
+          <SocialShare url={toCanonicalUrl(`/blog/${post.slug}`)} title={post.title} />
         </div>
       </section>
 
