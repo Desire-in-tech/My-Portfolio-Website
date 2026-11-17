@@ -9,7 +9,7 @@ const dist = path.join(root, 'dist');
 const indexPath = path.join(dist, 'index.html');
 const template = await readFile(indexPath, 'utf8');
 const socialImage = 'https://res.cloudinary.com/f7ko7ayw/image/upload/v1793539435/Socials_image_vkrgiz.png';
-const siteUrl = 'https://desire-djh.pages.dev';
+const siteUrl = 'https://desireedev.site';
 const author = 'Desire Eyotaru';
 
 function normalizeCanonicalPath(pathname) {

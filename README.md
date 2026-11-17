@@ -6,7 +6,7 @@ The portfolio is designed to present practical technical work, demonstrate probl
 
 ## Live Website
 
-**Production:** https://desire-djh.pages.dev
+**Production:** https://desireedev.site
 
 **Source Code:** https://github.com/Desire-in-tech/My-Portfolio-Website
 
@@ -368,7 +368,7 @@ The deployment workflow is connected to the GitHub repository, allowing changes 
 
 Production:
 
-**https://desire-djh.pages.dev**
+**https://desireedev.site**
 
 ---
 

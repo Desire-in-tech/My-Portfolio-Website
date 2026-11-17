@@ -1,4 +1,4 @@
-export const SITE_URL = 'https://desire-djh.pages.dev';
+export const SITE_URL = 'https://desireedev.site';
 
 export function normalizeCanonicalPath(pathname: string): string {
   const path = pathname.split(/[?#]/, 1)[0] || '/';
