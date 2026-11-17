@@ -32,12 +32,12 @@
     },
     {
       "source": "/",
-      "destination": "https://desire-djh.pages.dev/",
+      "destination": "https://desireedev.site/",
       "permanent": true
     },
     {
       "source": "/:path*",
-      "destination": "https://desire-djh.pages.dev/:path*",
+      "destination": "https://desireedev.site/:path*",
       "permanent": true
     }
   ],
